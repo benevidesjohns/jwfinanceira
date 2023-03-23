@@ -18,8 +18,8 @@ return new class extends Migration
             $table->date('data');
             $table->double('valor');
             $table->string('detalhes');
-            // $table->integer('fk_conta')->unsigned();
-            // $table->foreign('fk_conta')->references('id')->on('conta');
+            $table->integer('fk_conta')->unsigned();
+            $table->foreign('fk_conta')->references('id')->on('conta');
             $table->integer('fk_tipo_transacao')->unsigned();
             $table->foreign('fk_tipo_transacao')->references('id')->on('tipo_transacao');
         });
