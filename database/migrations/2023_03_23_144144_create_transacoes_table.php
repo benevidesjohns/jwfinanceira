@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transacao', function (Blueprint $table) {
+        Schema::create('transacoes', function (Blueprint $table) {
             $table->id();
             $table->date('data');
             $table->double('valor');
             $table->string('detalhes');
             $table->integer('fk_conta')->unsigned();
-            $table->foreign('fk_conta')->references('id')->on('conta');
+            $table->foreign('fk_conta')->references('id')->on('contas');
             $table->integer('fk_tipo_transacao')->unsigned();
-            $table->foreign('fk_tipo_transacao')->references('id')->on('tipo_transacao');
+            $table->foreign('fk_tipo_transacao')->references('id')->on('tipo_transacoes');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transacao');
+        Schema::dropIfExists('transacoes');
     }
 };
