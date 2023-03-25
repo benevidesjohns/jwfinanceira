@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             TransactionTypeSeeder::class,
             AddressSeeder::class,
             CustomerSeeder::class,
+            AccountSeeder::class,
         ]);
     }
 }
