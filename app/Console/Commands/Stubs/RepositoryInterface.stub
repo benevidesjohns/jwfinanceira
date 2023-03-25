@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Model;
+
+interface {{ class }}RepositoryInterface
+{
+    public function __construct(Model ${{ modelVariable }});
+    public function store(array $data);
+    public function getList();
+    public function get($id);
+    public function update(array $data, $id);
+    public function destroy($id);
+}

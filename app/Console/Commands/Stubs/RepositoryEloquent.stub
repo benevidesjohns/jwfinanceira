@@ -1,0 +1,68 @@
+<?php
+
+namespace {{ namespace }};
+
+use \Illuminate\Database\Eloquent\Model;
+
+class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
+{
+    protected ${{ modelVariable }};
+
+    /**
+     * @param  ${{ modelVariable }}
+     * @return mixed
+     */
+    public function __construct(Model ${{ modelVariable }})
+    {
+        $this->{{ modelVariable }} = ${{ modelVariable }};
+    }
+
+    /**
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function store(array $data)
+    {
+        return $this->{{ modelVariable }}->create($data);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getList()
+    {
+        return $this->{{ modelVariable }}->all();
+    }
+
+    /**
+     *
+     * @param mixed $id
+     * @return mixed
+     */
+    public function get($id)
+    {
+        return $this->{{ modelVariable }}->find($id);
+    }
+
+    /**
+     *
+     * @param array $data
+     * @param mixed $id
+     * @return mixed
+     */
+    public function update(array $data, $id)
+    {
+        return $this->{{ modelVariable }}->find($id)->update($data);
+    }
+
+    /**
+     *
+     * @param mixed $id
+     * @return mixed
+     */
+    public function destroy($id)
+    {
+        return $this->{{ modelVariable }}->find($id)->delete();
+    }
+}

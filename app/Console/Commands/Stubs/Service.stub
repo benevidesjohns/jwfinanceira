@@ -1,0 +1,72 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Repositories\{{ class }}RepositoryInterface;
+
+/**
+ * Summary of {{ class }}Service
+ */
+class {{ class }}Service
+{
+    private $repo{{ class }};
+
+    /**
+     * Summary of __construct
+     * @param {{ class }}RepositoryInterface $repo{{ class }}
+     */
+    public function __construct({{ class }}RepositoryInterface $repo{{ class }})
+    {
+        $this->repo{{ class }} = $repo{{ class }};
+    }
+
+    /**
+     * Summary of store
+     * @param array $data
+     * @return mixed
+     */
+    public function store(array $data)
+    {
+        return $this->repo{{ class }}->store($data);
+    }
+
+    /**
+     * Summary of getList
+     * @return array[\App\classs\{{ class }}]
+     */
+    public function getList()
+    {
+        return $this->repo{{ class }}->getList();
+    }
+
+    /**
+     * Summary of get
+     * @param mixed $id
+     * @return mixed
+     */
+    public function get($id)
+    {
+        return $this->repo{{ class }}->get($id);
+    }
+
+    /**
+     * Summary of update
+     * @param array $data
+     * @param mixed $id
+     * @return mixed
+     */
+    public function update(array $data, $id)
+    {
+        return $this->repo{{ class }}->update($data, $id);
+    }
+
+    /**
+     * Summary of destroy
+     * @param mixed $id
+     * @return mixed
+     */
+    public function destroy($id)
+    {
+        return $this->repo{{ class }}->destroy($id);
+    }
+}
