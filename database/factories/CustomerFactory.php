@@ -18,7 +18,6 @@ class CustomerFactory extends Factory
     {
         return [
             'phone_number' => fake('pt_BR')->cellphoneNumber(),
-            'details' => fake('pt_BR')->word(),
             'fk_address' => random_int(1, 10)
         ];
     }

@@ -15,7 +15,6 @@ return new class extends Migration {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('phone_number');
-            $table->string('details');
             $table->integer('fk_address')->unsigned();
             $table->foreign('fk_address')->references('id')->on('addresses');
             $table->timestamps();
