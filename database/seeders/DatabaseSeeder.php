@@ -14,9 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-                // AccountTypeSeeder::class,
-                // TransactionTypeSeeder::class,
-            AddressSeeder::class
+            AccountTypeSeeder::class,
+            TransactionTypeSeeder::class,
+            AddressSeeder::class,
+            CustomerSeeder::class,
         ]);
     }
 }

@@ -1,0 +1,19 @@
+
+   Symfony\Component\Process\Exception\RuntimeException 
+
+  TTY mode requires /dev/tty to be read/writable.
+
+  at vendor/symfony/process/Process.php:1021
+    1017▕             throw new RuntimeException('TTY mode is not supported on Windows platform.');
+    1018▕         }
+    1019▕ 
+    1020▕         if ($tty && !self::isTtySupported()) {
+  ➜ 1021▕             throw new RuntimeException('TTY mode requires /dev/tty to be read/writable.');
+    1022▕         }
+    1023▕ 
+    1024▕         $this->tty = $tty;
+    1025▕
+
+      [2m+14 vendor frames [22m
+  15  artisan:37
+      Illuminate\Foundation\Console\Kernel::handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
