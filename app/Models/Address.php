@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Endereco extends Model
+class Address extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'cidade',
-        'estado',
+        'city',
+        'state',
         'cep',
-        'rua',
-        'bairro',
-        'numero'
+        'street',
+        'district',
+        'number'
     ];
 
-    public function enderecos()
+    public function addresses()
     {
-        return $this->belongsToMany(Cliente::class);
+        return $this->belongsToMany(Customer::class);
     }
 }

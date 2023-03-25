@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TipoConta extends Model
+class AccountType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tipo'];
+    protected $fillable = ['type'];
 
-    public function contas(){
-        return $this->belongsToMany(Conta::class);
+    public function accounts(){
+        return $this->belongsToMany(Account::class);
     }
 
 }

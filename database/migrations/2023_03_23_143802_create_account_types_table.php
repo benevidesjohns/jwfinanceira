@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,14 +13,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('enderecos', function (Blueprint $table) {
+        Schema::create('account_types', function (Blueprint $table) {
             $table->id();
-            $table->string('cidade');
-            $table->string('estado');
-            $table->string('cep');
-            $table->string('rua');
-            $table->string('bairro');
-            $table->string('numero');
+            $table->string('type')->unique();
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('enderecos');
+        Schema::dropIfExists('account_types');
     }
 };

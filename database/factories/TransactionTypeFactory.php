@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TipoConta>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class TipoContaFactory extends Factory
+class TransactionTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class TipoContaFactory extends Factory
     public function definition()
     {
         return [
-            'tipo' => fake()->words(['teste1', 'teste2', 'teste3'])
+            //
         ];
     }
 }

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,9 +12,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_transacoes', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo')->unique();
+            $table->string('city');
+            $table->string('state');
+            $table->string('cep');
+            $table->string('street');
+            $table->string('district');
+            $table->string('number');
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_transacoes');
+        Schema::dropIfExists('addresses');
     }
 };
