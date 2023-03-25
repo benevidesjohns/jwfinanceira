@@ -17,9 +17,7 @@ return new class extends Migration {
             $table->string('city');
             $table->string('state');
             $table->string('cep');
-            $table->string('street');
-            $table->string('district');
-            $table->string('number');
+            $table->string('address');
             $table->timestamps();
         });
     }

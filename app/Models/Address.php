@@ -13,9 +13,7 @@ class Address extends Model
         'city',
         'state',
         'cep',
-        'street',
-        'district',
-        'number'
+        'address'
     ];
 
     public function addresses()
