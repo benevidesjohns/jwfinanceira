@@ -20,7 +20,7 @@ class MakeRepositoryInterface extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new repository interface file';
+    protected $description = 'Create a repository interface file';
 
     protected $type = 'Repository Interface file';
 

@@ -20,7 +20,7 @@ class MakeRepositoryEloquent extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new repository eloquent file';
+    protected $description = 'Create a repository eloquent file';
 
     protected $type = 'Repository Eloquent file';
 

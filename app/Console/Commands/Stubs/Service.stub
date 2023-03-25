@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use App\Repositories\{{ class }}RepositoryInterface;
+use {{ namespaceRepository }};
 
 /**
  * Summary of {{ class }}Service
@@ -12,7 +12,7 @@ class {{ class }}Service
     private $repo{{ class }};
 
     /**
-     * Summary of __construct
+     * Construtor da classe {{ class }}Service
      * @param {{ class }}RepositoryInterface $repo{{ class }}
      */
     public function __construct({{ class }}RepositoryInterface $repo{{ class }})
@@ -21,9 +21,9 @@ class {{ class }}Service
     }
 
     /**
-     * Summary of store
+     * Envia para o {{ class }}Repository os dados para criar uma nova instância de {{ class }}
      * @param array $data
-     * @return mixed
+     * @return \App\Models\{{ class }}
      */
     public function store(array $data)
     {
@@ -31,8 +31,8 @@ class {{ class }}Service
     }
 
     /**
-     * Summary of getList
-     * @return array[\App\classs\{{ class }}]
+     * Retorna todas as instâncias de {{ class }} do banco de dados
+     * @return array[\App\Models\{{ class }}]
      */
     public function getList()
     {
@@ -40,9 +40,9 @@ class {{ class }}Service
     }
 
     /**
-     * Summary of get
+     * Retorna uma instância de {{ class }} a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\{{ class }}
      */
     public function get($id)
     {
@@ -50,10 +50,10 @@ class {{ class }}Service
     }
 
     /**
-     * Summary of update
+     * Atualiza os dados de uma instância de {{ class }}
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\{{ class }}
      */
     public function update(array $data, $id)
     {
@@ -61,7 +61,7 @@ class {{ class }}Service
     }
 
     /**
-     * Summary of destroy
+     * Remove uma instância de {{ class }} do banco de dados
      * @param mixed $id
      * @return mixed
      */

@@ -9,8 +9,8 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
     protected ${{ modelVariable }};
 
     /**
-     * @param  ${{ modelVariable }}
-     * @return mixed
+     * Construtor da classe {{ class }}RepositoryInterface
+     * @param ${{ modelVariable }}
      */
     public function __construct(Model ${{ modelVariable }})
     {
@@ -18,17 +18,19 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
     }
 
     /**
-     *
+     * Armazena uma nova instância de {{ class }} no banco de dados
      * @param array $data
-     * @return mixed
+     * @return \App\Models\Account
      */
     public function store(array $data)
     {
-        return $this->{{ modelVariable }}->create($data);
+        $this->{{ modelVariable }}->create($data);
+        return $this->{{ modelVariable }};
     }
 
     /**
-     * @return mixed
+     * Retorna todas as instâncias de {{ class }} do banco de dados
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -36,9 +38,9 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
     }
 
     /**
-     *
+     * Retorna uma instância de {{ class }} a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\{{ class }}
      */
     public function get($id)
     {
@@ -46,10 +48,10 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
     }
 
     /**
-     *
+     * Atualiza os dados de uma instância de {{ class }}
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\{{ class }}
      */
     public function update(array $data, $id)
     {
@@ -57,7 +59,7 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
     }
 
     /**
-     *
+     * Remove uma instância de {{ class }} do banco de dados
      * @param mixed $id
      * @return mixed
      */

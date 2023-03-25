@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Input\InputOption;
 
 class MakeLayer extends Command
@@ -37,14 +36,7 @@ class MakeLayer extends Command
     public function handle()
     {
         $name = $this->argument('name');
-
         $options = $this->options();
-        $availableOptions = collect(['eloquent', 'interface', 'service', 'repository', 'all']);
-
-        if (!$availableOptions->reduce(fn ($value, $op) => $value or $options[$op], false)){
-            $this->error('ERROR: Inform which layer will be created');
-            return Command::FAILURE;
-        }
 
         if ($options['all']) {
             $this->call('make:repository:interface', ['name' => $name]);

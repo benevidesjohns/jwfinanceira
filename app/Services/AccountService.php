@@ -12,7 +12,7 @@ class AccountService
     private $repoAccount;
 
     /**
-     * Summary of __construct
+     * Construtor da classe AccountService
      * @param AccountRepositoryInterface $repoAccount
      */
     public function __construct(AccountRepositoryInterface $repoAccount)
@@ -21,9 +21,9 @@ class AccountService
     }
 
     /**
-     * Summary of store
+     * Envia para o AccountRepository os dados para criar uma nova instância de Account
      * @param array $data
-     * @return mixed
+     * @return \App\Models\Account
      */
     public function store(array $data)
     {
@@ -31,7 +31,8 @@ class AccountService
     }
 
     /**
-     * Summary of getList
+     * Retorna todas as instâncias de Account do banco de dados
+     * @return array[\App\Models\Account]
      */
     public function getList()
     {
@@ -39,9 +40,9 @@ class AccountService
     }
 
     /**
-     * Summary of get
+     * Retorna uma instância de Account a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Account
      */
     public function get($id)
     {
@@ -49,10 +50,10 @@ class AccountService
     }
 
     /**
-     * Summary of update
+     * Atualiza os dados de uma instância de Account
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Account
      */
     public function update(array $data, $id)
     {
@@ -60,7 +61,7 @@ class AccountService
     }
 
     /**
-     * Summary of destroy
+     * Remove uma instância de Account do banco de dados
      * @param mixed $id
      * @return mixed
      */
