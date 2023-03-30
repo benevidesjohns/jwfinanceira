@@ -20,12 +20,11 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
     /**
      * Armazena uma nova instância de {{ class }} no banco de dados
      * @param array $data
-     * @return \App\Models\Account
+     * @return \App\Models\{{ class }}
      */
     public function store(array $data)
     {
-        $this->{{ modelVariable }}->create($data);
-        return $this->{{ modelVariable }};
+        return $this->{{ modelVariable }}->create($data);
     }
 
     /**
@@ -55,7 +54,9 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
      */
     public function update(array $data, $id)
     {
-        return $this->{{ modelVariable }}->find($id)->update($data);
+        $current{{ class }} = $this->{{ modelVariable }}->find($id);
+        $current{{ class }}->update($data);
+        return $current{{ class }};
     }
 
     /**

@@ -9,8 +9,8 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
     protected $transactionType;
 
     /**
-     * @param  $transactionType
-     * @return mixed
+     * Construtor da classe TransactionTypeRepositoryInterface
+     * @param $transactionType
      */
     public function __construct(Model $transactionType)
     {
@@ -18,9 +18,9 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
     }
 
     /**
-     *
+     * Armazena uma nova instância de TransactionType no banco de dados
      * @param array $data
-     * @return mixed
+     * @return \App\Models\TransactionType
      */
     public function store(array $data)
     {
@@ -28,7 +28,8 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
     }
 
     /**
-     * @return mixed
+     * Retorna todas as instâncias de TransactionType do banco de dados
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -36,9 +37,9 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
     }
 
     /**
-     *
+     * Retorna uma instância de TransactionType a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\TransactionType
      */
     public function get($id)
     {
@@ -46,18 +47,20 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
     }
 
     /**
-     *
+     * Atualiza os dados de uma instância de TransactionType
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\TransactionType
      */
     public function update(array $data, $id)
     {
-        return $this->transactionType->find($id)->update($data);
+        $currentTransactionType = $this->transactionType->find($id);
+        $currentTransactionType->update($data);
+        return $currentTransactionType;
     }
 
     /**
-     *
+     * Remove uma instância de TransactionType do banco de dados
      * @param mixed $id
      * @return mixed
      */

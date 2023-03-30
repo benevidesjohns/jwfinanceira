@@ -24,8 +24,7 @@ class AccountRepositoryEloquent implements AccountRepositoryInterface
      */
     public function store(array $data)
     {
-        $this->account->create($data);
-        return $this->account;
+        return $this->account->create($data);
     }
 
     /**
@@ -55,7 +54,9 @@ class AccountRepositoryEloquent implements AccountRepositoryInterface
      */
     public function update(array $data, $id)
     {
-        return $this->account->find($id)->update($data);
+        $currentAccount = $this->account->find($id);
+        $currentAccount->update($data);
+        return $currentAccount;
     }
 
     /**

@@ -9,8 +9,8 @@ class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
     protected $accountType;
 
     /**
-     * @param  $accountType
-     * @return mixed
+     * Construtor da classe AccountTypeRepositoryInterface
+     * @param $accountType
      */
     public function __construct(Model $accountType)
     {
@@ -18,9 +18,9 @@ class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
     }
 
     /**
-     *
+     * Armazena uma nova instância de AccountType no banco de dados
      * @param array $data
-     * @return mixed
+     * @return \App\Models\AccountType
      */
     public function store(array $data)
     {
@@ -28,7 +28,8 @@ class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * Retorna todas as instâncias de AccountType do banco de dados
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -36,9 +37,9 @@ class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
     }
 
     /**
-     *
+     * Retorna uma instância de AccountType a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\AccountType
      */
     public function get($id)
     {
@@ -46,18 +47,20 @@ class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
     }
 
     /**
-     *
+     * Atualiza os dados de uma instância de AccountType
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\AccountType
      */
     public function update(array $data, $id)
     {
-        return $this->accountType->find($id)->update($data);
+        $currentAccountType = $this->accountType->find($id);
+        $currentAccountType->update($data);
+        return $currentAccountType;
     }
 
     /**
-     *
+     * Remove uma instância de AccountType do banco de dados
      * @param mixed $id
      * @return mixed
      */

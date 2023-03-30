@@ -9,8 +9,8 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
     protected $address;
 
     /**
-     * @param  $address
-     * @return mixed
+     * Construtor da classe AddressRepositoryInterface
+     * @param $address
      */
     public function __construct(Model $address)
     {
@@ -18,9 +18,9 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
     }
 
     /**
-     *
+     * Armazena uma nova instância de Address no banco de dados
      * @param array $data
-     * @return mixed
+     * @return \App\Models\Address
      */
     public function store(array $data)
     {
@@ -28,7 +28,8 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * Retorna todas as instâncias de Address do banco de dados
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -36,9 +37,9 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
     }
 
     /**
-     *
+     * Retorna uma instância de Address a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Address
      */
     public function get($id)
     {
@@ -46,18 +47,20 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
     }
 
     /**
-     *
+     * Atualiza os dados de uma instância de Address
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Address
      */
     public function update(array $data, $id)
     {
-        return $this->address->find($id)->update($data);
+        $currentAddress = $this->address->find($id);
+        $currentAddress->update($data);
+        return $currentAddress;
     }
 
     /**
-     *
+     * Remove uma instância de Address do banco de dados
      * @param mixed $id
      * @return mixed
      */

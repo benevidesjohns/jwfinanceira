@@ -31,54 +31,54 @@ Route::get('/token', function () {
 
 // Routes AccountController
 Route::controller(AccountController::class)->group(function () {
-    Route::post('/account', 'store');
-    Route::get('/account/{id}', 'get');
+    Route::post('/accounts', 'store');
+    Route::get('/accounts/{id}', 'get');
     Route::get('/accounts', 'getList');
-    Route::put('/account/{id}', 'update');
-    Route::delete('/account/{id}', 'destroy');
+    Route::put('/accounts/{id}', 'update');
+    Route::delete('/accounts/{id}', 'destroy');
 });
 
 // Routes AccountTypeController
 Route::controller(AccountTypeController::class)->group(function () {
-    Route::post('/account_type', 'store');
-    Route::get('/account_type/{id}', 'get');
+    Route::post('/account_types', 'store');
+    Route::get('/account_types/{id}', 'get');
     Route::get('/account_types', 'getList');
-    Route::put('/account_type/{id}', 'update');
-    Route::delete('/account_type/{id}', 'destroy');
+    Route::put('/account_types/{id}', 'update');
+    Route::delete('/account_types/{id}', 'destroy');
 });
 
 // Routes AddressController
 Route::controller(AddressController::class)->group(function () {
-    Route::post('/address', 'store');
-    Route::get('/address/{id}', 'get');
+    Route::post('/addresses', 'store');
+    Route::get('/addresses/{id}', 'get');
     Route::get('/addresses', 'getList');
-    Route::put('/address/{id}', 'update');
-    Route::delete('/address/{id}', 'destroy');
+    Route::put('/addresses/{id}', 'update');
+    Route::delete('/addresses/{id}', 'destroy');
 });
 
 // Routes CustomerController
 Route::controller(CustomerController::class)->group(function () {
-    Route::post('/customer', 'store');
-    Route::get('/customer/{id}', 'get');
+    Route::post('/customers', 'store');
+    Route::get('/customers/{id}', 'get');
     Route::get('/customers', 'getList');
-    Route::put('/customer/{id}', 'update');
-    Route::delete('/customer/{id}', 'destroy');
+    Route::put('/customers/{id}', 'update');
+    Route::delete('/customers/{id}', 'destroy');
 });
 
 // Routes TransactionController
 Route::controller(TransactionController::class)->group(function () {
-    Route::post('/transaction', 'store');
-    Route::get('/transaction/{id}', 'get');
+    Route::post('/transactions', 'store');
+    Route::get('/transactions/{id}', 'get');
     Route::get('/transactions', 'getList');
-    Route::put('/transaction/{id}', 'update');
-    Route::delete('/transaction/{id}', 'destroy');
+    Route::put('/transactions/{id}', 'update');
+    Route::delete('/transactions/{id}', 'destroy');
 });
 
 // Routes TransactionTypeController
 Route::controller(TransactionTypeController::class)->group(function () {
-    Route::post('/transaction_type', 'store');
-    Route::get('/transaction_type/{id}', 'get');
+    Route::post('/transaction_types', 'store');
+    Route::get('/transaction_types/{id}', 'get');
     Route::get('/transaction_types', 'getList');
-    Route::put('/transaction_type/{id}', 'update');
-    Route::delete('/transaction_type/{id}', 'destroy');
+    Route::put('/transaction_types/{id}', 'update');
+    Route::delete('/transaction_types/{id}', 'destroy');
 });

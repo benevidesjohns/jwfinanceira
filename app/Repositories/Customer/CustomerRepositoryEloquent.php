@@ -9,8 +9,8 @@ class CustomerRepositoryEloquent implements CustomerRepositoryInterface
     protected $customer;
 
     /**
-     * @param  $customer
-     * @return mixed
+     * Construtor da classe CustomerRepositoryInterface
+     * @param $customer
      */
     public function __construct(Model $customer)
     {
@@ -18,9 +18,9 @@ class CustomerRepositoryEloquent implements CustomerRepositoryInterface
     }
 
     /**
-     *
+     * Armazena uma nova instância de Customer no banco de dados
      * @param array $data
-     * @return mixed
+     * @return \App\Models\Customer
      */
     public function store(array $data)
     {
@@ -28,7 +28,8 @@ class CustomerRepositoryEloquent implements CustomerRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * Retorna todas as instâncias de Customer do banco de dados
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -36,9 +37,9 @@ class CustomerRepositoryEloquent implements CustomerRepositoryInterface
     }
 
     /**
-     *
+     * Retorna uma instância de Customer a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Customer
      */
     public function get($id)
     {
@@ -46,18 +47,20 @@ class CustomerRepositoryEloquent implements CustomerRepositoryInterface
     }
 
     /**
-     *
+     * Atualiza os dados de uma instância de Customer
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Customer
      */
     public function update(array $data, $id)
     {
-        return $this->customer->find($id)->update($data);
+        $currentCustomer = $this->customer->find($id);
+        $currentCustomer->update($data);
+        return $currentCustomer;
     }
 
     /**
-     *
+     * Remove uma instância de Customer do banco de dados
      * @param mixed $id
      * @return mixed
      */

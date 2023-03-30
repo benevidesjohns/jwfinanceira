@@ -9,8 +9,8 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
     protected $transaction;
 
     /**
-     * @param  $transaction
-     * @return mixed
+     * Construtor da classe TransactionRepositoryInterface
+     * @param $transaction
      */
     public function __construct(Model $transaction)
     {
@@ -18,9 +18,9 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
     }
 
     /**
-     *
+     * Armazena uma nova instância de Transaction no banco de dados
      * @param array $data
-     * @return mixed
+     * @return \App\Models\Transaction
      */
     public function store(array $data)
     {
@@ -28,7 +28,8 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * Retorna todas as instâncias de Transaction do banco de dados
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -36,9 +37,9 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
     }
 
     /**
-     *
+     * Retorna uma instância de Transaction a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Transaction
      */
     public function get($id)
     {
@@ -46,18 +47,20 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
     }
 
     /**
-     *
+     * Atualiza os dados de uma instância de Transaction
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Transaction
      */
     public function update(array $data, $id)
     {
-        return $this->transaction->find($id)->update($data);
+        $currentTransaction = $this->transaction->find($id);
+        $currentTransaction->update($data);
+        return $currentTransaction;
     }
 
     /**
-     *
+     * Remove uma instância de Transaction do banco de dados
      * @param mixed $id
      * @return mixed
      */

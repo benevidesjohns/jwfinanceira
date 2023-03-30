@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('fk_customer')->unsigned();
             $table->foreign('fk_customer')->references('id')->on('customers');
             $table->integer('fk_account_type')->unsigned();
-            $table->foreign('fk_account_type')->references('id')->on('account_types');
+            $table->foreign('fk_account_type')->references('id')->on('account_types')->cascadeOnDelete();
             $table->timestamps();
         });
     }

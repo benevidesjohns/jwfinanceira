@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->double('amount');
             $table->integer('fk_account')->unsigned();
-            $table->foreign('fk_account')->references('id')->on('accounts');
+            $table->foreign('fk_account')->references('id')->on('accounts')->cascadeOnDelete();
             $table->integer('fk_transaction_type')->unsigned();
             $table->foreign('fk_transaction_type')->references('id')->on('transaction_types');
             $table->timestamps();
