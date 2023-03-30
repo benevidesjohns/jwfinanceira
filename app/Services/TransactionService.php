@@ -2,22 +2,29 @@
 
 namespace App\Services;
 
+use App\Repositories\Account\AccountRepositoryInterface;
 use App\Repositories\Transaction\TransactionRepositoryInterface;
+use App\Repositories\Transaction\TransactionTypeRepositoryInterface;
 
 /**
  * Summary of TransactionService
  */
 class TransactionService
 {
-    private $repoTransaction;
+    private $repoTransaction, $repoAccount, $repoTransactionType;
 
     /**
      * Summary of __construct
      * @param TransactionRepositoryInterface $repoTransaction
      */
-    public function __construct(TransactionRepositoryInterface $repoTransaction)
-    {
+    public function __construct(
+        TransactionRepositoryInterface $repoTransaction,
+        AccountRepositoryInterface $repoAccount,
+        TransactionTypeRepositoryInterface $repoTransactionType
+    ) {
         $this->repoTransaction = $repoTransaction;
+        $this->repoAccount = $repoAccount;
+        $this->repoTransactionType = $repoTransactionType;
     }
 
     /**
@@ -27,7 +34,36 @@ class TransactionService
      */
     public function store(array $data)
     {
-        return $this->repoTransaction->store($data);
+        $errors = [];
+
+        try {
+            $currentAccount = $this->repoAccount->get($data['fk_account']);
+            $currentTransactionType = $this->repoTransactionType->get($data['fk_transaction_type']);
+
+            return response(
+                json_encode([
+                    'transaction' => $this->repoTransaction->store($data),
+                    'account' => $currentAccount,
+                    'transaction_type' => $currentTransactionType,
+                ]),
+                201
+            );
+
+        } catch (\Throwable $th) {
+            if ($currentAccount == null)
+                array_push($errors, 'Account not found');
+            if ($currentTransactionType == null)
+                array_push($errors, 'Transaction type not found');
+
+            return response(
+                json_encode([
+                    'msg' => $errors,
+                ]),
+                404
+            );
+        }
+
+        // return $this->repoTransaction->store($data);
     }
 
     /**
