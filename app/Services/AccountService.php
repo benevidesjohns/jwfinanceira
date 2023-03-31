@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Repositories\Account\AccountRepositoryInterface;
 use App\Repositories\Account\AccountTypeRepositoryInterface;
 use App\Repositories\Customer\CustomerRepositoryInterface;
-use Exception;
 
 /**
  * Summary of AccountService
@@ -30,10 +29,10 @@ class AccountService
 
     /**
      * Envia para o AccountRepository os dados para criar uma nova instância de Account
-     * @param array $data
-     * @return mixed
+     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function store(array $data)
+    public function store($data)
     {
         $errors = [];
 
@@ -50,7 +49,7 @@ class AccountService
                 201
             );
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable) {
             if ($currentCustomer == null)
                 array_push($errors, 'Customer not found');
             if ($currentAccountType == null)
@@ -67,7 +66,7 @@ class AccountService
 
     /**
      * Retorna todas as instâncias de Account do banco de dados
-     * @return array[\App\Models\Account]
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -76,7 +75,7 @@ class AccountService
 
     /**
      * Retorna uma instância de Account a partir do id informado
-     * @param mixed $id
+     * @param int|string $id
      * @return \App\Models\Account
      */
     public function get($id)
@@ -86,19 +85,19 @@ class AccountService
 
     /**
      * Atualiza os dados de uma instância de Account
-     * @param array $data
-     * @param mixed $id
+     * @param \Illuminate\Support\Collection|array|int|string $data
+     * @param int|string $id
      * @return \App\Models\Account
      */
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
         return $this->repoAccount->update($data, $id);
     }
 
     /**
      * Remove uma instância de Account do banco de dados
-     * @param mixed $id
-     * @return mixed
+     * @param int|string $id
+     * @return int
      */
     public function destroy($id)
     {

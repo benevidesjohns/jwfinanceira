@@ -2,29 +2,26 @@
 
 namespace App\Repositories\Transaction;
 
-use \Illuminate\Database\Eloquent\Model;
+use App\Models\TransactionType;
 
 class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInterface
 {
     protected $transactionType;
 
-    /**
-     * Construtor da classe TransactionTypeRepositoryInterface
-     * @param $transactionType
-     */
-    public function __construct(Model $transactionType)
+    public function __construct(TransactionType $transactionType)
     {
         $this->transactionType = $transactionType;
     }
 
     /**
      * Armazena uma nova instância de TransactionType no banco de dados
-     * @param array $data
-     * @return \App\Models\TransactionType
+     * @param \Illuminate\Support\Collection|array|int|string $data
+     * @return TransactionType
      */
-    public function store(array $data)
+    public function store($data)
     {
-        return $this->transactionType->create($data);
+        $this->transactionType->create($data);
+        return $this->transactionType;
     }
 
     /**
@@ -38,8 +35,8 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
 
     /**
      * Retorna uma instância de TransactionType a partir do id informado
-     * @param mixed $id
-     * @return \App\Models\TransactionType
+     * @param int|string $id
+     * @return TransactionType
      */
     public function get($id)
     {
@@ -48,21 +45,19 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
 
     /**
      * Atualiza os dados de uma instância de TransactionType
-     * @param array $data
-     * @param mixed $id
-     * @return \App\Models\TransactionType
+     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param int|string $id
+     * @return TransactionType
      */
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
-        $currentTransactionType = $this->transactionType->find($id);
-        $currentTransactionType->update($data);
-        return $currentTransactionType;
+        return $this->transactionType->find($id)->update($data);
     }
 
     /**
      * Remove uma instância de TransactionType do banco de dados
-     * @param mixed $id
-     * @return mixed
+     * @param int|string $id
+     * @return int
      */
     public function destroy($id)
     {

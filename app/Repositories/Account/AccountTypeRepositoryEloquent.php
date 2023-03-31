@@ -2,29 +2,26 @@
 
 namespace App\Repositories\Account;
 
-use \Illuminate\Database\Eloquent\Model;
+use App\Models\AccountType;
 
 class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
 {
     protected $accountType;
 
-    /**
-     * Construtor da classe AccountTypeRepositoryInterface
-     * @param $accountType
-     */
-    public function __construct(Model $accountType)
+    public function __construct(AccountType $accountType)
     {
         $this->accountType = $accountType;
     }
 
     /**
      * Armazena uma nova instância de AccountType no banco de dados
-     * @param array $data
-     * @return \App\Models\AccountType
+     * @param \Illuminate\Support\Collection|array|int|string $data
+     * @return AccountType
      */
-    public function store(array $data)
+    public function store($data)
     {
-        return $this->accountType->create($data);
+        $this->accountType->create($data);
+        return $this->accountType;
     }
 
     /**
@@ -38,8 +35,8 @@ class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
 
     /**
      * Retorna uma instância de AccountType a partir do id informado
-     * @param mixed $id
-     * @return \App\Models\AccountType
+     * @param int|string $id
+     * @return AccountType
      */
     public function get($id)
     {
@@ -48,21 +45,19 @@ class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de AccountType
-     * @param array $data
-     * @param mixed $id
-     * @return \App\Models\AccountType
+     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param int|string $id
+     * @return AccountType
      */
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
-        $currentAccountType = $this->accountType->find($id);
-        $currentAccountType->update($data);
-        return $currentAccountType;
+        return $this->accountType->find($id)->update($data);
     }
 
     /**
      * Remove uma instância de AccountType do banco de dados
-     * @param mixed $id
-     * @return mixed
+     * @param int|string $id
+     * @return int
      */
     public function destroy($id)
     {

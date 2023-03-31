@@ -14,7 +14,7 @@ class TransactionService
     private $repoTransaction, $repoAccount, $repoTransactionType;
 
     /**
-     * Summary of __construct
+     * Construtor da classe TransactionService
      * @param TransactionRepositoryInterface $repoTransaction
      */
     public function __construct(
@@ -28,9 +28,9 @@ class TransactionService
     }
 
     /**
-     * Summary of store
+     * Envia para o TransactionRepository os dados para criar uma nova instância de Transaction
      * @param array $data
-     * @return mixed
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function store(array $data)
     {
@@ -49,7 +49,7 @@ class TransactionService
                 201
             );
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable) {
             if ($currentAccount == null)
                 array_push($errors, 'Account not found');
             if ($currentTransactionType == null)
@@ -67,7 +67,8 @@ class TransactionService
     }
 
     /**
-     * Summary of getList
+     * Retorna todas as instâncias de Transaction do banco de dados
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -75,9 +76,9 @@ class TransactionService
     }
 
     /**
-     * Summary of get
+     * Retorna uma instância de Transaction a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Transaction
      */
     public function get($id)
     {
@@ -85,10 +86,10 @@ class TransactionService
     }
 
     /**
-     * Summary of update
+     * Atualiza os dados de uma instância de Transaction
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Transaction
      */
     public function update(array $data, $id)
     {
@@ -96,7 +97,7 @@ class TransactionService
     }
 
     /**
-     * Summary of destroy
+     * Remove uma instância de Transaction do banco de dados
      * @param mixed $id
      * @return mixed
      */

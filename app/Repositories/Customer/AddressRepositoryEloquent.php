@@ -2,29 +2,26 @@
 
 namespace App\Repositories\Customer;
 
-use \Illuminate\Database\Eloquent\Model;
+use App\Models\Address;
 
 class AddressRepositoryEloquent implements AddressRepositoryInterface
 {
     protected $address;
 
-    /**
-     * Construtor da classe AddressRepositoryInterface
-     * @param $address
-     */
-    public function __construct(Model $address)
+    public function __construct(Address $address)
     {
         $this->address = $address;
     }
 
     /**
      * Armazena uma nova instância de Address no banco de dados
-     * @param array $data
-     * @return \App\Models\Address
+     * @param \Illuminate\Support\Collection|array|int|string $data
+     * @return Address
      */
-    public function store(array $data)
+    public function store($data)
     {
-        return $this->address->create($data);
+        $this->address->create($data);
+        return $this->address;
     }
 
     /**
@@ -38,8 +35,8 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
 
     /**
      * Retorna uma instância de Address a partir do id informado
-     * @param mixed $id
-     * @return \App\Models\Address
+     * @param int|string $id
+     * @return Address
      */
     public function get($id)
     {
@@ -48,21 +45,19 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de Address
-     * @param array $data
-     * @param mixed $id
-     * @return \App\Models\Address
+     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param int|string $id
+     * @return Address
      */
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
-        $currentAddress = $this->address->find($id);
-        $currentAddress->update($data);
-        return $currentAddress;
+        return $this->address->find($id)->update($data);
     }
 
     /**
      * Remove uma instância de Address do banco de dados
-     * @param mixed $id
-     * @return mixed
+     * @param int|string $id
+     * @return int
      */
     public function destroy($id)
     {

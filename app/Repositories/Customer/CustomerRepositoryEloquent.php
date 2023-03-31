@@ -2,29 +2,26 @@
 
 namespace App\Repositories\Customer;
 
-use \Illuminate\Database\Eloquent\Model;
+use App\Models\Customer;
 
 class CustomerRepositoryEloquent implements CustomerRepositoryInterface
 {
     protected $customer;
 
-    /**
-     * Construtor da classe CustomerRepositoryInterface
-     * @param $customer
-     */
-    public function __construct(Model $customer)
+    public function __construct(Customer $customer)
     {
         $this->customer = $customer;
     }
 
     /**
      * Armazena uma nova instância de Customer no banco de dados
-     * @param array $data
-     * @return \App\Models\Customer
+     * @param \Illuminate\Support\Collection|array|int|string $data
+     * @return Customer
      */
-    public function store(array $data)
+    public function store($data)
     {
-        return $this->customer->create($data);
+        $this->customer->create($data);
+        return $this->customer;
     }
 
     /**
@@ -38,8 +35,8 @@ class CustomerRepositoryEloquent implements CustomerRepositoryInterface
 
     /**
      * Retorna uma instância de Customer a partir do id informado
-     * @param mixed $id
-     * @return \App\Models\Customer
+     * @param int|string $id
+     * @return Customer
      */
     public function get($id)
     {
@@ -48,21 +45,19 @@ class CustomerRepositoryEloquent implements CustomerRepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de Customer
-     * @param array $data
-     * @param mixed $id
-     * @return \App\Models\Customer
+     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param int|string $id
+     * @return Customer
      */
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
-        $currentCustomer = $this->customer->find($id);
-        $currentCustomer->update($data);
-        return $currentCustomer;
+        return $this->customer->find($id)->update($data);
     }
 
     /**
      * Remove uma instância de Customer do banco de dados
-     * @param mixed $id
-     * @return mixed
+     * @param int|string $id
+     * @return int
      */
     public function destroy($id)
     {

@@ -12,7 +12,7 @@ class CustomerService
     private $repoCustomer;
 
     /**
-     * Summary of __construct
+     * Construtor da classe CustomerService
      * @param CustomerRepositoryInterface $repoCustomer
      */
     public function __construct(CustomerRepositoryInterface $repoCustomer)
@@ -21,9 +21,9 @@ class CustomerService
     }
 
     /**
-     * Summary of store
+     * Envia para o CustomerRepository os dados para criar uma nova instância de Customer
      * @param array $data
-     * @return mixed
+     * @return \App\Models\Customer
      */
     public function store(array $data)
     {
@@ -31,7 +31,8 @@ class CustomerService
     }
 
     /**
-     * Summary of getList
+     * Retorna todas as instâncias de Customer do banco de dados
+     * @return array[\App\Models\Customer]
      */
     public function getList()
     {
@@ -39,9 +40,9 @@ class CustomerService
     }
 
     /**
-     * Summary of get
+     * Retorna uma instância de Customer a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Customer
      */
     public function get($id)
     {
@@ -49,10 +50,10 @@ class CustomerService
     }
 
     /**
-     * Summary of update
+     * Atualiza os dados de uma instância de Customer
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Customer
      */
     public function update(array $data, $id)
     {
@@ -60,7 +61,7 @@ class CustomerService
     }
 
     /**
-     * Summary of destroy
+     * Remove uma instância de Customer do banco de dados
      * @param mixed $id
      * @return mixed
      */

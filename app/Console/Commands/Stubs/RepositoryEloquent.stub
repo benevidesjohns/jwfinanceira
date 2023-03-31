@@ -2,29 +2,26 @@
 
 namespace {{ namespace }};
 
-use \Illuminate\Database\Eloquent\Model;
+use App\Models\{{ class }};
 
 class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
 {
     protected ${{ modelVariable }};
 
-    /**
-     * Construtor da classe {{ class }}RepositoryInterface
-     * @param ${{ modelVariable }}
-     */
-    public function __construct(Model ${{ modelVariable }})
+    public function __construct({{ class }} ${{ modelVariable }})
     {
         $this->{{ modelVariable }} = ${{ modelVariable }};
     }
 
     /**
      * Armazena uma nova instância de {{ class }} no banco de dados
-     * @param array $data
-     * @return \App\Models\{{ class }}
+     * @param \Illuminate\Support\Collection|array|int|string $data
+     * @return {{ class }}
      */
-    public function store(array $data)
+    public function store($data)
     {
-        return $this->{{ modelVariable }}->create($data);
+        $this->{{ modelVariable }}->create($data);
+        return $this->{{ modelVariable }};
     }
 
     /**
@@ -38,8 +35,8 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
 
     /**
      * Retorna uma instância de {{ class }} a partir do id informado
-     * @param mixed $id
-     * @return \App\Models\{{ class }}
+     * @param int|string $id
+     * @return {{ class }}
      */
     public function get($id)
     {
@@ -48,21 +45,19 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de {{ class }}
-     * @param array $data
-     * @param mixed $id
-     * @return \App\Models\{{ class }}
+     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param int|string $id
+     * @return {{ class }}
      */
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
-        $current{{ class }} = $this->{{ modelVariable }}->find($id);
-        $current{{ class }}->update($data);
-        return $current{{ class }};
+        return $this->{{ modelVariable }}->find($id)->update($data);
     }
 
     /**
      * Remove uma instância de {{ class }} do banco de dados
-     * @param mixed $id
-     * @return mixed
+     * @param int|string $id
+     * @return int
      */
     public function destroy($id)
     {

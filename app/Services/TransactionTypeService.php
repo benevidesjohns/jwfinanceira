@@ -12,7 +12,7 @@ class TransactionTypeService
     private $repoTransactionType;
 
     /**
-     * Summary of __construct
+     * Construtor da classe TransactionTypeService
      * @param TransactionTypeRepositoryInterface $repoTransactionType
      */
     public function __construct(TransactionTypeRepositoryInterface $repoTransactionType)
@@ -21,9 +21,9 @@ class TransactionTypeService
     }
 
     /**
-     * Summary of store
+     * Envia para o TransactionTypeRepository os dados para criar uma nova instância de TransactionType
      * @param array $data
-     * @return mixed
+     * @return \App\Models\TransactionType
      */
     public function store(array $data)
     {
@@ -31,7 +31,8 @@ class TransactionTypeService
     }
 
     /**
-     * Summary of getList
+     * Retorna todas as instâncias de TransactionType do banco de dados
+     * @return array[\App\Models\TransactionType]
      */
     public function getList()
     {
@@ -39,9 +40,9 @@ class TransactionTypeService
     }
 
     /**
-     * Summary of get
+     * Retorna uma instância de TransactionType a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\TransactionType
      */
     public function get($id)
     {
@@ -49,10 +50,10 @@ class TransactionTypeService
     }
 
     /**
-     * Summary of update
+     * Atualiza os dados de uma instância de TransactionType
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\TransactionType
      */
     public function update(array $data, $id)
     {
@@ -60,7 +61,7 @@ class TransactionTypeService
     }
 
     /**
-     * Summary of destroy
+     * Remove uma instância de TransactionType do banco de dados
      * @param mixed $id
      * @return mixed
      */

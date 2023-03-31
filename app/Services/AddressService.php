@@ -12,7 +12,7 @@ class AddressService
     private $repoAddress;
 
     /**
-     * Summary of __construct
+     * Construtor da classe AddressService
      * @param AddressRepositoryInterface $repoAddress
      */
     public function __construct(AddressRepositoryInterface $repoAddress)
@@ -21,9 +21,9 @@ class AddressService
     }
 
     /**
-     * Summary of store
+     * Envia para o AddressRepository os dados para criar uma nova instância de Address
      * @param array $data
-     * @return mixed
+     * @return \App\Models\Address
      */
     public function store(array $data)
     {
@@ -31,7 +31,8 @@ class AddressService
     }
 
     /**
-     * Summary of getList
+     * Retorna todas as instâncias de Address do banco de dados
+     * @return array[\App\Models\Address]
      */
     public function getList()
     {
@@ -39,9 +40,9 @@ class AddressService
     }
 
     /**
-     * Summary of get
+     * Retorna uma instância de Address a partir do id informado
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Address
      */
     public function get($id)
     {
@@ -49,10 +50,10 @@ class AddressService
     }
 
     /**
-     * Summary of update
+     * Atualiza os dados de uma instância de Address
      * @param array $data
      * @param mixed $id
-     * @return mixed
+     * @return \App\Models\Address
      */
     public function update(array $data, $id)
     {
@@ -60,7 +61,7 @@ class AddressService
     }
 
     /**
-     * Summary of destroy
+     * Remove uma instância de Address do banco de dados
      * @param mixed $id
      * @return mixed
      */
