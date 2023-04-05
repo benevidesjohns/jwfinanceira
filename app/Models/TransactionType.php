@@ -11,7 +11,11 @@ class TransactionType extends Model
 
     protected $fillable = ['type'];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function transactions(){
-        return $this->belongsToMany(Transaction::class);
+        return $this->hasMany(Transaction::class);
     }
 }

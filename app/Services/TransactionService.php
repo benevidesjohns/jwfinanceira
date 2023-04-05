@@ -37,17 +37,19 @@ class TransactionService
         $errors = [];
 
         try {
+            // Busca a conta e o tipo de transação passados no banco de dados
             $currentAccount = $this->repoAccount->get($data['fk_account']);
             $currentTransactionType = $this->repoTransactionType->get($data['fk_transaction_type']);
 
-            return response(
-                json_encode([
-                    'transaction' => $this->repoTransaction->store($data),
-                    'account' => $currentAccount,
-                    'transaction_type' => $currentTransactionType,
-                ]),
-                201
-            );
+            // Dispara uma exceção caso a conta ou o tipo de transação passados forem nulos
+            throw_if($currentAccount == null or $currentTransactionType == null);
+
+            // Armazena a transação no banco de dados e associa a conta e o tipo a mesma
+            $transaction = $this->repoTransaction->store($data);
+            $transaction->account;
+            $transaction->transactionType;
+
+            return response($transaction, 201);
 
         } catch (\Throwable) {
             if ($currentAccount == null)
@@ -62,8 +64,6 @@ class TransactionService
                 404
             );
         }
-
-        // return $this->repoTransaction->store($data);
     }
 
     /**
@@ -78,22 +78,53 @@ class TransactionService
     /**
      * Retorna uma instância de Transaction a partir do id informado
      * @param mixed $id
-     * @return \App\Models\Transaction
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function get($id)
     {
-        return $this->repoTransaction->get($id);
+        try {
+            $transaction = $this->repoTransaction->get($id);
+            $transaction->account;
+            $transaction->transactionType;
+
+            return response($transaction, 200);
+
+        } catch (\Throwable) {
+
+            return response(
+                json_encode([
+                    'msg' => 'Transaction not found',
+                ]),
+                404
+            );
+        }
     }
 
     /**
      * Atualiza os dados de uma instância de Transaction
      * @param array $data
      * @param mixed $id
-     * @return \App\Models\Transaction
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function update(array $data, $id)
     {
-        return $this->repoTransaction->update($data, $id);
+        try {
+            // TODO: Tratar os dados da requisição, antes de chamar o repoTransaction->update
+            $this->repoTransaction->update($data, $id);
+
+            $transaction = $this->repoTransaction->get($id);
+
+            return response($transaction, 201);
+
+        } catch (\Throwable) {
+
+            return response(
+                json_encode([
+                    'msg' => 'Transaction not found',
+                ]),
+                404
+            );
+        }
     }
 
     /**
@@ -103,6 +134,19 @@ class TransactionService
      */
     public function destroy($id)
     {
-        return $this->repoTransaction->destroy($id);
+        try {
+            $this->repoTransaction->destroy($id);
+
+            return response(status: 204);
+
+        } catch (\Throwable) {
+
+            return response(
+                json_encode([
+                    'msg' => 'Transaction not found',
+                ]),
+                404
+            );
+        }
     }
 }

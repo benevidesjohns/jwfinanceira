@@ -20,8 +20,7 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
      */
     public function store($data)
     {
-        $this->transaction->create($data);
-        return $this->transaction;
+        return $this->transaction->create($data);
     }
 
     /**

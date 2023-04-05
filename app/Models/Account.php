@@ -13,18 +13,22 @@ class Account extends Model
         'balance', 'fk_customer', 'fk_account_type'
     ];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function accountType()
     {
-        return $this->hasOne(Accountype::class, 'fk_account_type');
+        return $this->belongsTo(Accountype::class, 'fk_account_type');
     }
 
     public function customer()
     {
-        return $this->hasOne(Customer::class, 'fk_customer');
+        return $this->belongsTo(Customer::class, 'fk_customer');
     }
 
     public function transactions()
     {
-        return $this->belongsToMany(Transaction::class);
+        return $this->hasMany(Transaction::class);
     }
 }

@@ -10,14 +10,18 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'amount', 'fk_account', 'fk_transaction_type'
+        'date', 'amount', 'fk_account', 'fk_transaction_type', 'created_at', 'updated_at'
     ];
 
+    // protected $hidden = [
+    //     'created_at', 'updated_at'
+    // ];
+
     public function account(){
-        return $this->hasOne(Conta::class, 'fk_account');
+        return $this->belongsTo(Account::class, 'fk_account');
     }
 
     public function transactionType(){
-        return $this->hasOne(TransactionType::class, 'fk_transaction_type');
+        return $this->belongsTo(TransactionType::class, 'fk_transaction_type');
     }
 }
