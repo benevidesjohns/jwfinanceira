@@ -10,12 +10,15 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'phone_number',
-        'fk_address'
+       'name', 'phone_number', 'cpf', 'fk_address'
+    ];
+
+    protected $hidden = [
+        'created_at', 'updated_at'
     ];
 
     public function address()
     {
-        return $this->hasOne(Endereco::class, 'fk_address');
+        return $this->belongsTo(Endereco::class, 'fk_address');
     }
 }

@@ -17,7 +17,9 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
+            'name' => fake('pt_BR')->name(),
             'phone_number' => fake('pt_BR')->cellphoneNumber(),
+            'cpf' => fake()->numerify('###########'),
             'fk_address' => random_int(1, 10)
         ];
     }

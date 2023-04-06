@@ -10,14 +10,15 @@ class Address extends Model
     use HasFactory;
 
     protected $fillable = [
-        'city',
-        'state',
-        'cep',
-        'address'
+        'city', 'state', 'cep', 'address'
     ];
 
-    public function addresses()
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
+    public function customers()
     {
-        return $this->belongsToMany(Customer::class);
+        return $this->hasMany(Customer::class, 'fk_address');
     }
 }

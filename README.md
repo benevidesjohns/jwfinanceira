@@ -4,4 +4,4 @@
 
 API desenvolvida na disciplina de Integração de Sistemas, do 7º Semestre do curso de Sistemas de Informação. Esse projeto tem como base o modelo de ER da imagem abaixo, adaptado do *Data Model for Finance Subject Area* de Barry Williams (DatabaseAnswers, 2012).
 
-<p align="center"><img src="/public/img/diagrama_banco.png" width="400" alt="Diagrama Banco"></p>
+<p align="center"><img src="/public/img/diagram-api.jpg" width="400" alt="Diagrama Banco"></p>
