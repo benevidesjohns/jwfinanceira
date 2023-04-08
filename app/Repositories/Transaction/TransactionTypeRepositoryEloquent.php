@@ -20,8 +20,7 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
      */
     public function store($data)
     {
-        $this->transactionType->create($data);
-        return $this->transactionType;
+        return $this->transactionType->create($data);
     }
 
     /**
@@ -45,7 +44,7 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
 
     /**
      * Atualiza os dados de uma instância de TransactionType
-     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param \Illuminate\Support\Collection|array|int|string $data
      * @param int|string $id
      * @return TransactionType
      */

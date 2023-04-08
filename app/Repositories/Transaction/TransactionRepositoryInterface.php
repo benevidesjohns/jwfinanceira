@@ -30,7 +30,7 @@ interface TransactionRepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de Transaction
-     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param \Illuminate\Support\Collection|array|int|string $data
      * @param int|string $id
      * @return Transaction
      */

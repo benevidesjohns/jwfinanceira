@@ -20,8 +20,7 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
      */
     public function store($data)
     {
-        $this->address->create($data);
-        return $this->address;
+        return $this->address->create($data);
     }
 
     /**
@@ -45,7 +44,7 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de Address
-     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param \Illuminate\Support\Collection|array|int|string $data
      * @param int|string $id
      * @return Address
      */

@@ -20,8 +20,7 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
      */
     public function store($data)
     {
-        $this->{{ modelVariable }}->create($data);
-        return $this->{{ modelVariable }};
+        return $this->{{ modelVariable }}->create($data);
     }
 
     /**
@@ -45,7 +44,7 @@ class {{ class }}RepositoryEloquent implements {{ class }}RepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de {{ class }}
-     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param \Illuminate\Support\Collection|array|int|string $data
      * @param int|string $id
      * @return {{ class }}
      */

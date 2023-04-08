@@ -14,11 +14,20 @@ class TransactionTypeController extends Controller
         $this->serviceTransactionType = $serviceTransactionType;
     }
 
-    /**
-     * Summary of store
-     * @param Request $req
-     * @return mixed
-     */
+    public function sendByFormType($data, $status, $formType)
+    {
+        if ($formType == 'xml') {
+            $view = $status >= 400 ? 'error' : 'type';
+            return response()
+                ->view($view, compact('data'), $status)
+                ->header('Content-Type', 'text/xml');
+        } else if ($formType == 'json') {
+            return response()->json($data, $status);
+        } else {
+            return response(status: 400);
+        }
+    }
+
     public function store(Request $req)
     {
         return $this->serviceTransactionType->store([

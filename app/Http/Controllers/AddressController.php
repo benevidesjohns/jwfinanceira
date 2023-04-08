@@ -14,15 +14,18 @@ class AddressController extends Controller
         $this->serviceAddress = $serviceAddress;
     }
 
-    public function sendByFormType($data, $status, $formType)
+    public function sendByFormType($data, $status, $formType, $isMessage)
     {
         if ($formType == 'xml') {
-            $view = $status >= 400 ? 'error' : 'Customer.address';
+            $view = $isMessage ? 'message' : 'address';
+
             return response()
-                ->view($view, compact('data'), $status)
+                ->view($view, compact('data', 'status'), $status)
                 ->header('Content-Type', 'text/xml');
-        } else if ($formType == 'json') {
-            return response(json_encode($data), $status);
+
+        } else if ($formType == 'json' || $formType == null) {
+            return response()->json($data, $status);
+
         } else {
             return response(status: 400);
         }
@@ -30,48 +33,61 @@ class AddressController extends Controller
 
     public function store(Request $req)
     {
-        return $this->serviceAddress->store([
+        $data = $this->serviceAddress->store([
             'city' => $req->city,
             'state' => $req->state,
             'cep' => $req->cep,
             'address' => $req->address
         ]);
+
+        $status = array_pop($data);
+        $formType = $req->query('form');
+        $isMessage = $status >= 400;
+
+        return $this->sendByFormType($data, $status, $formType, $isMessage);
     }
 
     public function get(Request $req, $id)
     {
-        $formType = $req->query('form');
         $data = $this->serviceAddress->get($id);
-        $status = array_pop($data);
-        $addresses = [array_pop($data)];
 
-        return $this->sendByFormType($addresses, $status, $formType);
+        $status = array_pop($data);
+        $formType = $req->query('form');
+        $isMessage = $status >= 400;
+
+        return $this->sendByFormType($data, $status, $formType, $isMessage);
     }
 
     public function getList(Request $req)
     {
         $addresses = $this->serviceAddress->getList();
         $formType = $req->query('form');
+        $isMessage = False;
 
-        return $this->sendByFormType($addresses, 200, $formType);
+        return $this->sendByFormType($addresses, 200, $formType, $isMessage);
     }
 
     public function update(Request $req, $id)
     {
+        $content = json_decode($req->getContent());
+
+        $data = $this->serviceAddress->update($content, $id);
+
+        $status = array_pop($data);
         $formType = $req->query('form');
+        $isMessage = $status >= 400;
 
-        $data = $this->serviceAddress->update([
-            'city' => $req->city,
-            'state' => $req->state,
-            'cep' => $req->cep,
-            'address' => $req->address
-        ], $id);
-
-        return $this->sendByFormType($data, 200, $formType);
+        return $this->sendByFormType($data, $status, $formType, $isMessage);
     }
 
-    public function destroy($id)
+    public function destroy(Request $req, $id)
     {
-        return $this->serviceAddress->destroy($id);
+        $data = $this->serviceAddress->destroy($id);
+
+        $status = array_pop($data);
+        $formType = $req->query('form');
+        $isMessage = True;
+
+        return $this->sendByFormType($data, $status, $formType, $isMessage);
     }
 }

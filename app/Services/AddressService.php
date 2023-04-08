@@ -23,11 +23,23 @@ class AddressService
     /**
      * Envia para o AddressRepository os dados para criar uma nova instância de Address
      * @param array $data
-     * @return \App\Models\Address
+     * @return array|mixed
      */
-    public function store(array $data)
+    public function store($data)
     {
-        return $this->repoAddress->store($data);
+        try {
+            // TODO: Tratar os dados da requisição, antes de chamar o repoAddress->store
+            $address = $this->repoAddress->store($data);
+            $status = 200;
+
+            return compact('address', 'status');
+
+        } catch (\Throwable) {
+            $message = 'Address not stored';
+            $status = 400;
+
+            return compact('message', 'status');
+        }
     }
 
     /**
@@ -41,13 +53,14 @@ class AddressService
 
     /**
      * Retorna uma instância de Address a partir do id informado
-     * @param mixed $id
+     * @param int|string $id
      * @return array
      */
     public function get($id)
     {
         try {
             $address = $this->repoAddress->get($id);
+            $address->customers;
             $status = 200;
 
             throw_if($address == null);
@@ -65,21 +78,65 @@ class AddressService
     /**
      * Atualiza os dados de uma instância de Address
      * @param array $data
-     * @param mixed $id
-     * @return \App\Models\Address
+     * @param int|string $id
+     * @return array|mixed
      */
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
-        return $this->repoAddress->update($data, $id);
+        try {
+
+            $keys = [];
+            $values = [];
+            foreach ($data as $key => $value) {
+                array_push($keys, $key);
+                array_push($values, $value);
+            }
+
+            $processed_data = array_combine($keys, $values);
+
+            $status = 200;
+
+            $this->repoAddress->update($processed_data, $id);
+            $address = $this->repoAddress->get($id);
+            $status = 200;
+
+            throw_if($address == null);
+
+            return compact('address', 'status');
+
+        } catch (\Throwable) {
+            $message = 'Address not found';
+            $status = 404;
+
+            return compact('message', 'status');
+        }
     }
 
     /**
      * Remove uma instância de Address do banco de dados
-     * @param mixed $id
-     * @return mixed
+     * @param int|string $id
+     * @return array
      */
     public function destroy($id)
     {
-        return $this->repoAddress->destroy($id);
+        $address = $this->repoAddress->get($id);
+
+        if ($address == null) {
+            $message = 'Address not found';
+            $status = 404;
+        }
+
+        else if (count($address->customers) > 0) {
+            $message = 'This address has associated customers';
+            $status = 405;
+        }
+
+        else {
+            $this->repoAddress->destroy($id);
+            $message = 'Address destroyed';
+            $status = 204;
+        }
+
+        return compact('message', 'status');
     }
 }

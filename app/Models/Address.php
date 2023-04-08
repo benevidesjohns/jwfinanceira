@@ -10,6 +10,7 @@ class Address extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'city',
         'state',
         'cep',

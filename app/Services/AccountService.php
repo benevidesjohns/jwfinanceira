@@ -29,7 +29,7 @@ class AccountService
 
     /**
      * Envia para o AccountRepository os dados para criar uma nova instância de Account
-     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param \Illuminate\Support\Collection|array|int|string $data
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function store($data)

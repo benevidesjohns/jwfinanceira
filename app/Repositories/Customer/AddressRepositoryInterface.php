@@ -30,7 +30,7 @@ interface AddressRepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de Address
-     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param \Illuminate\Support\Collection|array|int|string $data
      * @param int|string $id
      * @return Address
      */

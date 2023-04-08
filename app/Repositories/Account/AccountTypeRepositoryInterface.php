@@ -30,7 +30,7 @@ interface AccountTypeRepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de AccountType
-     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param \Illuminate\Support\Collection|array|int|string $data
      * @param int|string $id
      * @return AccountType
      */

@@ -20,8 +20,7 @@ class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
      */
     public function store($data)
     {
-        $this->accountType->create($data);
-        return $this->accountType;
+        return $this->accountType->create($data);
     }
 
     /**
@@ -45,7 +44,7 @@ class AccountTypeRepositoryEloquent implements AccountTypeRepositoryInterface
 
     /**
      * Atualiza os dados de uma instância de AccountType
-     * @param \Illuminate\Support\Collection|array|int|string $data $data
+     * @param \Illuminate\Support\Collection|array|int|string $data
      * @param int|string $id
      * @return AccountType
      */
