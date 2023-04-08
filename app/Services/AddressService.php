@@ -29,13 +29,7 @@ class AddressService
     {
         try {
             // TODO: Tratar os dados da requisição, antes de chamar o repoAddress->store
-            $address = $this->repoAddress->store([
-                'city' => $data['city'],
-                'state' => $data['state'],
-                'cep' => $data['cep'],
-                'address' => $data['address']
-            ]);
-
+            $address = $this->repoAddress->store($data);
             $status = 200;
 
             return compact('address', 'status');
@@ -90,6 +84,7 @@ class AddressService
     public function update($data, $id)
     {
         try {
+
             // TODO: Tratar os dados da requisição, antes de chamar o repoAddress->store
             $keys = [];
             $values = [];

@@ -29,7 +29,7 @@ class TransactionTypeRepositoryEloquent implements TransactionTypeRepositoryInte
      */
     public function getList()
     {
-        return $this->transactionType->all();
+        return $this->transactionType->all()->sort()->values();
     }
 
     /**

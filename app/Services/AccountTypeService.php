@@ -23,16 +23,33 @@ class AccountTypeService
     /**
      * Envia para o AccountTypeRepository os dados para criar uma nova instância de AccountType
      * @param array $data
-     * @return \App\Models\AccountType
+     * @return array|mixed
      */
-    public function store(array $data)
+    public function store($data)
     {
-        return $this->repoAccountType->store($data);
+        // return $this->repoAccountType->store($data);
+
+        try {
+            // TODO: Tratar os dados da requisição, antes de chamar o repoAccountType->store
+            $accountType = $this->repoAccountType->store([
+                'type' => $data['type'],
+            ]);
+
+            $status = 200;
+
+            return compact('accountType', 'status');
+
+        } catch (\Throwable) {
+            $message = 'Account Type not stored';
+            $status = 400;
+
+            return compact('message', 'status');
+        }
     }
 
     /**
      * Retorna todas as instâncias de AccountType do banco de dados
-     * @return array[\App\Models\AccountType]
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -42,31 +59,91 @@ class AccountTypeService
     /**
      * Retorna uma instância de AccountType a partir do id informado
      * @param mixed $id
-     * @return \App\Models\AccountType
+     * @return array
      */
     public function get($id)
     {
-        return $this->repoAccountType->get($id);
+        // return $this->repoAccountType->get($id);
+
+        try {
+            $accountType = $this->repoAccountType->get($id);
+            $status = 200;
+
+            throw_if($accountType == null);
+
+            return compact('accountType', 'status');
+
+        } catch (\Throwable) {
+            $message = 'Account Type not found';
+            $status = 404;
+
+            return compact('message', 'status');
+        }
     }
 
     /**
      * Atualiza os dados de uma instância de AccountType
      * @param array $data
-     * @param mixed $id
-     * @return \App\Models\AccountType
+     * @param int|string $id
+     * @return array|mixed
      */
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
-        return $this->repoAccountType->update($data, $id);
+        // return $this->repoAccountType->update($data, $id);
+
+        try {
+
+            // TODO: Tratar os dados da requisição, antes de chamar o repoAccountType->store
+            $keys = [];
+            $values = [];
+            foreach ($data as $key => $value) {
+                array_push($keys, $key);
+                array_push($values, $value);
+            }
+
+            $processed_data = array_combine($keys, $values);
+
+            $status = 200;
+
+            $this->repoAccountType->update($processed_data, $id);
+            $accountType = $this->repoAccountType->get($id);
+            $status = 200;
+
+            throw_if($accountType == null);
+
+            return compact('accountType', 'status');
+
+        } catch (\Throwable) {
+            $message = 'Account Type not found';
+            $status = 404;
+
+            return compact('message', 'status');
+        }
     }
 
     /**
      * Remove uma instância de AccountType do banco de dados
-     * @param mixed $id
-     * @return mixed
+     * @param int|string $id
+     * @return array
      */
     public function destroy($id)
     {
-        return $this->repoAccountType->destroy($id);
+        // return $this->repoAccountType->destroy($id);
+
+        $accountType = $this->repoAccountType->get($id);
+
+        if ($accountType == null) {
+            $message = 'Address not found';
+            $status = 404;
+        } else if (count($accountType->accounts) > 0) {
+            $message = 'This Account Type has associated accounts';
+            $status = 405;
+        } else {
+            $this->repoAccountType->destroy($id);
+            $message = 'Account Type destroyed';
+            $status = 204;
+        }
+
+        return compact('message', 'status');
     }
 }

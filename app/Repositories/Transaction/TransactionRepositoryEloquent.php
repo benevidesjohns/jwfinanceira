@@ -29,7 +29,7 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
      */
     public function getList()
     {
-        return $this->transaction->all();
+        return $this->transaction->all()->sort()->values();
     }
 
     /**

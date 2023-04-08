@@ -29,7 +29,7 @@ class AccountRepositoryEloquent implements AccountRepositoryInterface
      */
     public function getList()
     {
-        return $this->account->all();
+        return $this->account->all()->sort()->values();
     }
 
     /**

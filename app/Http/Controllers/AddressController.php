@@ -4,53 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Services\AddressService;
 use Illuminate\Http\Request;
+use App\Helpers\HttpHandler;
 
 class AddressController extends Controller
 {
-    private $serviceAddress;
+    private $serviceAddress, $httpHandler;
 
-    public function __construct(AddressService $serviceAddress)
+    public function __construct(AddressService $serviceAddress, HttpHandler $httpHandler)
     {
         $this->serviceAddress = $serviceAddress;
-    }
-
-    public function sendByResponseType($data, $status, $responseType, $isMessage)
-    {
-        if ($responseType == 'xml') {
-            $view = $isMessage ? 'message' : 'address';
-
-            return response()
-                ->view($view, compact('data', 'status'), $status)
-                ->header('Content-Type', 'text/xml');
-
-        } else if ($responseType == 'json' || $responseType == null) {
-            return response()->json($data, $status);
-
-        } else {
-            return response(status: 400);
-        }
-    }
-
-    public function getContentByRequestType($requestType, $content)
-    {
-        if ($requestType == 'xml') {
-            $sxe = simplexml_load_string($content);
-
-            $keys = [];
-            $values = [];
-            for ($i=0; $i < $sxe->count(); $i++) {
-                array_push($keys, $sxe->children()[$i]->getName());
-                array_push($values, $sxe->children()[$i]->__toString());
-            }
-
-            return array_combine($keys, $values);
-        }
-
-        if ($requestType == 'json' || $requestType == null) {
-            return (array) json_decode($content);
-        }
-
-        return null;
+        $this->httpHandler = $httpHandler;
     }
 
     public function store(Request $req)
@@ -58,10 +21,10 @@ class AddressController extends Controller
         $requestType = $req->getContentTypeFormat();
         $responseType = $req->query('form');
 
-        $content = $this->getContentByRequestType($requestType, $req->getContent());
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
 
         if ($content == null) {
-            return $this->sendByResponseType([
+            return $this->httpHandler->sendByResponseType('address', [
                 'message' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
@@ -71,7 +34,7 @@ class AddressController extends Controller
         $status = array_pop($data);
         $isMessage = $status >= 400;
 
-        return $this->sendByResponseType($data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType('address', $data, $status, $responseType, $isMessage);
     }
 
     public function get(Request $req, $id)
@@ -82,7 +45,7 @@ class AddressController extends Controller
         $responseType = $req->query('form');
         $isMessage = $status >= 400;
 
-        return $this->sendByResponseType($data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType('address', $data, $status, $responseType, $isMessage);
     }
 
     public function getList(Request $req)
@@ -91,7 +54,7 @@ class AddressController extends Controller
         $responseType = $req->query('form');
         $isMessage = False;
 
-        return $this->sendByResponseType($addresses, 200, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType('address', $addresses, 200, $responseType, $isMessage);
     }
 
     public function update(Request $req, $id)
@@ -99,10 +62,10 @@ class AddressController extends Controller
         $requestType = $req->getContentTypeFormat();
         $responseType = $req->query('form');
 
-        $content = $this->getContentByRequestType($requestType, $req->getContent());
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
 
         if ($content == null) {
-            return $this->sendByResponseType([
+            return $this->httpHandler->sendByResponseType('address', [
                 'message' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
@@ -110,10 +73,9 @@ class AddressController extends Controller
         $data = $this->serviceAddress->update($content, $id);
 
         $status = array_pop($data);
-        $responseType = $req->query('form');
         $isMessage = $status >= 400;
 
-        return $this->sendByResponseType($data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType('address', $data, $status, $responseType, $isMessage);
     }
 
     public function destroy(Request $req, $id)
@@ -124,6 +86,6 @@ class AddressController extends Controller
         $responseType = $req->query('form');
         $isMessage = True;
 
-        return $this->sendByResponseType($data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType('address', $data, $status, $responseType, $isMessage);
     }
 }

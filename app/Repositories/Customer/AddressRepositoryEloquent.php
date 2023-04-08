@@ -29,7 +29,7 @@ class AddressRepositoryEloquent implements AddressRepositoryInterface
      */
     public function getList()
     {
-        return $this->address->all();
+        return $this->address->all()->sort()->values();
     }
 
     /**
