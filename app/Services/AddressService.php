@@ -85,6 +85,7 @@ class AddressService
     {
         try {
 
+            // TODO: Tratar os dados da requisição, antes de chamar o repoAddress->store
             $keys = [];
             $values = [];
             foreach ($data as $key => $value) {
@@ -124,14 +125,10 @@ class AddressService
         if ($address == null) {
             $message = 'Address not found';
             $status = 404;
-        }
-
-        else if (count($address->customers) > 0) {
+        } else if (count($address->customers) > 0) {
             $message = 'This address has associated customers';
             $status = 405;
-        }
-
-        else {
+        } else {
             $this->repoAddress->destroy($id);
             $message = 'Address destroyed';
             $status = 204;

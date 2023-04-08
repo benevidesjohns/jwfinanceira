@@ -14,16 +14,16 @@ class AddressController extends Controller
         $this->serviceAddress = $serviceAddress;
     }
 
-    public function sendByFormType($data, $status, $formType, $isMessage)
+    public function sendByResponseType($data, $status, $responseType, $isMessage)
     {
-        if ($formType == 'xml') {
+        if ($responseType == 'xml') {
             $view = $isMessage ? 'message' : 'address';
 
             return response()
                 ->view($view, compact('data', 'status'), $status)
                 ->header('Content-Type', 'text/xml');
 
-        } else if ($formType == 'json' || $formType == null) {
+        } else if ($responseType == 'json' || $responseType == null) {
             return response()->json($data, $status);
 
         } else {
@@ -33,18 +33,31 @@ class AddressController extends Controller
 
     public function store(Request $req)
     {
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
+
+        if ($requestType == 'xml') {
+            $xml = $req->getContent();
+            $content = simplexml_load_string($xml);
+        } else if ($requestType == 'json') {
+            $content = $req;
+        } else {
+            return $this->sendByResponseType([
+                'message' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
+
         $data = $this->serviceAddress->store([
-            'city' => $req->city,
-            'state' => $req->state,
-            'cep' => $req->cep,
-            'address' => $req->address
+            'city' => $content->city,
+            'state' => $content->state,
+            'cep' => $content->cep,
+            'address' => $content->address
         ]);
 
         $status = array_pop($data);
-        $formType = $req->query('form');
         $isMessage = $status >= 400;
 
-        return $this->sendByFormType($data, $status, $formType, $isMessage);
+        return $this->sendByResponseType($data, $status, $responseType, $isMessage);
     }
 
     public function get(Request $req, $id)
@@ -52,19 +65,19 @@ class AddressController extends Controller
         $data = $this->serviceAddress->get($id);
 
         $status = array_pop($data);
-        $formType = $req->query('form');
+        $responseType = $req->query('form');
         $isMessage = $status >= 400;
 
-        return $this->sendByFormType($data, $status, $formType, $isMessage);
+        return $this->sendByResponseType($data, $status, $responseType, $isMessage);
     }
 
     public function getList(Request $req)
     {
         $addresses = $this->serviceAddress->getList();
-        $formType = $req->query('form');
+        $responseType = $req->query('form');
         $isMessage = False;
 
-        return $this->sendByFormType($addresses, 200, $formType, $isMessage);
+        return $this->sendByResponseType($addresses, 200, $responseType, $isMessage);
     }
 
     public function update(Request $req, $id)
@@ -74,10 +87,10 @@ class AddressController extends Controller
         $data = $this->serviceAddress->update($content, $id);
 
         $status = array_pop($data);
-        $formType = $req->query('form');
+        $responseType = $req->query('form');
         $isMessage = $status >= 400;
 
-        return $this->sendByFormType($data, $status, $formType, $isMessage);
+        return $this->sendByResponseType($data, $status, $responseType, $isMessage);
     }
 
     public function destroy(Request $req, $id)
@@ -85,9 +98,9 @@ class AddressController extends Controller
         $data = $this->serviceAddress->destroy($id);
 
         $status = array_pop($data);
-        $formType = $req->query('form');
+        $responseType = $req->query('form');
         $isMessage = True;
 
-        return $this->sendByFormType($data, $status, $formType, $isMessage);
+        return $this->sendByResponseType($data, $status, $responseType, $isMessage);
     }
 }
