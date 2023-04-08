@@ -27,8 +27,6 @@ class AccountTypeService
      */
     public function store($data)
     {
-        // return $this->repoAccountType->store($data);
-
         try {
             // TODO: Tratar os dados da requisição, antes de chamar o repoAccountType->store
             $accountType = $this->repoAccountType->store([
@@ -63,8 +61,6 @@ class AccountTypeService
      */
     public function get($id)
     {
-        // return $this->repoAccountType->get($id);
-
         try {
             $accountType = $this->repoAccountType->get($id);
             $status = 200;
@@ -89,8 +85,6 @@ class AccountTypeService
      */
     public function update($data, $id)
     {
-        // return $this->repoAccountType->update($data, $id);
-
         try {
 
             // TODO: Tratar os dados da requisição, antes de chamar o repoAccountType->store
@@ -128,12 +122,10 @@ class AccountTypeService
      */
     public function destroy($id)
     {
-        // return $this->repoAccountType->destroy($id);
-
         $accountType = $this->repoAccountType->get($id);
 
         if ($accountType == null) {
-            $message = 'Address not found';
+            $message = 'Account Type not found';
             $status = 404;
         } else if (count($accountType->accounts) > 0) {
             $message = 'This Account Type has associated accounts';

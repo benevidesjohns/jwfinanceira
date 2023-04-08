@@ -2,47 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HttpHandler;
 use App\Services\TransactionTypeService;
 use Illuminate\Http\Request;
 
 class TransactionTypeController extends Controller
 {
-    private $serviceTransactionType;
+    private $serviceTransactionType, $httpHandler;
 
-    public function __construct(TransactionTypeService $serviceTransactionType)
+    public function __construct(TransactionTypeService $serviceTransactionType, HttpHandler $httpHandler)
     {
         $this->serviceTransactionType = $serviceTransactionType;
-    }
-
-    public function sendByFormType($data, $status, $formType)
-    {
-        if ($formType == 'xml') {
-            $view = $status >= 400 ? 'error' : 'type';
-            return response()
-                ->view($view, compact('data'), $status)
-                ->header('Content-Type', 'text/xml');
-        } else if ($formType == 'json') {
-            return response()->json($data, $status);
-        } else {
-            return response(status: 400);
-        }
+        $this->httpHandler = $httpHandler;
     }
 
     public function store(Request $req)
     {
-        return $this->serviceTransactionType->store([
-            'type' => $req->type,
-        ]);
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
+
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
+            return $this->httpHandler->sendByResponseType('type', [
+                'message' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
+
+        $data = $this->serviceTransactionType->store($content);
+
+        $status = array_pop($data);
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('type', $data, $status, $responseType, $isMessage);
     }
 
-    public function get($id)
+    public function get(Request $req, $id)
     {
-        return $this->serviceTransactionType->get($id);
+        $data = $this->serviceTransactionType->get($id);
+
+        $status = array_pop($data);
+        $responseType = $req->query('form');
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('type', $data, $status, $responseType, $isMessage);
     }
 
-    public function getList()
+    public function getList(Request $req)
     {
-        return $this->serviceTransactionType->getList();
+        $accountsType = $this->serviceTransactionType->getList();
+        $responseType = $req->query('form');
+        $isMessage = False;
+
+        return $this->httpHandler->sendByResponseType('type', $accountsType, 200, $responseType, $isMessage);
     }
 
     /**
@@ -53,13 +65,33 @@ class TransactionTypeController extends Controller
      */
     public function update(Request $req, $id)
     {
-        return $this->serviceTransactionType->update([
-            'type' => $req->type,
-        ], $id);
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
+
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
+            return $this->httpHandler->sendByResponseType('type', [
+                'message' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
+
+        $data = $this->serviceTransactionType->update($content, $id);
+
+        $status = array_pop($data);
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('type', $data, $status, $responseType, $isMessage);
     }
 
-    public function destroy($id)
+    public function destroy(Request $req, $id)
     {
-        return $this->serviceTransactionType->destroy($id);
+        $data = $this->serviceTransactionType->destroy($id);
+
+        $status = array_pop($data);
+        $responseType = $req->query('form');
+        $isMessage = True;
+
+        return $this->httpHandler->sendByResponseType('type', $data, $status, $responseType, $isMessage);
     }
 }

@@ -14,10 +14,12 @@ class TransactionType extends Model
     ];
 
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at',
+        'updated_at'
     ];
 
-    public function transactions(){
-        return $this->hasMany(Transaction::class);
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'fk_transaction_type');
     }
 }

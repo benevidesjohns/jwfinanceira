@@ -18,10 +18,6 @@ class AccountTypeController extends Controller
 
     public function store(Request $req)
     {
-        // return $this->serviceAccountType->store([
-        //     'type' => $req->type,
-        // ]);
-
         $requestType = $req->getContentTypeFormat();
         $responseType = $req->query('form');
 
@@ -43,8 +39,6 @@ class AccountTypeController extends Controller
 
     public function get(Request $req, $id)
     {
-        // return $this->serviceAccountType->get($id);
-
         $data = $this->serviceAccountType->get($id);
 
         $status = array_pop($data);
@@ -56,8 +50,6 @@ class AccountTypeController extends Controller
 
     public function getList(Request $req)
     {
-        // return $this->serviceAccountType->getList();
-
         $accountsType = $this->serviceAccountType->getList();
         $responseType = $req->query('form');
         $isMessage = False;
@@ -73,10 +65,6 @@ class AccountTypeController extends Controller
      */
     public function update(Request $req, $id)
     {
-        // return $this->serviceAccountType->update([
-        //     'type' => $req->type,
-        // ], $id);
-
         $requestType = $req->getContentTypeFormat();
         $responseType = $req->query('form');
 
@@ -98,8 +86,6 @@ class AccountTypeController extends Controller
 
     public function destroy(Request $req, $id)
     {
-        // return $this->serviceAccountType->destroy($id);
-
         $data = $this->serviceAccountType->destroy($id);
 
         $status = array_pop($data);
