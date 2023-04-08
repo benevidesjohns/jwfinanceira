@@ -35,10 +35,10 @@ class AddressService
             return compact('address', 'status');
 
         } catch (\Throwable) {
-            $message = 'Address not stored';
-            $status = 400;
-
-            return compact('message', 'status');
+            return [
+                'message' => 'Address not stored',
+                'status' => 400
+            ];
         }
     }
 
@@ -68,10 +68,10 @@ class AddressService
             return compact('address', 'status');
 
         } catch (\Throwable) {
-            $message = 'Address not found';
-            $status = 404;
-
-            return compact('message', 'status');
+            return [
+                'message' => 'Address not found',
+                'status' => 404
+            ];
         }
     }
 
@@ -84,8 +84,7 @@ class AddressService
     public function update($data, $id)
     {
         try {
-
-            // TODO: Tratar os dados da requisição, antes de chamar o repoAddress->store
+            // TODO: Tratar os dados da requisição, antes de chamar o repoAddress->update
             $keys = [];
             $values = [];
             foreach ($data as $key => $value) {
@@ -106,10 +105,10 @@ class AddressService
             return compact('address', 'status');
 
         } catch (\Throwable) {
-            $message = 'Address not found';
-            $status = 404;
-
-            return compact('message', 'status');
+            return [
+                'message' => 'Address not found',
+                'status' => 404
+            ];
         }
     }
 

@@ -10,7 +10,10 @@ class AddressController extends Controller
 {
     private $serviceAddress, $httpHandler;
 
-    public function __construct(AddressService $serviceAddress, HttpHandler $httpHandler)
+    public function __construct(
+        AddressService $serviceAddress,
+        HttpHandler $httpHandler
+    )
     {
         $this->serviceAddress = $serviceAddress;
         $this->httpHandler = $httpHandler;

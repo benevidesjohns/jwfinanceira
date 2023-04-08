@@ -2,40 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HttpHandler;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
-    private $serviceAccount;
+    private $serviceAccount, $httpHandler;
 
-    public function __construct(AccountService $serviceAccount)
+    public function __construct(
+        AccountService $serviceAccount,
+        HttpHandler $httpHandler
+    )
     {
         $this->serviceAccount = $serviceAccount;
+        $this->httpHandler = $httpHandler;
     }
 
-    /**
-     * Summary of store
-     * @param Request $req
-     * @return mixed
-     */
     public function store(Request $req)
     {
-        return $this->serviceAccount->store([
-            'balance' => $req->balance,
-            'fk_customer' => $req->fk_customer,
-            'fk_account_type' => $req->fk_account_type
-        ]);
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
+
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
+            return $this->httpHandler->sendByResponseType('account', [
+                'message' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
+
+        $data = $this->serviceAccount->store($content);
+
+        $status = array_pop($data);
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('account', $data, $status, $responseType, $isMessage);
     }
 
-    public function get($id)
+    public function get(Request $req, $id)
     {
-        return $this->serviceAccount->get($id);
+        $data = $this->serviceAccount->get($id);
+
+        $status = array_pop($data);
+        $responseType = $req->query('form');
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('account', $data, $status, $responseType, $isMessage);
     }
 
-    public function getList()
+    public function getList(Request $req)
     {
-        return $this->serviceAccount->getList();
+        $accounts = $this->serviceAccount->getList();
+        $responseType = $req->query('form');
+        $isMessage = False;
+
+        return $this->httpHandler->sendByResponseType('account', $accounts, 200, $responseType, $isMessage);
     }
 
     /**
@@ -46,15 +68,33 @@ class AccountController extends Controller
      */
     public function update(Request $req, $id)
     {
-        return $this->serviceAccount->update([
-            'balance' => $req->balance,
-            'fk_customer' => $req->fk_customer,
-            'fk_account_type' => $req->fk_account_type
-        ], $id);
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
+
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
+            return $this->httpHandler->sendByResponseType('account', [
+                'message' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
+
+        $data = $this->serviceAccount->update($content, $id);
+
+        $status = array_pop($data);
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('account', $data, $status, $responseType, $isMessage);
     }
 
-    public function destroy($id)
+    public function destroy(Request $req, $id)
     {
-        return $this->serviceAccount->destroy($id);
+        $data = $this->serviceAccount->destroy($id);
+
+        $status = array_pop($data);
+        $responseType = $req->query('form');
+        $isMessage = True;
+
+        return $this->httpHandler->sendByResponseType('account', $data, $status, $responseType, $isMessage);
     }
 }
