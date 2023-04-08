@@ -32,7 +32,7 @@ class AddressService
 
     /**
      * Retorna todas as instâncias de Address do banco de dados
-     * @return array[\App\Models\Address]
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -42,11 +42,24 @@ class AddressService
     /**
      * Retorna uma instância de Address a partir do id informado
      * @param mixed $id
-     * @return \App\Models\Address
+     * @return array
      */
     public function get($id)
     {
-        return $this->repoAddress->get($id);
+        try {
+            $address = $this->repoAddress->get($id);
+            $status = 200;
+
+            throw_if($address == null);
+
+            return compact('address', 'status');
+
+        } catch (\Throwable) {
+            $message = 'Address not found';
+            $status = 404;
+
+            return compact('message', 'status');
+        }
     }
 
     /**

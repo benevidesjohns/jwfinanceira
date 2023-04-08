@@ -10,11 +10,15 @@ class Address extends Model
     use HasFactory;
 
     protected $fillable = [
-        'city', 'state', 'cep', 'address'
+        'city',
+        'state',
+        'cep',
+        'address'
     ];
 
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at',
+        'updated_at'
     ];
 
     public function customers()
