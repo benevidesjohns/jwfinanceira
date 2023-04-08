@@ -31,28 +31,42 @@ class AddressController extends Controller
         }
     }
 
+    public function getContentByRequestType($requestType, $content)
+    {
+        if ($requestType == 'xml') {
+            $sxe = simplexml_load_string($content);
+
+            $keys = [];
+            $values = [];
+            for ($i=0; $i < $sxe->count(); $i++) {
+                array_push($keys, $sxe->children()[$i]->getName());
+                array_push($values, $sxe->children()[$i]->__toString());
+            }
+
+            return array_combine($keys, $values);
+        }
+
+        if ($requestType == 'json' || $requestType == null) {
+            return (array) json_decode($content);
+        }
+
+        return null;
+    }
+
     public function store(Request $req)
     {
         $requestType = $req->getContentTypeFormat();
         $responseType = $req->query('form');
 
-        if ($requestType == 'xml') {
-            $xml = $req->getContent();
-            $content = simplexml_load_string($xml);
-        } else if ($requestType == 'json') {
-            $content = $req;
-        } else {
+        $content = $this->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
             return $this->sendByResponseType([
                 'message' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
 
-        $data = $this->serviceAddress->store([
-            'city' => $content->city,
-            'state' => $content->state,
-            'cep' => $content->cep,
-            'address' => $content->address
-        ]);
+        $data = $this->serviceAddress->store($content);
 
         $status = array_pop($data);
         $isMessage = $status >= 400;
@@ -82,7 +96,16 @@ class AddressController extends Controller
 
     public function update(Request $req, $id)
     {
-        $content = json_decode($req->getContent());
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
+
+        $content = $this->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
+            return $this->sendByResponseType([
+                'message' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
 
         $data = $this->serviceAddress->update($content, $id);
 
