@@ -33,15 +33,16 @@ class TransactionTypeService
                 'type' => $data['type'],
             ]);
 
-            $status = 200;
-
-            return compact('transactionType', 'status');
+            return [
+                'transactionType' => $transactionType,
+                'status' => 201
+            ];
 
         } catch (\Throwable) {
-            $message = 'Transaction Type not stored';
-            $status = 400;
-
-            return compact('message', 'status');
+            return [
+                'info' => ['Transaction Type already exists'],
+                'status' => 400,
+            ];
         }
     }
 
@@ -63,17 +64,19 @@ class TransactionTypeService
     {
         try {
             $transactionType = $this->repoTransactionType->get($id);
-            $status = 200;
 
             throw_if($transactionType == null);
 
-            return compact('transactionType', 'status');
+            return [
+                'transactionType' => $transactionType,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
-            $message = 'Transaction Type not found';
-            $status = 404;
-
-            return compact('message', 'status');
+            return [
+                'info' => ['Transaction Type not found'],
+                'status' => 404,
+            ];
         }
     }
 
@@ -96,21 +99,29 @@ class TransactionTypeService
 
             $processed_data = array_combine($keys, $values);
 
-            $status = 200;
-
             $this->repoTransactionType->update($processed_data, $id);
             $transactionType = $this->repoTransactionType->get($id);
-            $status = 200;
 
             throw_if($transactionType == null);
 
-            return compact('transactionType', 'status');
+            return [
+                'transactionType' => $transactionType,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
-            $message = 'Transaction Type not found';
-            $status = 404;
+            if ($transactionType == null) {
+                array_push($errors, 'Transaction Type not found');
+                $status = 404;
+            } else {
+                array_push($errors, 'Transaction Type already exists');
+                $status = 405;
+            }
 
-            return compact('message', 'status');
+            return [
+                'info' => $errors,
+                'status' => $status,
+            ];
         }
     }
     /**
@@ -123,17 +134,17 @@ class TransactionTypeService
         $transactionType = $this->repoTransactionType->get($id);
 
         if ($transactionType == null) {
-            $message = 'Address not found';
+            $info = ['Transaction Type not found'];
             $status = 404;
         } else if (count($transactionType->transactions) > 0) {
-            $message = 'This Transaction Type has associated transactions';
+            $info = ['This Transaction Type has associated transactions'];
             $status = 405;
         } else {
             $this->repoTransactionType->destroy($id);
-            $message = 'Transaction Type destroyed';
+            $info = ['Transaction Type destroyed'];
             $status = 204;
         }
 
-        return compact('message', 'status');
+        return compact('info', 'status');
     }
 }

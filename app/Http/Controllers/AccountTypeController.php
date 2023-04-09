@@ -8,11 +8,14 @@ use Illuminate\Http\Request;
 
 class AccountTypeController extends Controller
 {
-    private $serviceAccountType, $httpHandler;
+    private $service, $httpHandler;
 
-    public function __construct(AccountTypeService $serviceAccountType, HttpHandler $httpHandler)
+    public function __construct(
+        AccountTypeService $service,
+        HttpHandler $httpHandler
+    )
     {
-        $this->serviceAccountType = $serviceAccountType;
+        $this->service = $service;
         $this->httpHandler = $httpHandler;
     }
 
@@ -25,11 +28,11 @@ class AccountTypeController extends Controller
 
         if ($content == null) {
             return $this->httpHandler->sendByResponseType('type', [
-                'message' => 'This request type format isn\'t available'
+                'info' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
 
-        $data = $this->serviceAccountType->store($content);
+        $data = $this->service->store($content);
 
         $status = array_pop($data);
         $isMessage = $status >= 400;
@@ -39,7 +42,7 @@ class AccountTypeController extends Controller
 
     public function get(Request $req, $id)
     {
-        $data = $this->serviceAccountType->get($id);
+        $data = $this->service->get($id);
 
         $status = array_pop($data);
         $responseType = $req->query('form');
@@ -50,7 +53,7 @@ class AccountTypeController extends Controller
 
     public function getList(Request $req)
     {
-        $accountsType = $this->serviceAccountType->getList();
+        $accountsType = $this->service->getList();
         $responseType = $req->query('form');
         $isMessage = False;
 
@@ -72,11 +75,11 @@ class AccountTypeController extends Controller
 
         if ($content == null) {
             return $this->httpHandler->sendByResponseType('type', [
-                'message' => 'This request type format isn\'t available'
+                'info' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
 
-        $data = $this->serviceAccountType->update($content, $id);
+        $data = $this->service->update($content, $id);
 
         $status = array_pop($data);
         $isMessage = $status >= 400;
@@ -86,7 +89,7 @@ class AccountTypeController extends Controller
 
     public function destroy(Request $req, $id)
     {
-        $data = $this->serviceAccountType->destroy($id);
+        $data = $this->service->destroy($id);
 
         $status = array_pop($data);
         $responseType = $req->query('form');

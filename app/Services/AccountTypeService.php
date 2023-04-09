@@ -33,15 +33,16 @@ class AccountTypeService
                 'type' => $data['type'],
             ]);
 
-            $status = 200;
-
-            return compact('accountType', 'status');
+            return [
+                'accountType' => $accountType,
+                'status' => 201
+            ];
 
         } catch (\Throwable) {
-            $message = 'Account Type not stored';
-            $status = 400;
-
-            return compact('message', 'status');
+            return [
+                'info' => ['Account Type already exists'],
+                'status' => 400,
+            ];
         }
     }
 
@@ -63,17 +64,19 @@ class AccountTypeService
     {
         try {
             $accountType = $this->repoAccountType->get($id);
-            $status = 200;
 
             throw_if($accountType == null);
 
-            return compact('accountType', 'status');
+            return [
+                'accountType' => $accountType,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
-            $message = 'Account Type not found';
-            $status = 404;
-
-            return compact('message', 'status');
+            return [
+                'info' => ['Account Type not found'],
+                'status' => 404,
+            ];
         }
     }
 
@@ -85,8 +88,9 @@ class AccountTypeService
      */
     public function update($data, $id)
     {
-        try {
+        $errors = [];
 
+        try {
             // TODO: Tratar os dados da requisição, antes de chamar o repoAccountType->store
             $keys = [];
             $values = [];
@@ -97,21 +101,29 @@ class AccountTypeService
 
             $processed_data = array_combine($keys, $values);
 
-            $status = 200;
-
             $this->repoAccountType->update($processed_data, $id);
             $accountType = $this->repoAccountType->get($id);
-            $status = 200;
 
             throw_if($accountType == null);
 
-            return compact('accountType', 'status');
+            return [
+                'accountType' => $accountType,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
-            $message = 'Account Type not found';
-            $status = 404;
+            if ($accountType == null) {
+                array_push($errors, 'Account Type not found');
+                $status = 404;
+            } else {
+                array_push($errors, 'Account Type already exists');
+                $status = 405;
+            }
 
-            return compact('message', 'status');
+            return [
+                'info' => $errors,
+                'status' => $status,
+            ];
         }
     }
 
@@ -125,17 +137,17 @@ class AccountTypeService
         $accountType = $this->repoAccountType->get($id);
 
         if ($accountType == null) {
-            $message = 'Account Type not found';
+            $info = ['Account Type not found'];
             $status = 404;
         } else if (count($accountType->accounts) > 0) {
-            $message = 'This Account Type has associated accounts';
+            $info = ['This Account Type has associated accounts'];
             $status = 405;
         } else {
             $this->repoAccountType->destroy($id);
-            $message = 'Account Type destroyed';
+            $info = ['Account Type destroyed'];
             $status = 204;
         }
 
-        return compact('message', 'status');
+        return compact('info', 'status');
     }
 }

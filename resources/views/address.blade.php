@@ -7,7 +7,6 @@
             <state>{{ $address->state }}</state>
             <cep>{{ $address->cep }}</cep>
             <address>{{ $address->address }}</address>
-            <createdat>{{ $address->created_at->tz('UTC')->toAtomString() }}</createdat>
         </address>
     @endforeach
 </urlset>

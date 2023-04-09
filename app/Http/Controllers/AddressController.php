@@ -8,14 +8,14 @@ use App\Helpers\HttpHandler;
 
 class AddressController extends Controller
 {
-    private $serviceAddress, $httpHandler;
+    private $service, $httpHandler;
 
     public function __construct(
-        AddressService $serviceAddress,
+        AddressService $service,
         HttpHandler $httpHandler
     )
     {
-        $this->serviceAddress = $serviceAddress;
+        $this->service = $service;
         $this->httpHandler = $httpHandler;
     }
 
@@ -28,11 +28,11 @@ class AddressController extends Controller
 
         if ($content == null) {
             return $this->httpHandler->sendByResponseType('address', [
-                'message' => 'This request type format isn\'t available'
+                'info' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
 
-        $data = $this->serviceAddress->store($content);
+        $data = $this->service->store($content);
 
         $status = array_pop($data);
         $isMessage = $status >= 400;
@@ -42,7 +42,7 @@ class AddressController extends Controller
 
     public function get(Request $req, $id)
     {
-        $data = $this->serviceAddress->get($id);
+        $data = $this->service->get($id);
 
         $status = array_pop($data);
         $responseType = $req->query('form');
@@ -53,7 +53,7 @@ class AddressController extends Controller
 
     public function getList(Request $req)
     {
-        $addresses = $this->serviceAddress->getList();
+        $addresses = $this->service->getList();
         $responseType = $req->query('form');
         $isMessage = False;
 
@@ -69,11 +69,11 @@ class AddressController extends Controller
 
         if ($content == null) {
             return $this->httpHandler->sendByResponseType('address', [
-                'message' => 'This request type format isn\'t available'
+                'info' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
 
-        $data = $this->serviceAddress->update($content, $id);
+        $data = $this->service->update($content, $id);
 
         $status = array_pop($data);
         $isMessage = $status >= 400;
@@ -83,7 +83,7 @@ class AddressController extends Controller
 
     public function destroy(Request $req, $id)
     {
-        $data = $this->serviceAddress->destroy($id);
+        $data = $this->service->destroy($id);
 
         $status = array_pop($data);
         $responseType = $req->query('form');

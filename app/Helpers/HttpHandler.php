@@ -10,7 +10,7 @@ class HttpHandler
             $view = $isMessage ? 'message' : $viewName;
 
             if ($isMessage && $status >= 400) {
-                $data = $data['message'];
+                $data = $data['info'];
             }
 
             return response()

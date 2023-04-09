@@ -55,7 +55,7 @@ class AccountService
                 array_push($errors, 'Account type not found');
 
             return [
-                'message' => $errors,
+                'info' => $errors,
                 'status' => 404
             ];
         }
@@ -81,15 +81,17 @@ class AccountService
             $account = $this->repoAccount->get($id);
             $account->accountType;
             $account->customer;
-            $status = 200;
 
             throw_if($account == null);
 
-            return compact('account', 'status');
+            return [
+                'account' => $account,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
             return [
-                'message' => 'Account not found',
+                'info' => ['Account not found'],
                 'status' => 404
             ];
         }
@@ -114,19 +116,19 @@ class AccountService
 
             $processed_data = array_combine($keys, $values);
 
-            $status = 200;
-
             $this->repoAccount->update($processed_data, $id);
             $account = $this->repoAccount->get($id);
-            $status = 200;
 
             throw_if($account == null);
 
-            return compact('account', 'status');
+            return [
+                'account' => $account,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
             return [
-                'message' => 'Account not found',
+                'info' => ['Account not found'],
                 'status' => 404
             ];
         }
@@ -142,17 +144,17 @@ class AccountService
         $account = $this->repoAccount->get($id);
 
         if ($account == null) {
-            $message = 'Account not found';
+            $info = ['Account not found'];
             $status = 404;
         } else if (count($account->transactions) > 0) {
-            $message = 'This account has associated transactions';
+            $info = ['This account has associated transactions'];
             $status = 405;
         } else {
             $this->repoAccount->destroy($id);
-            $message = 'Account destroyed';
+            $info = ['Account destroyed'];
             $status = 204;
         }
 
-        return compact('message', 'status');
+        return compact('info', 'status');
     }
 }

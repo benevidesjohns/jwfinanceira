@@ -2,40 +2,93 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HttpHandler;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    private $transactionService;
+    private $service, $httpHandler;
 
-    public function __construct(TransactionService $transactionService)
+    public function __construct(
+        TransactionService $service,
+        HttpHandler $httpHandler
+    )
     {
-        $this->transactionService = $transactionService;
+        $this->service = $service;
+        $this->httpHandler = $httpHandler;
     }
 
     public function store(Request $req)
     {
-        return $this->transactionService->store($req->all());
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
+
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
+            return $this->httpHandler->sendByResponseType('transaction', [
+                'info' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
+
+        $data = $this->service->store($content);
+
+        $status = array_pop($data);
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('transaction', $data, $status, $responseType, $isMessage);
     }
 
-    public function get($id)
+    public function get(Request $req, $id)
     {
-        return $this->transactionService->get($id);
+        $data = $this->service->get($id);
+
+        $status = array_pop($data);
+        $responseType = $req->query('form');
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('transaction', $data, $status, $responseType, $isMessage);
     }
 
-    public function getList()
+    public function getList(Request $req)
     {
-        return $this->transactionService->getList();
+        $transactions = $this->service->getList();
+        $responseType = $req->query('form');
+        $isMessage = False;
+
+        return $this->httpHandler->sendByResponseType('transaction', $transactions, 200, $responseType, $isMessage);
     }
 
     public function update(Request $req, $id)
     {
-        return $this->transactionService->update($req->all(), $id);
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
+
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
+            return $this->httpHandler->sendByResponseType('transaction', [
+                'info' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
+
+        $data = $this->service->update($content, $id);
+
+        $status = array_pop($data);
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('transaction', $data, $status, $responseType, $isMessage);
     }
 
-    public function destroy($id)
+    public function destroy(Request $req, $id)
     {
-        return $this->transactionService->destroy($id);
+        $data = $this->service->destroy($id);
+
+        $status = array_pop($data);
+        $responseType = $req->query('form');
+        $isMessage = True;
+
+        return $this->httpHandler->sendByResponseType('transaction', $data, $status, $responseType, $isMessage);
     }
 }

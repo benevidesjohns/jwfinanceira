@@ -30,14 +30,16 @@ class AddressService
         try {
             // TODO: Tratar os dados da requisição, antes de chamar o repoAddress->store
             $address = $this->repoAddress->store($data);
-            $status = 200;
 
-            return compact('address', 'status');
+            return [
+                'address' => $address,
+                'status' => 201
+            ];
 
         } catch (\Throwable) {
             return [
-                'message' => 'Address not stored',
-                'status' => 400
+                'info' => ['Address not stored'],
+                'status' => 500
             ];
         }
     }
@@ -61,15 +63,17 @@ class AddressService
         try {
             $address = $this->repoAddress->get($id);
             $address->customers;
-            $status = 200;
 
             throw_if($address == null);
 
-            return compact('address', 'status');
+            return [
+                'address' => $address,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
             return [
-                'message' => 'Address not found',
+                'info' => ['Address not found'],
                 'status' => 404
             ];
         }
@@ -94,19 +98,19 @@ class AddressService
 
             $processed_data = array_combine($keys, $values);
 
-            $status = 200;
-
             $this->repoAddress->update($processed_data, $id);
             $address = $this->repoAddress->get($id);
-            $status = 200;
 
             throw_if($address == null);
 
-            return compact('address', 'status');
+            return [
+                'address' => $address,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
             return [
-                'message' => 'Address not found',
+                'info' => ['Address not found'],
                 'status' => 404
             ];
         }
@@ -122,17 +126,17 @@ class AddressService
         $address = $this->repoAddress->get($id);
 
         if ($address == null) {
-            $message = 'Address not found';
+            $info = ['Address not found'];
             $status = 404;
         } else if (count($address->customers) > 0) {
-            $message = 'This address has associated customers';
+            $info = ['This address has associated customers'];
             $status = 405;
         } else {
             $this->repoAddress->destroy($id);
-            $message = 'Address destroyed';
+            $info = ['Address destroyed'];
             $status = 204;
         }
 
-        return compact('message', 'status');
+        return compact('info', 'status');
     }
 }

@@ -33,15 +33,17 @@ class CustomerService
             // Busca o endereço passado no banco de dados
             $currentAddress = $this->repoCustomer->get($data['fk_address']);
 
-            // Dispara uma exceção caso o endereço passado for nulo
+            // Dispara uma exceção caso o endereço passado seja nulo
             throw_if($currentAddress == null);
 
             // TODO: Tratar os dados da requisição, antes de chamar o repoCustomer->store
             $customer = $this->repoCustomer->store($data);
             $customer->address;
-            $status = 200;
 
-            return compact('customer', 'status');
+            return [
+                'customer' => $customer,
+                'status' => 201
+            ];
 
         } catch (\Throwable) {
             if ($currentAddress == null) {
@@ -51,7 +53,7 @@ class CustomerService
             }
 
             return [
-                'message' => $errors,
+                'info' => $errors,
                 'status' => 404
             ];
         }
@@ -77,17 +79,19 @@ class CustomerService
         try {
             $customer = $this->repoCustomer->get($id);
             $customer->address;
-            $status = 200;
 
             throw_if($customer == null);
 
-            return compact('customer', 'status');
+            return [
+                'customer' => $customer,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
-            $message = 'Customer not found';
-            $status = 404;
-
-            return compact('message', 'status');
+            return [
+                'info' => ['Customer not found'],
+                'status' => 404
+            ];
         }
     }
 
@@ -100,7 +104,6 @@ class CustomerService
     public function update($data, $id)
     {
         try {
-
             // TODO: Tratar os dados da requisição, antes de chamar o repoCustomer->store
             $keys = [];
             $values = [];
@@ -111,21 +114,21 @@ class CustomerService
 
             $processed_data = array_combine($keys, $values);
 
-            $status = 200;
-
             $this->repoCustomer->update($processed_data, $id);
             $customer = $this->repoCustomer->get($id);
-            $status = 200;
 
             throw_if($customer == null);
 
-            return compact('customer', 'status');
+            return [
+                'customer' => $customer,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
-            $message = 'Customer not found';
-            $status = 404;
-
-            return compact('message', 'status');
+            return [
+                'info' => ['Customer not found'],
+                'status' => 404
+            ];
         }
     }
 
@@ -139,17 +142,17 @@ class CustomerService
         $customer = $this->repoCustomer->get($id);
 
         if ($customer == null) {
-            $message = 'Customer not found';
+            $info = ['Customer not found'];
             $status = 404;
         } else if (count($customer->accounts) > 0) {
-            $message = 'This customer has associated account';
+            $info = ['This customer has associated account'];
             $status = 405;
         } else {
             $this->repoCustomer->destroy($id);
-            $message = 'Customer destroyed';
+            $info = ['Customer destroyed'];
             $status = 204;
         }
 
-        return compact('message', 'status');
+        return compact('info', 'status');
     }
 }

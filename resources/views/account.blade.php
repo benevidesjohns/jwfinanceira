@@ -5,8 +5,7 @@
             <id>{{ $account->id }}</id>
             <balance>{{ $account->balance }}</balance>
             <type>{{ $account->fk_account_type }}</type>
-            <customer>{{ $account->fk_customer }}</customer>
-            <createdat>{{ $account->created_at->tz('UTC')->toAtomString() }}</createdat>
+            <fk_customer>{{ $account->fk_customer }}</fk_customer>
         </account>
     @endforeach
 </urlset>

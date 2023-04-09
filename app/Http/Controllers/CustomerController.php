@@ -8,11 +8,14 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    private $serviceCustomer, $httpHandler;
+    private $service, $httpHandler;
 
-    public function __construct(CustomerService $serviceCustomer, HttpHandler $httpHandler)
+    public function __construct(
+        CustomerService $service,
+        HttpHandler $httpHandler
+    )
     {
-        $this->serviceCustomer = $serviceCustomer;
+        $this->service = $service;
         $this->httpHandler = $httpHandler;
     }
 
@@ -30,11 +33,11 @@ class CustomerController extends Controller
 
         if ($content == null) {
             return $this->httpHandler->sendByResponseType('customer', [
-                'message' => 'This request type format isn\'t available'
+                'info' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
 
-        $data = $this->serviceCustomer->store($content);
+        $data = $this->service->store($content);
 
         $status = array_pop($data);
         $isMessage = $status >= 400;
@@ -44,7 +47,7 @@ class CustomerController extends Controller
 
     public function get(Request $req, $id)
     {
-        $data = $this->serviceCustomer->get($id);
+        $data = $this->service->get($id);
 
         $status = array_pop($data);
         $responseType = $req->query('form');
@@ -55,7 +58,7 @@ class CustomerController extends Controller
 
     public function getList(Request $req)
     {
-        $addresses = $this->serviceCustomer->getList();
+        $addresses = $this->service->getList();
         $responseType = $req->query('form');
         $isMessage = False;
 
@@ -77,11 +80,11 @@ class CustomerController extends Controller
 
         if ($content == null) {
             return $this->httpHandler->sendByResponseType('customer', [
-                'message' => 'This request type format isn\'t available'
+                'info' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
 
-        $data = $this->serviceCustomer->update($content, $id);
+        $data = $this->service->update($content, $id);
 
         $status = array_pop($data);
         $isMessage = $status >= 400;
@@ -90,7 +93,7 @@ class CustomerController extends Controller
     }
     public function destroy(Request $req, $id)
     {
-        $data = $this->serviceCustomer->destroy($id);
+        $data = $this->service->destroy($id);
 
         $status = array_pop($data);
         $responseType = $req->query('form');

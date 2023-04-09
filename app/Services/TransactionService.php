@@ -30,7 +30,7 @@ class TransactionService
     /**
      * Envia para o TransactionRepository os dados para criar uma nova instância de Transaction
      * @param array $data
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return array
      */
     public function store(array $data)
     {
@@ -42,14 +42,17 @@ class TransactionService
             $currentTransactionType = $this->repoTransactionType->get($data['fk_transaction_type']);
 
             // Dispara uma exceção caso a conta ou o tipo de transação passados forem nulos
-            throw_if($currentAccount == null or $currentTransactionType == null);
+            throw_if($currentAccount == null || $currentTransactionType == null);
 
             // Armazena a transação no banco de dados e associa a conta e o tipo a mesma
             $transaction = $this->repoTransaction->store($data);
             $transaction->account;
             $transaction->transactionType;
 
-            return response($transaction, 201);
+            return [
+                'transaction' => $transaction,
+                'status' => 201
+            ];
 
         } catch (\Throwable) {
             if ($currentAccount == null)
@@ -57,12 +60,10 @@ class TransactionService
             if ($currentTransactionType == null)
                 array_push($errors, 'Transaction type not found');
 
-            return response(
-                json_encode([
-                    'msg' => $errors,
-                ]),
-                404
-            );
+            return [
+                'info' => $errors,
+                'status' => 404
+            ];
         }
     }
 
@@ -78,7 +79,7 @@ class TransactionService
     /**
      * Retorna uma instância de Transaction a partir do id informado
      * @param mixed $id
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return array
      */
     public function get($id)
     {
@@ -87,16 +88,18 @@ class TransactionService
             $transaction->account;
             $transaction->transactionType;
 
-            return response($transaction, 200);
+            throw_if($transaction == null);
+
+            return [
+                'transaction' => $transaction,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
-
-            return response(
-                json_encode([
-                    'msg' => 'Transaction not found',
-                ]),
-                404
-            );
+            return [
+                'info' => ['Transaction not found'],
+                'status' => 404
+            ];
         }
     }
 
@@ -104,7 +107,7 @@ class TransactionService
      * Atualiza os dados de uma instância de Transaction
      * @param array $data
      * @param mixed $id
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return array
      */
     public function update(array $data, $id)
     {
@@ -114,39 +117,37 @@ class TransactionService
 
             $transaction = $this->repoTransaction->get($id);
 
-            return response($transaction, 201);
+            return [
+                'transaction' => $transaction,
+                'status' => 200
+            ];
 
         } catch (\Throwable) {
-
-            return response(
-                json_encode([
-                    'msg' => 'Transaction not found',
-                ]),
-                404
-            );
+            return [
+                'info' => ['Transaction not found'],
+                'status' => 404
+            ];
         }
     }
 
     /**
      * Remove uma instância de Transaction do banco de dados
-     * @param mixed $id
-     * @return mixed
+     * @param int|string $id
+     * @return array
      */
     public function destroy($id)
     {
-        try {
+        $transaction = $this->repoTransaction->get($id);
+
+        if ($transaction == null) {
+            $info = ['Transaction not found'];
+            $status = 404;
+        } else {
             $this->repoTransaction->destroy($id);
-
-            return response(status: 204);
-
-        } catch (\Throwable) {
-
-            return response(
-                json_encode([
-                    'msg' => 'Transaction not found',
-                ]),
-                404
-            );
+            $info = ['Transaction destroyed'];
+            $status = 204;
         }
+
+        return compact('info', 'status');
     }
 }
