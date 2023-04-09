@@ -124,14 +124,13 @@ class TransactionTypeController extends Controller
 
         $status = array_pop($data);
         $responseType = $req->query('form');
-        $isMessage = True;
 
         return $this->httpHandler->sendByResponseType(
             'transaction_type',
             $data,
             $status,
             $responseType,
-            $isMessage
+            True
         );
     }
 }

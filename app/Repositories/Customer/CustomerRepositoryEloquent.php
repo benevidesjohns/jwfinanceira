@@ -29,7 +29,10 @@ class CustomerRepositoryEloquent implements CustomerRepositoryInterface
      */
     public function getList()
     {
-        return $this->customer->all()->sort()->values();
+        return $this->customer->all()->map(function ($customer){
+            $customer->address;
+            return $customer;
+        })->sort()->values();
     }
 
     /**

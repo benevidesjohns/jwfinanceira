@@ -9,7 +9,7 @@ class HttpHandler
         if ($responseType == 'xml') {
             $view = $isMessage ? 'message' : $viewName;
 
-            if ($isMessage && $status >= 400) {
+            if ($isMessage) {
                 $data = $data['info'];
             }
 
