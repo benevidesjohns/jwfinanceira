@@ -39,12 +39,12 @@ class AccountService
             $currentCustomer = $this->repoCustomer->get($data['fk_customer']);
             $currentAccountType = $this->repoAccountType->get($data['fk_account_type']);
 
+            $account = $this->repoAccount->store($data);
+            $account->customer;
+            $account->accountType;
+
             return [
-                'data' => [
-                    'account' => $this->repoAccount->store($data),
-                    'customer' => $currentCustomer,
-                    'account_type' => $currentAccountType,
-                ],
+                'account' => $account,
                 'status' => 201
             ];
 

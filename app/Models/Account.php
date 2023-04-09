@@ -10,16 +10,19 @@ class Account extends Model
     use HasFactory;
 
     protected $fillable = [
-        'balance', 'fk_customer', 'fk_account_type'
+        'balance',
+        'fk_customer',
+        'fk_account_type'
     ];
 
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at',
+        'updated_at'
     ];
 
     public function accountType()
     {
-        return $this->belongsTo(Accountype::class, 'fk_account_type');
+        return $this->belongsTo(AccountType::class, 'fk_account_type');
     }
 
     public function customer()

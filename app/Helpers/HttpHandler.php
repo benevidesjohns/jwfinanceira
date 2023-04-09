@@ -9,6 +9,10 @@ class HttpHandler
         if ($responseType == 'xml') {
             $view = $isMessage ? 'message' : $viewName;
 
+            if ($isMessage && $status >= 400) {
+                $data = $data['message'];
+            }
+
             return response()
                 ->view($view, compact('data', 'status'), $status)
                 ->header('Content-Type', 'text/xml');

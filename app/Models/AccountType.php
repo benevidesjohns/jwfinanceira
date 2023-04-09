@@ -14,10 +14,12 @@ class AccountType extends Model
     ];
 
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at',
+        'updated_at'
     ];
 
-    public function accounts(){
+    public function accounts()
+    {
         return $this->hasMany(Account::class, 'fk_account_type');
     }
 

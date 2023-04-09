@@ -23,16 +23,44 @@ class CustomerService
     /**
      * Envia para o CustomerRepository os dados para criar uma nova instância de Customer
      * @param array $data
-     * @return \App\Models\Customer
+     * @return array|mixed
      */
-    public function store(array $data)
+    public function store($data)
     {
-        return $this->repoCustomer->store($data);
+        $errors = [];
+
+        try {
+            // Busca o endereço passado no banco de dados
+            $currentAddress = $this->repoCustomer->get($data['fk_address']);
+
+            // Dispara uma exceção caso o endereço passado for nulo
+            throw_if($currentAddress == null);
+
+            // TODO: Tratar os dados da requisição, antes de chamar o repoCustomer->store
+            $customer = $this->repoCustomer->store($data);
+            $customer->address;
+            $status = 200;
+
+            return compact('customer', 'status');
+
+        } catch (\Throwable) {
+            if ($currentAddress == null) {
+                array_push($errors, 'Address not found');
+            } else {
+                array_push($errors, 'CPF already exists');
+            }
+
+            return [
+                'message' => $errors,
+                'status' => 404
+            ];
+        }
     }
+
 
     /**
      * Retorna todas as instâncias de Customer do banco de dados
-     * @return array[\App\Models\Customer]
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
@@ -41,23 +69,64 @@ class CustomerService
 
     /**
      * Retorna uma instância de Customer a partir do id informado
-     * @param mixed $id
-     * @return \App\Models\Customer
+     * @param int|string $id
+     * @return array
      */
     public function get($id)
     {
-        return $this->repoCustomer->get($id);
+        try {
+            $customer = $this->repoCustomer->get($id);
+            $customer->address;
+            $status = 200;
+
+            throw_if($customer == null);
+
+            return compact('customer', 'status');
+
+        } catch (\Throwable) {
+            $message = 'Customer not found';
+            $status = 404;
+
+            return compact('message', 'status');
+        }
     }
 
     /**
      * Atualiza os dados de uma instância de Customer
      * @param array $data
-     * @param mixed $id
-     * @return \App\Models\Customer
+     * @param int|string $id
+     * @return array|mixed
      */
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
-        return $this->repoCustomer->update($data, $id);
+        try {
+
+            // TODO: Tratar os dados da requisição, antes de chamar o repoCustomer->store
+            $keys = [];
+            $values = [];
+            foreach ($data as $key => $value) {
+                array_push($keys, $key);
+                array_push($values, $value);
+            }
+
+            $processed_data = array_combine($keys, $values);
+
+            $status = 200;
+
+            $this->repoCustomer->update($processed_data, $id);
+            $customer = $this->repoCustomer->get($id);
+            $status = 200;
+
+            throw_if($customer == null);
+
+            return compact('customer', 'status');
+
+        } catch (\Throwable) {
+            $message = 'Customer not found';
+            $status = 404;
+
+            return compact('message', 'status');
+        }
     }
 
     /**
@@ -67,6 +136,20 @@ class CustomerService
      */
     public function destroy($id)
     {
-        return $this->repoCustomer->destroy($id);
+        $customer = $this->repoCustomer->get($id);
+
+        if ($customer == null) {
+            $message = 'Customer not found';
+            $status = 404;
+        } else if (count($customer->accounts) > 0) {
+            $message = 'This customer has associated account';
+            $status = 405;
+        } else {
+            $this->repoCustomer->destroy($id);
+            $message = 'Customer destroyed';
+            $status = 204;
+        }
+
+        return compact('message', 'status');
     }
 }

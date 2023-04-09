@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HttpHandler;
 use App\Services\CustomerService;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    private $serviceCustomer;
+    private $serviceCustomer, $httpHandler;
 
-    public function __construct(CustomerService $serviceCustomer)
+    public function __construct(CustomerService $serviceCustomer, HttpHandler $httpHandler)
     {
         $this->serviceCustomer = $serviceCustomer;
+        $this->httpHandler = $httpHandler;
     }
 
     /**
@@ -21,20 +23,43 @@ class CustomerController extends Controller
      */
     public function store(Request $req)
     {
-        return $this->serviceCustomer->store([
-            'phone_number' => $req->phone_number,
-            'fk_address' => $req->fk_address,
-        ]);
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
+
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
+            return $this->httpHandler->sendByResponseType('customer', [
+                'message' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
+
+        $data = $this->serviceCustomer->store($content);
+
+        $status = array_pop($data);
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('customer', $data, $status, $responseType, $isMessage);
     }
 
-    public function get($id)
+    public function get(Request $req, $id)
     {
-        return $this->serviceCustomer->get($id);
+        $data = $this->serviceCustomer->get($id);
+
+        $status = array_pop($data);
+        $responseType = $req->query('form');
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('customer', $data, $status, $responseType, $isMessage);
     }
 
-    public function getList()
+    public function getList(Request $req)
     {
-        return $this->serviceCustomer->getList();
+        $addresses = $this->serviceCustomer->getList();
+        $responseType = $req->query('form');
+        $isMessage = False;
+
+        return $this->httpHandler->sendByResponseType('customer', $addresses, 200, $responseType, $isMessage);
     }
 
     /**
@@ -45,14 +70,32 @@ class CustomerController extends Controller
      */
     public function update(Request $req, $id)
     {
-        return $this->serviceCustomer->update([
-            'phone_number' => $req->phone_number,
-            'fk_address' => $req->fk_address,
-        ], $id);
-    }
+        $requestType = $req->getContentTypeFormat();
+        $responseType = $req->query('form');
 
-    public function destroy($id)
+        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+
+        if ($content == null) {
+            return $this->httpHandler->sendByResponseType('customer', [
+                'message' => 'This request type format isn\'t available'
+            ], 400, $responseType, True);
+        }
+
+        $data = $this->serviceCustomer->update($content, $id);
+
+        $status = array_pop($data);
+        $isMessage = $status >= 400;
+
+        return $this->httpHandler->sendByResponseType('customer', $data, $status, $responseType, $isMessage);
+    }
+    public function destroy(Request $req, $id)
     {
-        return $this->serviceCustomer->destroy($id);
+        $data = $this->serviceCustomer->destroy($id);
+
+        $status = array_pop($data);
+        $responseType = $req->query('form');
+        $isMessage = True;
+
+        return $this->httpHandler->sendByResponseType('customer', $data, $status, $responseType, $isMessage);
     }
 }

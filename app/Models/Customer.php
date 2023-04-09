@@ -25,4 +25,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Address::class, 'fk_address');
     }
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class, 'fk_customer');
+    }
 }
