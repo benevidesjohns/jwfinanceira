@@ -13,8 +13,7 @@ class TransactionController extends Controller
     public function __construct(
         TransactionService $service,
         HttpHandler $httpHandler
-    )
-    {
+    ) {
         $this->service = $service;
         $this->httpHandler = $httpHandler;
     }
@@ -27,9 +26,13 @@ class TransactionController extends Controller
         $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
 
         if ($content == null) {
-            return $this->httpHandler->sendByResponseType('transaction', [
-                'info' => 'This request type format isn\'t available'
-            ], 400, $responseType, True);
+            return $this->httpHandler->sendByResponseType(
+                'transaction',
+                ['info' => 'This request type format isn\'t available'],
+                400,
+                $responseType,
+                True
+            );
         }
 
         $data = $this->service->store($content);
@@ -37,7 +40,13 @@ class TransactionController extends Controller
         $status = array_pop($data);
         $isMessage = $status >= 400;
 
-        return $this->httpHandler->sendByResponseType('transaction', $data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'transaction',
+            $data,
+            $status,
+            $responseType,
+            $isMessage
+        );
     }
 
     public function get(Request $req, $id)
@@ -48,7 +57,13 @@ class TransactionController extends Controller
         $responseType = $req->query('form');
         $isMessage = $status >= 400;
 
-        return $this->httpHandler->sendByResponseType('transaction', $data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'transaction',
+            $data,
+            $status,
+            $responseType,
+            $isMessage
+        );
     }
 
     public function getList(Request $req)
@@ -57,7 +72,13 @@ class TransactionController extends Controller
         $responseType = $req->query('form');
         $isMessage = False;
 
-        return $this->httpHandler->sendByResponseType('transaction', $transactions, 200, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'transaction',
+            $transactions,
+            200,
+            $responseType,
+            $isMessage
+        );
     }
 
     public function update(Request $req, $id)
@@ -68,9 +89,13 @@ class TransactionController extends Controller
         $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
 
         if ($content == null) {
-            return $this->httpHandler->sendByResponseType('transaction', [
-                'info' => 'This request type format isn\'t available'
-            ], 400, $responseType, True);
+            return $this->httpHandler->sendByResponseType(
+                'transaction',
+                ['info' => 'This request type format isn\'t available'],
+                400,
+                $responseType,
+                True
+            );
         }
 
         $data = $this->service->update($content, $id);
@@ -78,7 +103,13 @@ class TransactionController extends Controller
         $status = array_pop($data);
         $isMessage = $status >= 400;
 
-        return $this->httpHandler->sendByResponseType('transaction', $data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'transaction',
+            $data,
+            $status,
+            $responseType,
+            $isMessage
+        );
     }
 
     public function destroy(Request $req, $id)
@@ -89,6 +120,12 @@ class TransactionController extends Controller
         $responseType = $req->query('form');
         $isMessage = True;
 
-        return $this->httpHandler->sendByResponseType('transaction', $data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'transaction',
+            $data,
+            $status,
+            $responseType,
+            $isMessage
+        );
     }
 }

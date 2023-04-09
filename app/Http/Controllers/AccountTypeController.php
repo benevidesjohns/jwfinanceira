@@ -13,8 +13,7 @@ class AccountTypeController extends Controller
     public function __construct(
         AccountTypeService $service,
         HttpHandler $httpHandler
-    )
-    {
+    ) {
         $this->service = $service;
         $this->httpHandler = $httpHandler;
     }
@@ -27,7 +26,7 @@ class AccountTypeController extends Controller
         $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
 
         if ($content == null) {
-            return $this->httpHandler->sendByResponseType('type', [
+            return $this->httpHandler->sendByResponseType('account_type', [
                 'info' => 'This request type format isn\'t available'
             ], 400, $responseType, True);
         }
@@ -37,7 +36,13 @@ class AccountTypeController extends Controller
         $status = array_pop($data);
         $isMessage = $status >= 400;
 
-        return $this->httpHandler->sendByResponseType('type', $data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'account_type',
+            $data,
+            $status,
+            $responseType,
+            $isMessage
+        );
     }
 
     public function get(Request $req, $id)
@@ -48,7 +53,13 @@ class AccountTypeController extends Controller
         $responseType = $req->query('form');
         $isMessage = $status >= 400;
 
-        return $this->httpHandler->sendByResponseType('type', $data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'account_type',
+            $data,
+            $status,
+            $responseType,
+            $isMessage
+        );
     }
 
     public function getList(Request $req)
@@ -57,7 +68,13 @@ class AccountTypeController extends Controller
         $responseType = $req->query('form');
         $isMessage = False;
 
-        return $this->httpHandler->sendByResponseType('type', $accountsType, 200, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'account_type',
+            $accountsType,
+            200,
+            $responseType,
+            $isMessage
+        );
     }
 
     /**
@@ -74,9 +91,13 @@ class AccountTypeController extends Controller
         $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
 
         if ($content == null) {
-            return $this->httpHandler->sendByResponseType('type', [
-                'info' => 'This request type format isn\'t available'
-            ], 400, $responseType, True);
+            return $this->httpHandler->sendByResponseType(
+                'account_type',
+                ['info' => 'This request type format isn\'t available'],
+                400,
+                $responseType,
+                True
+            );
         }
 
         $data = $this->service->update($content, $id);
@@ -84,7 +105,13 @@ class AccountTypeController extends Controller
         $status = array_pop($data);
         $isMessage = $status >= 400;
 
-        return $this->httpHandler->sendByResponseType('type', $data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'account_type',
+            $data,
+            $status,
+            $responseType,
+            $isMessage
+        );
     }
 
     public function destroy(Request $req, $id)
@@ -95,6 +122,12 @@ class AccountTypeController extends Controller
         $responseType = $req->query('form');
         $isMessage = True;
 
-        return $this->httpHandler->sendByResponseType('type', $data, $status, $responseType, $isMessage);
+        return $this->httpHandler->sendByResponseType(
+            'account_type',
+            $data,
+            $status,
+            $responseType,
+            $isMessage
+        );
     }
 }
