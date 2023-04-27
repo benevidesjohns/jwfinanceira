@@ -14,7 +14,7 @@ class HttpHandler
             }
 
             return response()
-                ->view($view, compact('data', 'status'), $status)
+                ->view('xml_templates.' . $view, compact('data', 'status'), $status)
                 ->header('Content-Type', 'text/xml');
 
         } else if ($responseType == 'json' || $responseType == null) {
