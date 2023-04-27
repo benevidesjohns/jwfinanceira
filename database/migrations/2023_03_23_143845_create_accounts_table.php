@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->double('balance');
-            $table->integer('fk_customer')->unsigned();
-            $table->foreign('fk_customer')->references('id')->on('customers')->cascadeOnDelete();
+            $table->integer('fk_user')->unsigned();
+            $table->foreign('fk_user')->references('id')->on('users')->cascadeOnDelete();
             $table->integer('fk_account_type')->unsigned();
             $table->foreign('fk_account_type')->references('id')->on('account_types')->cascadeOnDelete();
             $table->timestamps();

@@ -4,12 +4,12 @@ namespace App\Services;
 
 use App\Repositories\Account\AccountRepositoryInterface;
 use App\Repositories\Account\AccountTypeRepositoryInterface;
-use App\Repositories\Customer\CustomerRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 
 
 class AccountService
 {
-    private $repoAccount, $repoAccountType, $repoCustomer;
+    private $repoAccount, $repoAccountType, $repoUser;
 
     /**
      * Construtor da classe AccountService
@@ -18,10 +18,10 @@ class AccountService
     public function __construct(
         AccountRepositoryInterface $repoAccount,
         AccountTypeRepositoryInterface $repoAccountType,
-        CustomerRepositoryInterface $repoCustomer
+        UserRepositoryInterface $repoUser
     ) {
         $this->repoAccount = $repoAccount;
-        $this->repoCustomer = $repoCustomer;
+        $this->repoUser = $repoUser;
         $this->repoAccountType = $repoAccountType;
     }
 
@@ -36,11 +36,11 @@ class AccountService
 
         try {
             // TODO: Tratar os dados da requisição, antes de chamar o repoAccount->store
-            $currentCustomer = $this->repoCustomer->get($data['fk_customer']);
+            $currentUser = $this->repoUser->get($data['fk_user']);
             $currentAccountType = $this->repoAccountType->get($data['fk_account_type']);
 
             $account = $this->repoAccount->store($data);
-            $account->customer;
+            $account->user;
             $account->accountType;
 
             return [
@@ -49,8 +49,8 @@ class AccountService
             ];
 
         } catch (\Throwable) {
-            if ($currentCustomer == null)
-                array_push($errors, 'Customer not found');
+            if ($currentUser == null)
+                array_push($errors, 'User not found');
             if ($currentAccountType == null)
                 array_push($errors, 'Account type not found');
 
@@ -80,7 +80,7 @@ class AccountService
         try {
             $account = $this->repoAccount->get($id);
             $account->accountType;
-            $account->customer;
+            $account->user;
 
             throw_if($account == null);
 

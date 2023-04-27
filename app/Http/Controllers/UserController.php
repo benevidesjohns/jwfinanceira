@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\HttpHandler;
-use App\Services\CustomerService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
-class CustomerController extends Controller
+class UserController extends Controller
 {
     private $service, $httpHandler;
 
     public function __construct(
-        CustomerService $service,
+        UserService $service,
         HttpHandler $httpHandler
     ) {
         $this->service = $service;
@@ -32,7 +32,7 @@ class CustomerController extends Controller
 
         if ($content == null) {
             return $this->httpHandler->sendByResponseType(
-                'customer',
+                'user',
                 ['info' => 'This request type format isn\'t available'],
                 400,
                 $responseType,
@@ -46,7 +46,7 @@ class CustomerController extends Controller
         $isMessage = $status >= 400;
 
         return $this->httpHandler->sendByResponseType(
-            'customer',
+            'user',
             $data,
             $status,
             $responseType,
@@ -63,7 +63,7 @@ class CustomerController extends Controller
         $isMessage = $status >= 400;
 
         return $this->httpHandler->sendByResponseType(
-            'customer',
+            'user',
             $data,
             $status,
             $responseType,
@@ -78,7 +78,7 @@ class CustomerController extends Controller
         $isMessage = False;
 
         return $this->httpHandler->sendByResponseType(
-            'customer',
+            'user',
             $addresses,
             200,
             $responseType,
@@ -101,7 +101,7 @@ class CustomerController extends Controller
 
         if ($content == null) {
             return $this->httpHandler->sendByResponseType(
-                'customer',
+                'user',
                 ['info' => 'This request type format isn\'t available'],
                 400,
                 $responseType,
@@ -115,7 +115,7 @@ class CustomerController extends Controller
         $isMessage = $status >= 400;
 
         return $this->httpHandler->sendByResponseType(
-            'customer',
+            'user',
             $data,
             $status,
             $responseType,
@@ -131,7 +131,7 @@ class CustomerController extends Controller
         $isMessage = True;
 
         return $this->httpHandler->sendByResponseType(
-            'customer',
+            'user',
             $data,
             $status,
             $responseType,

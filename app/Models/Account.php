@@ -11,7 +11,7 @@ class Account extends Model
 
     protected $fillable = [
         'balance',
-        'fk_customer',
+        'fk_user',
         'fk_account_type'
     ];
 
@@ -25,9 +25,9 @@ class Account extends Model
         return $this->belongsTo(AccountType::class, 'fk_account_type');
     }
 
-    public function customer()
+    public function user()
     {
-        return $this->belongsTo(Customer::class, 'fk_customer');
+        return $this->belongsTo(User::class, 'fk_user');
     }
 
     public function transactions()

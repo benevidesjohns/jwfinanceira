@@ -2,26 +2,26 @@
 
 namespace App\Services;
 
-use App\Repositories\Customer\CustomerRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 
 /**
- * Summary of CustomerService
+ * Summary of UserService
  */
-class CustomerService
+class UserService
 {
-    private $repoCustomer;
+    private $repoUser;
 
     /**
-     * Construtor da classe CustomerService
-     * @param CustomerRepositoryInterface $repoCustomer
+     * Construtor da classe UserService
+     * @param UserRepositoryInterface $repoUser
      */
-    public function __construct(CustomerRepositoryInterface $repoCustomer)
+    public function __construct(UserRepositoryInterface $repoUser)
     {
-        $this->repoCustomer = $repoCustomer;
+        $this->repoUser = $repoUser;
     }
 
     /**
-     * Envia para o CustomerRepository os dados para criar uma nova instância de Customer
+     * Envia para o UserRepository os dados para criar uma nova instância de User
      * @param array $data
      * @return array|mixed
      */
@@ -31,17 +31,17 @@ class CustomerService
 
         try {
             // Busca o endereço passado no banco de dados
-            $currentAddress = $this->repoCustomer->get($data['fk_address']);
+            $currentAddress = $this->repoUser->get($data['fk_address']);
 
             // Dispara uma exceção caso o endereço passado seja nulo
             throw_if($currentAddress == null);
 
-            // TODO: Tratar os dados da requisição, antes de chamar o repoCustomer->store
-            $customer = $this->repoCustomer->store($data);
-            $customer->address;
+            // TODO: Tratar os dados da requisição, antes de chamar o repoUser->store
+            $user = $this->repoUser->store($data);
+            $user->address;
 
             return [
-                'customer' => $customer,
+                'user' => $user,
                 'status' => 201
             ];
 
@@ -61,42 +61,42 @@ class CustomerService
 
 
     /**
-     * Retorna todas as instâncias de Customer do banco de dados
+     * Retorna todas as instâncias de User do banco de dados
      * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
     public function getList()
     {
-        return $this->repoCustomer->getList();
+        return $this->repoUser->getList();
     }
 
     /**
-     * Retorna uma instância de Customer a partir do id informado
+     * Retorna uma instância de User a partir do id informado
      * @param int|string $id
      * @return array
      */
     public function get($id)
     {
         try {
-            $customer = $this->repoCustomer->get($id);
-            $customer->address;
+            $user = $this->repoUser->get($id);
+            $user->address;
 
-            throw_if($customer == null);
+            throw_if($user == null);
 
             return [
-                'customer' => $customer,
+                'user' => $user,
                 'status' => 200
             ];
 
         } catch (\Throwable) {
             return [
-                'info' => ['Customer not found'],
+                'info' => ['User not found'],
                 'status' => 404
             ];
         }
     }
 
     /**
-     * Atualiza os dados de uma instância de Customer
+     * Atualiza os dados de uma instância de User
      * @param array $data
      * @param int|string $id
      * @return array|mixed
@@ -104,7 +104,7 @@ class CustomerService
     public function update($data, $id)
     {
         try {
-            // TODO: Tratar os dados da requisição, antes de chamar o repoCustomer->store
+            // TODO: Tratar os dados da requisição, antes de chamar o repoUser->store
             $keys = [];
             $values = [];
             foreach ($data as $key => $value) {
@@ -114,42 +114,42 @@ class CustomerService
 
             $processed_data = array_combine($keys, $values);
 
-            $this->repoCustomer->update($processed_data, $id);
-            $customer = $this->repoCustomer->get($id);
+            $this->repoUser->update($processed_data, $id);
+            $user = $this->repoUser->get($id);
 
-            throw_if($customer == null);
+            throw_if($user == null);
 
             return [
-                'customer' => $customer,
+                'user' => $user,
                 'status' => 200
             ];
 
         } catch (\Throwable) {
             return [
-                'info' => ['Customer not found'],
+                'info' => ['User not found'],
                 'status' => 404
             ];
         }
     }
 
     /**
-     * Remove uma instância de Customer do banco de dados
+     * Remove uma instância de User do banco de dados
      * @param mixed $id
      * @return mixed
      */
     public function destroy($id)
     {
-        $customer = $this->repoCustomer->get($id);
+        $user = $this->repoUser->get($id);
 
-        if ($customer == null) {
-            $info = ['Customer not found'];
+        if ($user == null) {
+            $info = ['User not found'];
             $status = 404;
-        } else if (count($customer->accounts) > 0) {
-            $info = ['This customer has associated account'];
+        } else if (count($user->accounts) > 0) {
+            $info = ['This user has associated account'];
             $status = 405;
         } else {
-            $this->repoCustomer->destroy($id);
-            $info = ['Customer destroyed'];
+            $this->repoUser->destroy($id);
+            $info = ['User destroyed'];
             $status = 204;
         }
 

@@ -30,7 +30,7 @@ class AccountRepositoryEloquent implements AccountRepositoryInterface
     public function getList()
     {
         return $this->account->all()->map(function ($account) {
-            $account->customer;
+            $account->user;
             $account->accountType;
             return $account;
         })->sort()->values();

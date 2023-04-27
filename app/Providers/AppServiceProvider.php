@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\Address;
-use App\Models\Customer;
+use App\Models\User;
 use App\Models\Transaction;
 use App\Models\TransactionType;
 
@@ -15,11 +15,11 @@ use App\Repositories\Account\AccountRepositoryInterface;
 use App\Repositories\Account\AccountTypeRepositoryEloquent;
 use App\Repositories\Account\AccountTypeRepositoryInterface;
 
-use App\Repositories\Customer\AddressRepositoryEloquent;
-use App\Repositories\Customer\AddressRepositoryInterface;
+use App\Repositories\User\AddressRepositoryEloquent;
+use App\Repositories\User\AddressRepositoryInterface;
 
-use App\Repositories\Customer\CustomerRepositoryEloquent;
-use App\Repositories\Customer\CustomerRepositoryInterface;
+use App\Repositories\User\UserRepositoryEloquent;
+use App\Repositories\User\UserRepositoryInterface;
 
 use App\Repositories\Transaction\TransactionRepositoryEloquent;
 use App\Repositories\Transaction\TransactionRepositoryInterface;
@@ -68,13 +68,13 @@ class AppServiceProvider extends ServiceProvider
             return new AddressRepositoryEloquent(new Address());
         });
 
-        // Customer
+        // User
         $this->app->bind(
-            CustomerRepositoryEloquent::class,
-            CustomerRepositoryInterface::class
+            UserRepositoryEloquent::class,
+            UserRepositoryInterface::class
         );
-        $this->app->bind(CustomerRepositoryInterface::class, function () {
-            return new CustomerRepositoryEloquent(new Customer());
+        $this->app->bind(UserRepositoryInterface::class, function () {
+            return new UserRepositoryEloquent(new User());
         });
 
         // Transaction

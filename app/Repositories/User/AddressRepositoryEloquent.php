@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Customer;
+namespace App\Repositories\User;
 
 use App\Models\Address;
 

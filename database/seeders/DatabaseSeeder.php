@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             AccountTypeSeeder::class,
             TransactionTypeSeeder::class,
             AddressSeeder::class,
-            CustomerSeeder::class,
+            UserSeeder::class,
             AccountSeeder::class,
             TransactionSeeder::class
         ]);

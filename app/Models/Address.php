@@ -22,8 +22,8 @@ class Address extends Model
         'updated_at'
     ];
 
-    public function customers()
+    public function users()
     {
-        return $this->hasMany(Customer::class, 'fk_address');
+        return $this->hasMany(User::class, 'fk_address');
     }
 }

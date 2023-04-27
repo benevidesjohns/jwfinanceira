@@ -17,16 +17,16 @@ class AccountSeeder extends Seeder
     public function run()
     {
         $accounts = [
-            ['fk_customer' => 1],
-            ['fk_customer' => 2],
-            ['fk_customer' => 3],
-            ['fk_customer' => 4],
-            ['fk_customer' => 5],
-            ['fk_customer' => 6],
-            ['fk_customer' => 7],
-            ['fk_customer' => 8],
-            ['fk_customer' => 9],
-            ['fk_customer' => 10]
+            ['fk_user' => 1],
+            ['fk_user' => 2],
+            ['fk_user' => 3],
+            ['fk_user' => 4],
+            ['fk_user' => 5],
+            ['fk_user' => 6],
+            ['fk_user' => 7],
+            ['fk_user' => 8],
+            ['fk_user' => 9],
+            ['fk_user' => 10]
         ];
 
         Account::factory()

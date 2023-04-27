@@ -11,7 +11,7 @@
             <account>
                 <id>{{ $transaction->account->id }}</id>
                 <balance>{{ $transaction->account->balance }}</balance>
-                <fk_customer>{{ $transaction->account->fk_customer }}</fk_customer>
+                <fk_user>{{ $transaction->account->fk_user }}</fk_user>
                 <fk_account_type>{{ $transaction->account->fk_account_type }}</fk_account_type>
             </account>
             <transaction_type>

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\Customer\AddressRepositoryInterface;
+use App\Repositories\User\AddressRepositoryInterface;
 
 /**
  * Summary of AddressService
@@ -62,7 +62,7 @@ class AddressService
     {
         try {
             $address = $this->repoAddress->get($id);
-            $address->customers;
+            $address->users;
 
             throw_if($address == null);
 
@@ -128,8 +128,8 @@ class AddressService
         if ($address == null) {
             $info = ['Address not found'];
             $status = 404;
-        } else if (count($address->customers) > 0) {
-            $info = ['This address has associated customers'];
+        } else if (count($address->users) > 0) {
+            $info = ['This address has associated users'];
             $status = 405;
         } else {
             $this->repoAddress->destroy($id);

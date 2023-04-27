@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionTypeController;
 use Illuminate\Support\Facades\Auth;
@@ -58,13 +58,13 @@ Route::controller(AddressController::class)->group(function () {
     Route::delete('/addresses/{id}', 'destroy');
 });
 
-// Routes CustomerController
-Route::controller(CustomerController::class)->group(function () {
-    Route::post('/customers', 'store');
-    Route::get('/customers/{id}', 'get');
-    Route::get('/customers', 'getList');
-    Route::put('/customers/{id}', 'update');
-    Route::delete('/customers/{id}', 'destroy');
+// Routes UserController
+Route::controller(UserController::class)->group(function () {
+    Route::post('/users', 'store');
+    Route::get('/users/{id}', 'get');
+    Route::get('/users', 'getList');
+    Route::put('/users/{id}', 'update');
+    Route::delete('/users/{id}', 'destroy');
 });
 
 // Routes TransactionController
