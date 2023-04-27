@@ -8,6 +8,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionTypeController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +21,15 @@ use App\Http\Controllers\TransactionTypeController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', 'home');
 
 Route::get('/token', function () {
     return csrf_token();
 });
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
 
 // Routes AccountController
 Route::controller(AccountController::class)->group(function () {
@@ -82,3 +84,7 @@ Route::controller(TransactionTypeController::class)->group(function () {
     Route::put('/transaction_types/{id}', 'update');
     Route::delete('/transaction_types/{id}', 'destroy');
 });
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
