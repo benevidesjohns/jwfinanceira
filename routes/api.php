@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\AccountTypeController;
-use App\Http\Controllers\AddressController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\TransactionTypeController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\API\AccountController;
+use App\Http\Controllers\API\AccountTypeController;
+use App\Http\Controllers\API\AddressController;
+use App\Http\Controllers\API\TransactionController;
+use App\Http\Controllers\API\TransactionTypeController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
