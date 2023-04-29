@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Helpers\HttpHandler;
+use App\Http\Controllers\Controller;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
 

@@ -27,6 +27,7 @@
             </li>
         </ul>
 
+        <!-- Botão de Usuário -->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -45,9 +46,14 @@
                             <small>Member since {{ Auth::user()->created_at->format('M. Y') }}</small>
                         </p>
                     </li>
+
                     <!-- Menu Footer-->
                     <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+
+                        <!-- Profile -->
+                        <a href="{{ route('profile') }}" class="btn btn-default btn-flat">Profile</a>
+
+                        <!-- Sign out -->
                         <a href="#" class="btn btn-default btn-flat float-right"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Sign out

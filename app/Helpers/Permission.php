@@ -4,87 +4,80 @@ namespace App\Helpers;
 
 class Permission
 {
-    public const CAN_CREATE_ACCOUNT = 'create account';
-    public const CAN_EDIT_ACCOUNT = 'edit account';
-    public const CAN_LIST_ACCOUNTS = 'list accounts';
-    public const CAN_DELETE_ACCOUNT = 'delete account';
+    /*
+     * 'Nomenclatura das Permissões':
+     *
+     * 'SELF': só permite ao usuário executar operações em elementos vinculados ao mesmo
+     * 'MANAGE': permite todas as operações (CRUD)
+     * 'CREATE': apenas permite criar algum elemento
+     * 'READ': permite ler um ou mais elementos (GET, GETLIST)
+     */
 
-    public const CAN_CREATE_ACCOUNT_TYPE = 'create account type';
-    public const CAN_EDIT_ACCOUNT_TYPE = 'edit account type';
-    public const CAN_LIST_ACCOUNT_TYPES = 'list account types';
-    public const CAN_DELETE_ACCOUNT_TYPE = 'delete account type';
 
-    public const CAN_CREATE_TRANSACTION = 'create transaction';
-    public const CAN_EDIT_TRANSACTION = 'edit transaction';
-    public const CAN_LIST_TRANSACTIONS = 'list transactions';
-    public const CAN_LIST_ALL_TRANSACTIONS = 'list all transactions';
-    public const CAN_DELETE_TRANSACTION = 'delete transaction';
+    // SELF Permissions
+    public const CAN_MANAGE_SELF_ACCOUNTS = 'manage self accounts';
+    public const CAN_MANAGE_SELF_PROFILE = 'manage self profile';
+    public const CAN_CREATE_SELF_TRANSACTION = 'create self transactions';
+    public const CAN_READ_SELF_TRANSACTIONS = 'read self transactions';
 
-    public const CAN_CREATE_TRANSACTION_TYPE = 'create transaction type';
-    public const CAN_EDIT_TRANSACTION_TYPE = 'edit transaction type';
-    public const CAN_LIST_TRANSACTION_TYPES = 'list transaction types';
-    public const CAN_DELETE_TRANSACTION_TYPE = 'delete transaction type';
 
-    public const CAN_CREATE_USER = 'create user';
-    public const CAN_EDIT_USER = 'edit user';
-    public const CAN_LIST_USERS = 'list users';
-    public const CAN_DELETE_USER = 'delete user';
+    // MANAGE Permissions
+    public const CAN_MANAGE_ACCOUNTS = 'manage accounts';
+    public const CAN_MANAGE_ADDRESSES = 'manage addresses';
+    public const CAN_MANAGE_USERS = 'manage users';
+    public const CAN_MANAGE_TRANSACTIONS = 'manage transactions';
+    public const CAN_MANAGE_TYPES = 'manage types';
+
+
+    // READ Permissions (GET, GETLIST)
+    public const CAN_READ_TYPES = 'read types';
+
 
     public const ALL = [
-        Permission::CAN_CREATE_ACCOUNT,
-        Permission::CAN_EDIT_ACCOUNT,
-        Permission::CAN_LIST_ACCOUNTS,
-        Permission::CAN_DELETE_ACCOUNT,
-        Permission::CAN_CREATE_ACCOUNT_TYPE,
-        Permission::CAN_EDIT_ACCOUNT_TYPE,
-        Permission::CAN_LIST_ACCOUNT_TYPES,
-        Permission::CAN_DELETE_ACCOUNT_TYPE,
-        Permission::CAN_CREATE_TRANSACTION,
-        Permission::CAN_EDIT_TRANSACTION,
-        Permission::CAN_LIST_TRANSACTIONS,
-        Permission::CAN_LIST_ALL_TRANSACTIONS,
-        Permission::CAN_DELETE_TRANSACTION,
-        Permission::CAN_CREATE_TRANSACTION_TYPE,
-        Permission::CAN_EDIT_TRANSACTION_TYPE,
-        Permission::CAN_LIST_TRANSACTION_TYPES,
-        Permission::CAN_DELETE_TRANSACTION_TYPE,
-        Permission::CAN_CREATE_USER,
-        Permission::CAN_EDIT_USER,
-        Permission::CAN_LIST_USERS,
-        Permission::CAN_DELETE_USER,
+        // SELF Permissions
+        Permission::CAN_MANAGE_SELF_ACCOUNTS,
+        Permission::CAN_MANAGE_SELF_PROFILE,
+        Permission::CAN_CREATE_SELF_TRANSACTION,
+        Permission::CAN_READ_SELF_TRANSACTIONS,
+
+        // MANAGE Permissions
+        Permission::CAN_MANAGE_ACCOUNTS,
+        Permission::CAN_MANAGE_ADDRESSES,
+        Permission::CAN_MANAGE_USERS,
+        Permission::CAN_MANAGE_TRANSACTIONS,
+        Permission::CAN_MANAGE_TYPES,
+
+        // READ Permissions (GET, GETLIST)
+        Permission::CAN_READ_TYPES,
     ];
 
     public const ADMIN = [
-        Permission::CAN_CREATE_ACCOUNT,
-        Permission::CAN_EDIT_ACCOUNT,
-        Permission::CAN_LIST_ACCOUNTS,
-        Permission::CAN_DELETE_ACCOUNT,
-        Permission::CAN_CREATE_ACCOUNT_TYPE,
-        Permission::CAN_EDIT_ACCOUNT_TYPE,
-        Permission::CAN_LIST_ACCOUNT_TYPES,
-        Permission::CAN_DELETE_ACCOUNT_TYPE,
-        Permission::CAN_LIST_TRANSACTIONS,
-        Permission::CAN_LIST_ALL_TRANSACTIONS,
-        Permission::CAN_DELETE_TRANSACTION,
-        Permission::CAN_CREATE_TRANSACTION_TYPE,
-        Permission::CAN_EDIT_TRANSACTION_TYPE,
-        Permission::CAN_LIST_TRANSACTION_TYPES,
-        Permission::CAN_DELETE_TRANSACTION_TYPE,
-        Permission::CAN_CREATE_USER,
-        Permission::CAN_EDIT_USER,
-        Permission::CAN_LIST_USERS,
-        Permission::CAN_DELETE_USER,
+        // SELF Permissions
+        Permission::CAN_MANAGE_SELF_ACCOUNTS,
+        Permission::CAN_MANAGE_SELF_PROFILE,
+        Permission::CAN_CREATE_SELF_TRANSACTION,
+        Permission::CAN_READ_SELF_TRANSACTIONS,
+
+        // MANAGE Permissions
+        Permission::CAN_MANAGE_ACCOUNTS,
+        Permission::CAN_MANAGE_ADDRESSES,
+        Permission::CAN_MANAGE_USERS,
+        Permission::CAN_MANAGE_TRANSACTIONS,
+        Permission::CAN_MANAGE_TYPES,
+
+        // READ Permissions (GET, GETLIST)
+        Permission::CAN_READ_TYPES,
     ];
 
     public const CUSTOMER = [
-        Permission::CAN_CREATE_ACCOUNT,
-        Permission::CAN_EDIT_ACCOUNT,
-        Permission::CAN_DELETE_ACCOUNT,
-        Permission::CAN_CREATE_TRANSACTION,
-        Permission::CAN_EDIT_TRANSACTION,
-        Permission::CAN_LIST_TRANSACTIONS,
-        Permission::CAN_EDIT_USER,
-        Permission::CAN_DELETE_USER,
+        // SELF Permissions
+        Permission::CAN_MANAGE_SELF_ACCOUNTS,
+        Permission::CAN_MANAGE_SELF_PROFILE,
+        Permission::CAN_CREATE_SELF_TRANSACTION,
+        Permission::CAN_READ_SELF_TRANSACTIONS,
+
+        // READ Permissions (GET, GETLIST)
+        Permission::CAN_READ_TYPES,
     ];
 
 }
