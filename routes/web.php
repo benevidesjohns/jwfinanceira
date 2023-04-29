@@ -27,26 +27,29 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
-Route::get('accounts', function () {
+// Management
+Route::get('management/accounts', function () {
     return view('accounts');
-})->name('accounts');
+})->name('management/accounts');
 
-Route::get('account_types', function () {
-    return view('account_types');
-})->name('account_types');
-
-Route::get('addresses', function () {
+Route::get('management/addresses', function () {
     return view('addresses');
-})->name('addresses');
+})->name('management/addresses');
 
+Route::get('management/users', function () {
+    return view('users');
+})->name('management/users');
+
+// Types
+Route::get('types/account', function () {
+    return view('account_types');
+})->name('types/account');
+
+Route::get('types/transaction', function () {
+    return view('transaction_types');
+})->name('types/transaction');
+
+// Transactions
 Route::get('transactions', function () {
     return view('transactions');
 })->name('transactions');
-
-Route::get('transaction_types', function () {
-    return view('transaction_types');
-})->name('transaction_types');
-
-Route::get('users', function () {
-    return view('users');
-})->name('users');

@@ -24,9 +24,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(AccountController::class)->prefix('accounts')->group(__DIR__ . '/api/crud.php');
-Route::controller(AccountTypeController::class)->prefix('account_types')->group(__DIR__ . '/api/crud.php');
-Route::controller(AddressController::class)->prefix('addresses')->group(__DIR__ . '/api/crud.php');
+// Transactions
 Route::controller(TransactionController::class)->prefix('transactions')->group(__DIR__ . '/api/crud.php');
-Route::controller(TransactionTypeController::class)->prefix('transaction_types')->group(__DIR__ . '/api/crud.php');
-Route::controller(UserController::class)->prefix('users')->group(__DIR__ . '/api/crud.php');
+
+// Management
+Route::controller(AccountController::class)->prefix('management/accounts')->group(__DIR__ . '/api/crud.php');
+Route::controller(AddressController::class)->prefix('management/addresses')->group(__DIR__ . '/api/crud.php');
+Route::controller(UserController::class)->prefix('management/users')->group(__DIR__ . '/api/crud.php');
+
+// Types
+Route::controller(AccountTypeController::class)->prefix('types/account')->group(__DIR__ . '/api/crud.php');
+Route::controller(TransactionTypeController::class)->prefix('types/transaction')->group(__DIR__ . '/api/crud.php');

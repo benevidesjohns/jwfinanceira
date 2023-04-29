@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'phone_number' => fake('pt_BR')->cellphoneNumber(),
             'cpf' => '00000000000',
             'fk_address' => random_int(1, 10),
-            'email' => 'administrador@gmail.com',
+            'email' => 'administrador@gmail.com.br',
             'email_verified_at' => now(),
             'password' => Hash::make('1234567890'),
             'remember_token' => Str::random(10),
