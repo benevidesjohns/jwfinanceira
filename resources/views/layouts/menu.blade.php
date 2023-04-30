@@ -15,7 +15,7 @@
     <li class="nav-item">
         <a href="{{ route('accounts') }}" class="nav-link {{ Request::is('accounts') ? 'active' : '' }}">
             <i class="nav-icon fas fa-calendar-check"></i>
-            <p>Accounts</p>
+            <p>Minhas contas</p>
         </a>
     </li>
 @endcan
@@ -25,15 +25,16 @@
     <li class="nav-item">
         <a href="{{ route('transactions') }}" class="nav-link {{ Request::is('transactions') ? 'active' : '' }}">
             <i class="nav-icon fas fa-home"></i>
-            <p>Transactions</p>
+            <p>Minhas Transações</p>
         </a>
     </li>
 @endcan
 
 <!-- Gerenciamento -->
-@can([Permission::CAN_MANAGE_ACCOUNTS, Permission::CAN_MANAGE_ADDRESSES, Permission::CAN_MANAGE_USERS])
+@can([Permission::CAN_MANAGE_ACCOUNTS, Permission::CAN_MANAGE_ADDRESSES, Permission::CAN_MANAGE_USERS,
+    Permission::CAN_MANAGE_TRANSACTIONS])
     <li
-        class="nav-item {{ Request::is('management/users', 'management/accounts', 'management/addresses') ? 'menu-open' : '' }}">
+        class="nav-item {{ Request::is('management/users', 'management/accounts', 'management/addresses', 'management/transactions') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-hands-helping"></i>
             <p>
@@ -47,7 +48,7 @@
                 <a href="{{ route('management/accounts') }}"
                     class="nav-link {{ Request::is('management/accounts') ? 'active' : '' }}">
                     &nbsp;&nbsp;&nbsp;<i class="nav-icon fas fa-calendar-check"></i>
-                    <p>Accounts</p>
+                    <p>Contas</p>
                 </a>
             </li>
             <!-- Addresses -->
@@ -55,7 +56,7 @@
                 <a href="{{ route('management/addresses') }}"
                     class="nav-link {{ Request::is('management/addresses') ? 'active' : '' }}">
                     &nbsp;&nbsp;&nbsp;<i class="nav-icon fas fa-home"></i>
-                    <p>Addresses</p>
+                    <p>Endereços</p>
                 </a>
             </li>
             <!-- Users -->
@@ -63,7 +64,14 @@
                 <a href="{{ route('management/users') }}"
                     class="nav-link {{ Request::is('management/users') ? 'active' : '' }}">
                     &nbsp;&nbsp;&nbsp;<i class="nav-icon fas fa-list-ol"></i>
-                    <p>Users</p>
+                    <p>Usuários</p>
+                </a>
+            </li>
+            <!-- Transactions -->
+            <li class="nav-item">
+                <a href="{{ route('management/transactions') }}" class="nav-link {{ Request::is('management/transactions') ? 'active' : '' }}">
+                    &nbsp;&nbsp;&nbsp;<i class="nav-icon fas fa-home"></i>
+                    <p>Transações</p>
                 </a>
             </li>
         </ul>
@@ -75,7 +83,7 @@
     <li class="nav-item {{ Request::is('types/account', 'types/transaction') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-hands-helping"></i>
-            <p>Types<i class="right fas fa-angle-left"></i></p>
+            <p>Tipos<i class="right fas fa-angle-left"></i></p>
         </a>
         <ul class="nav nav-treeview">
             <!-- Account Types -->
@@ -83,7 +91,7 @@
                 <a href="{{ route('types/account') }}"
                     class="nav-link {{ Request::is('types/account') ? 'active' : '' }}">
                     &nbsp;&nbsp;&nbsp;<i class="nav-icon fas fa-home"></i>
-                    <p>Account Types</p>
+                    <p>Tipos de conta</p>
                 </a>
             </li>
             <!-- Transaction Types -->
@@ -91,7 +99,7 @@
                 <a href="{{ route('types/transaction') }}"
                     class="nav-link {{ Request::is('types/transaction') ? 'active' : '' }}">
                     &nbsp;&nbsp;&nbsp;<i class="nav-icon fas fa-home"></i>
-                    <p>Transaction Types</p>
+                    <p>Tipos de transação</p>
                 </a>
             </li>
         </ul>

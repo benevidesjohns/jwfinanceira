@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('', 'indexSelf')
-    ->can(Permission::CAN_MANAGE_SELF_ACCOUNTS)
-    ->name('accounts');
+Route::get('', 'index')
+    ->can(Permission::CAN_MANAGE_TRANSACTIONS)
+    ->name('management/transactions');

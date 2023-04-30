@@ -29,6 +29,16 @@ Route::get('/home', [HomeController::class, 'index'])
 
 Auth::routes();
 
+// DataTables
+Route::get('/accounts/show', [AccountController::class, 'show']);
+Route::get('/accounts/show-self', [AccountController::class, 'showSelf']);
+Route::get('/types/accounts/show', [AccountTypeController::class, 'show']);
+Route::get('/addresses/show', [AddressController::class, 'show']);
+Route::get('/transactions/show', [TransactionController::class, 'show']);
+Route::get('/transactions/show-self', [TransactionController::class, 'showSelf']);
+Route::get('/types/transactions/show', [TransactionTypeController::class, 'show']);
+Route::get('/users/show', [UserController::class, 'show']);
+
 // Management (ADMIN)
 Route::controller(AccountController::class)
     ->prefix('management/accounts')
@@ -41,6 +51,10 @@ Route::controller(AddressController::class)
 Route::controller(UserController::class)
     ->prefix('management/users')
     ->group(__DIR__ . '/web/admin/users.php');
+
+Route::controller(TransactionController::class)
+    ->prefix('management/transactions')
+    ->group(__DIR__ . '/web/admin/transactions.php');
 
 // Types (ADMIN)
 Route::controller(AccountTypeController::class)
@@ -56,12 +70,13 @@ Route::controller(AccountController::class)
     ->prefix('accounts')
     ->group(__DIR__ . '/web/accounts.php');
 
+
 // Transactions (ADMIN, CUSTOMER)
 Route::controller(TransactionController::class)
     ->prefix('transactions')
     ->group(__DIR__ . '/web/transactions.php');
 
 // Profile
-Route::get('/profile', function(){
+Route::get('/profile', function () {
     return view('profile');
 })->name('profile');

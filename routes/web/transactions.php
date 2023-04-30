@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('', 'index')
-    ->middleware('permission:' . Permission::CAN_MANAGE_TRANSACTIONS . '|' . Permission::CAN_READ_SELF_TRANSACTIONS)
+Route::get('', 'indexSelf')
+    ->can(Permission::CAN_READ_SELF_TRANSACTIONS)
     ->name('transactions');

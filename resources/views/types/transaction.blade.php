@@ -1,7 +1,16 @@
 @extends('layouts.app')
 
+@section('navbar', 'Transaction Types')
+
+@php
+    $title = 'tipo de transação';
+    $columns = ['ID', 'Tipo', 'Ação'];
+@endphp
+
 @section('content')
-    <div class="container-fluid">
-        <h1 class="text-black-50">Transaction Types</h1>
-    </div>
+    @include('components.card', compact('title', 'columns'))
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/datatableTransactionTypes.js') }}"></script>
 @endsection

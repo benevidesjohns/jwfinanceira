@@ -12,5 +12,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/datatableTransactionsSelf.js') }}"></script>
+    <script src="{{ asset('js/datatableTransactions.js') }}"></script>
 @endsection

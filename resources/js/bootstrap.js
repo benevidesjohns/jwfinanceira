@@ -1,4 +1,5 @@
-window._ = import ('lodash');
+window._ = import('lodash');
+import jQuery from 'jquery';
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -7,10 +8,10 @@ window._ = import ('lodash');
  */
 
 try {
-    window.Popper = import ('popper.js').default;
-    window.$ = window.jQuery = import ('jquery');
+    window.Popper = import('popper.js').default;
+    window.$ = jQuery;
 
-    import ('bootstrap');
+    import('bootstrap');
 } catch (e) {
 }
 

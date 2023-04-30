@@ -4,7 +4,7 @@
 
 @php
     $title = 'conta';
-    $columns = ['ID', 'Usuário', 'Tipo', 'Valor', 'Ação'];
+    $columns = ['ID', 'Tipo', 'Valor', 'Ação'];
 @endphp
 
 @section('content')
@@ -12,5 +12,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/datatableAccounts.js') }}"></script>
+    <script src="{{ asset('js/datatableAccountsSelf.js') }}"></script>
 @endsection
