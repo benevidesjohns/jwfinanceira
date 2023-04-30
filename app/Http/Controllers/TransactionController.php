@@ -27,6 +27,10 @@ class TransactionController extends Controller
             ->editColumn('id', function ($transaction) {
                 return $transaction['id'];
             })
+            ->editColumn('type', function ($transaction) {
+                $transactionType = $transaction['transaction_type'];
+                return $transactionType['type'];
+            })
             ->editColumn('account', function ($transaction) {
                 $account = $transaction['account'];
                 return $account['id'];
@@ -34,15 +38,21 @@ class TransactionController extends Controller
             ->editColumn('amount', function ($transaction) {
                 return $transaction['amount'];
             })
-            ->editColumn('type', function ($transaction) {
-                $transactionType = $transaction['transaction_type'];
-                return $transactionType['type'];
-            })
             ->editColumn('date', function ($transaction) {
                 return $transaction['date'];
             })
             ->editColumn('acao', function () {
-                return '<a href="" class="btn btn-dark ml-auto">X</a>';
+                return '
+                <div class="btn-group">
+                    <a href="" class="btn btn-secondary ml-auto">
+                        <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
+                    Editar</a>
+                </div>
+                <div class="btn-group">
+                    <a href="" class="btn btn-secondary ml-auto">
+                    <i class="fas fa-solid fa-trash" style="color:white"></i>
+                    Excluir</a>
+                </div>';
             })
             ->escapeColumns([0])
             ->make(true);
@@ -64,6 +74,10 @@ class TransactionController extends Controller
             ->editColumn('id', function ($transaction) {
                 return $transaction->id;
             })
+            ->editColumn('type', function ($transaction) {
+                $transactionType = $transaction->transactionType;
+                return $transactionType->type;
+            })
             ->editColumn('account', function ($transaction) {
                 $account = $transaction->account;
                 return $account->id;
@@ -71,15 +85,21 @@ class TransactionController extends Controller
             ->editColumn('amount', function ($transaction) {
                 return $transaction->amount;
             })
-            ->editColumn('type', function ($transaction) {
-                $transactionType = $transaction->transactionType;
-                return $transactionType->type;
-            })
             ->editColumn('date', function ($transaction) {
                 return $transaction->date;
             })
             ->editColumn('acao', function () {
-                return '<a href="" class="btn btn-dark ml-auto">X</a>';
+                return '
+                <div class="btn-group">
+                    <a href="" class="btn btn-secondary ml-auto">
+                        <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
+                    Editar</a>
+                </div>
+                <div class="btn-group">
+                    <a href="" class="btn btn-secondary ml-auto">
+                    <i class="fas fa-solid fa-trash" style="color:white"></i>
+                    Excluir</a>
+                </div>';
             })
             ->escapeColumns([0])
             ->make(true);

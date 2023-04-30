@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\AccountType;
+use App\Models\Transaction;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -47,8 +48,40 @@ class AccountController extends Controller
             ->editColumn('balance', function ($account) {
                 return $account['balance'];
             })
-            ->editColumn('acao', function () {
-                return '<a href="" class="btn btn-dark ml-auto">X</a>';
+            ->editColumn('acao', function ($account) {
+                return '
+                    <div class="btn-group">
+                        <a href="" class="btn btn-secondary ml-auto">
+                            <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
+                        Editar</a>
+                    </div>
+                    <div class="btn-group">
+                        <a href="" class="btn btn-secondary ml-auto">
+                        <i class="fas fa-solid fa-trash" style="color:white"></i>
+                        Excluir</a>
+                    </div>';
+                // try {
+                //     Transaction::where('fk_account', $account->id)->get();
+
+                //     return '
+                //         <div class="btn-group">
+                //             <a href="" class="btn btn-secondary ml-auto">
+                //                 <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
+                //             Editar</a>
+                //         </div>';
+                // } catch (\Throwable $th) {
+                //     return '
+                //         <div class="btn-group">
+                //             <a href="" class="btn btn-secondary ml-auto">
+                //                 <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
+                //             Editar</a>
+                //         </div>
+                //         <div class="btn-group">
+                //             <a href="" class="btn btn-secondary ml-auto">
+                //             <i class="fas fa-solid fa-trash" style="color:white"></i>
+                //             Excluir</a>
+                //         </div>';
+                // }
             })
             ->escapeColumns([0])
             ->make(true);
@@ -70,7 +103,17 @@ class AccountController extends Controller
                 return $account->balance;
             })
             ->editColumn('acao', function () {
-                return '<a href="" class="btn btn-dark ml-auto">X</a>';
+                return '
+                <div class="btn-group">
+                    <a href="" class="btn btn-secondary ml-auto">
+                        <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
+                    Editar</a>
+                </div>
+                <div class="btn-group">
+                    <a href="" class="btn btn-secondary ml-auto">
+                    <i class="fas fa-solid fa-trash" style="color:white"></i>
+                    Excluir</a>
+                </div>';
             })
             ->escapeColumns([0])
             ->make(true);

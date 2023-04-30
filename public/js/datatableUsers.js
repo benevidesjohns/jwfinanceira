@@ -9,36 +9,39 @@ $(function () {
         deferRender: true,
         searching: true,
         order: [[1, "ASC"]],
+        language: {
+            url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json"
+        },
         columns: [
             {
-                // width: "30%",
-                data: "id",
-                name: "id"
+                "width": "10%",
+                "data": "id",
+                "name": "id"
             },
             {
-                // width: "20%",
-                data: "name",
-                name: "name"
+                "width": "22%",
+                "data": "name",
+                "name": "name"
             },
             {
-                // width: "30%",
-                data: "email",
-                name: "email"
+                "width": "22%",
+                "data": "email",
+                "name": "email"
             },
             {
-                // width: "20%",
-                data: "phone_number",
-                name: "phone_number"
+                "width": "15%",
+                "data": "phone_number",
+                "name": "phone_number"
             },
             {
-                // width: "20%",
-                data: "cpf",
-                name: "cpf"
+                "width": "14%",
+                "data": "cpf",
+                "name": "cpf"
             },
             {
-                // width: "20%",
-                data: "acao",
-                name: "acao"
+                "width": "17%",
+                "data": "acao",
+                "name": "acao"
             },
         ]
     });

@@ -4,7 +4,7 @@
 
 @php
     $title = 'conta';
-    $columns = ['ID', 'Usuário', 'Tipo', 'Valor', 'Ação'];
+    $columns = ['ID', 'Tipo', 'Usuário', 'Valor', 'Ação'];
 @endphp
 
 @section('content')

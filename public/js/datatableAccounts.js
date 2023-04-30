@@ -9,32 +9,35 @@ $(function () {
         deferRender: true,
         searching: true,
         order: [[1, "ASC"]],
+        language: {
+            url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json"
+        },
         columns: [
-        {
-            // width: "30%",
-            data: "id",
-            name: "id"
-        },
-        {
-            // width: "20%",
-            data: "name",
-            name: "name"
-        },
-        {
-            // width: "30%",
-            data: "type",
-            name: "type"
-        },
-        {
-            // width: "20%",
-            data: "balance",
-            name: "balance"
-        },
-        {
-            // width: "20%",
-            data: "acao",
-            name: "acao"
-        },
+            {
+                "width": "10%",
+                "data": "id",
+                "name": "id"
+            },
+            {
+                "width": "29%",
+                "data": "type",
+                "name": "type"
+            },
+            {
+                "width": "34%",
+                "data": "name",
+                "name": "name"
+            },
+            {
+                "width": "10%",
+                "data": "balance",
+                "name": "balance"
+            },
+            {
+                "width": "17%",
+                "data": "acao",
+                "name": "acao"
+            },
         ]
     });
 });

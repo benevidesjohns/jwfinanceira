@@ -34,7 +34,17 @@ class AddressController extends Controller
                 return $address['address'];
             })
             ->editColumn('acao', function () {
-                return '<a href="" class="btn btn-dark ml-auto">X</a>';
+                return '
+                <div class="btn-group">
+                    <a href="" class="btn btn-secondary ml-auto">
+                        <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
+                    Editar</a>
+                </div>
+                <div class="btn-group">
+                    <a href="" class="btn btn-secondary ml-auto">
+                    <i class="fas fa-solid fa-trash" style="color:white"></i>
+                    Excluir</a>
+                </div>';
             })
             ->escapeColumns([0])
             ->make(true);
