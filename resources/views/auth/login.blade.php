@@ -16,8 +16,8 @@
     @vite(['resources/css/app.css'])
 
 </head>
-{{--
-<section class="vh-100">
+
+<body class="vh-100 bg-secondary">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -29,25 +29,38 @@
                             <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                             <p class="text-white-50 mb-5">Por favor, digite seu login e senha! </p>
 
-                            <div class="form-outline form-white mb-4">
-                                <label class="form-label" for="typeEmailX">Email</label>
-                                <input type="email" id="typeEmailX" class="form-control form-control-lg" />
-                            </div>
+                            <form method="post" action="{{ url('/login') }}">
+                                @csrf
 
-                            <div class="form-outline form-white mb-4">
-                                <label class="form-label" for="typePasswordX">Senha</label>
-                                <input type="password" id="typePasswordX" class="form-control form-control-lg" />
-                            </div>
+                                <div class="form-outline form-white mb-4">
+                                    <label class="form-label" for="typeEmailX">Email</label>
+                                    <input type="email" id="typeEmailX" class="form-control form-control-lg"
+                                        name="email" value="{{ old('email') }}" placeholder="Email" />
+                                </div>
 
-                            <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Esqueceu a senha?</a>
-                            </p>
+                                <div class="form-outline form-white mb-4">
+                                    <label class="form-label" for="typePasswordX">Senha</label>
+                                    <input type="password" id="typePasswordX" class="form-control form-control-lg"
+                                        name="password" placeholder="Senha" />
+                                </div>
 
-                            <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                                <p class="small mb-5 pb-lg-2">
+                                    <a class="text-white-50" href="{{ route('password.request') }}">
+                                        Esqueceu a senha?
+                                    </a>
+                                </p>
+
+                                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+
+                            </form>
                         </div>
 
                         <div>
-                            <p class="mb-0">Não tem uma conta? <a href="#!"
-                                    class="text-white-50 fw-bold">Cadastre-se</a>
+                            <p class="mb-0">
+                                Não tem uma conta?
+                                <a href="{{ route('register') }}" class="text-white-50 fw-bold">
+                                    Cadastre-se
+                                </a>
                             </p>
                         </div>
 
@@ -56,9 +69,9 @@
             </div>
         </div>
     </div>
-</section> --}}
+</body>
 
-<body class="hold-transition login-page">
+{{-- <body class="hold-transition login-page">
 
     <div class="login-box">
         <div class="login-logo">
@@ -129,6 +142,6 @@
 
     @vite(['resources/js/app.js'])
 
-</body>
+</body> --}}
 
 </html>
