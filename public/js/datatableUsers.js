@@ -14,9 +14,9 @@ $(function () {
         },
         columns: [
             {
-                "width": "10%",
-                "data": "id",
-                "name": "id"
+                "width": "14%",
+                "data": "cpf",
+                "name": "cpf"
             },
             {
                 "width": "22%",
@@ -32,11 +32,6 @@ $(function () {
                 "width": "15%",
                 "data": "phone_number",
                 "name": "phone_number"
-            },
-            {
-                "width": "14%",
-                "data": "cpf",
-                "name": "cpf"
             },
             {
                 "width": "17%",

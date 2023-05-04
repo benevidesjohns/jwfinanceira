@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HttpHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 
 class AccountTypeController extends Controller
 {
+    protected $base_url;
+
+    public function __construct(HttpHandler $httpHandler){
+        $this->base_url = $httpHandler->apiBaseURL();
+    }
+
     public function index()
     {
         return view('types.account');
@@ -15,12 +22,9 @@ class AccountTypeController extends Controller
 
     public function show()
     {
-        $data = Http::get('http://api.local/api/types/account')->json();
+        $accountTypes = Http::get($this->base_url . 'types/account')->json();
 
-        return DataTables::of($data)
-            ->editColumn('id', function ($accountType) {
-                return $accountType['id'];
-            })
+        return DataTables::of($accountTypes)
             ->editColumn('type', function ($accountType) {
                 return $accountType['type'];
             })

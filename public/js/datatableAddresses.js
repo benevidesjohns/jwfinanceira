@@ -14,9 +14,14 @@ $(function () {
         },
         columns: [
             {
-                "width": "10%",
-                "data": "id",
-                "name": "id"
+                "width": "15%",
+                "data": "cep",
+                "name": "cep"
+            },
+            {
+                "width": "28%",
+                "data": "address",
+                "name": "address"
             },
             {
                 "width": "20%",
@@ -27,16 +32,6 @@ $(function () {
                 "width": "10%",
                 "data": "state",
                 "name": "state"
-            },
-            {
-                "width": "15%",
-                "data": "cep",
-                "name": "cep"
-            },
-            {
-                "width": "28%",
-                "data": "address",
-                "name": "address"
             },
             {
                 "width": "17%",

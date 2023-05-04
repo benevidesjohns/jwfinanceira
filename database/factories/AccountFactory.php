@@ -17,6 +17,7 @@ class AccountFactory extends Factory
     public function definition()
     {
         return [
+            'account_number' => fake()->unique()->numerify('######'),
             'balance' => 0,
             'fk_account_type' => random_int(1, 6)
         ];

@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HttpHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
+    protected $base_url;
+
+    public function __construct(HttpHandler $httpHandler){
+        $this->base_url = $httpHandler->apiBaseURL();
+    }
+
     public function index()
     {
         return view('management.users');
@@ -15,11 +22,9 @@ class UserController extends Controller
 
     public function show()
     {
-        $data = Http::get('http://api.local/api/users')->json();
-        return DataTables::of($data)
-            ->editColumn('id', function ($user) {
-                return $user['id'];
-            })
+        $users = Http::get($this->base_url . 'users')->json();
+
+        return DataTables::of($users)
             ->editColumn('name', function ($user) {
                 return $user['name'];
             })

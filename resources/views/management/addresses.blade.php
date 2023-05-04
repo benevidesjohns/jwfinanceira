@@ -4,7 +4,7 @@
 
 @php
     $title = 'endereço';
-    $columns = ['ID', 'Cidade', 'Estado', 'CEP', 'Endereço', 'Ação'];
+    $columns = ['CEP', 'Logradouro', 'Cidade', 'Estado', 'Ação'];
 @endphp
 
 @section('content')

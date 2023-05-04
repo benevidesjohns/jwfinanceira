@@ -10,6 +10,7 @@ class Account extends Model
     use HasFactory;
 
     protected $fillable = [
+        'account_number',
         'balance',
         'fk_user',
         'fk_account_type'

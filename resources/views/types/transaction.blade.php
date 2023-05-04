@@ -4,7 +4,7 @@
 
 @php
     $title = 'tipo de transação';
-    $columns = ['ID', 'Tipo', 'Ação'];
+    $columns = ['Tipo', 'Ação'];
 @endphp
 
 @section('content')

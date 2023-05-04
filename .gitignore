@@ -19,3 +19,4 @@ yarn-error.log
 composer.lock
 package-lock.json
 diagram-api.mwb.bak
+/scripts

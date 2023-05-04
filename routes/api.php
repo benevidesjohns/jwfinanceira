@@ -26,7 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-
 // Transactions
 Route::controller(TransactionController::class)
     ->prefix('transactions')

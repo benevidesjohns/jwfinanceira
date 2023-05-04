@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
+            $table->timestamp('date');
             $table->double('amount');
             $table->string('message')->nullable();
             // $table->integer('fk_account')->unsigned()->nullable();

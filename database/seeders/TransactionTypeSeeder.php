@@ -18,7 +18,8 @@ class TransactionTypeSeeder extends Seeder
     {
         $transaction_types = [
             ['type' => 'PIX'],
-            ['type' => 'Espécie'],
+            ['type' => 'Saque'],
+            ['type' => 'Depósito'],
             ['type' => 'Cartão de Crédito'],
             ['type' => 'Cartão de Débito'],
             ['type' => 'Transferência Bancária'],

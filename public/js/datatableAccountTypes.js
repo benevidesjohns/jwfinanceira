@@ -14,11 +14,6 @@ $(function () {
         },
         columns: [
             {
-                "width": "10%",
-                "data": "id",
-                "name": "id"
-            },
-            {
                 "width": "72%",
                 "data": "type",
                 "name": "type"

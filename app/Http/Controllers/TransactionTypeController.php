@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HttpHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 
 class TransactionTypeController extends Controller
 {
+    protected $base_url;
+
+    public function __construct(HttpHandler $httpHandler){
+        $this->base_url = $httpHandler->apiBaseURL();
+    }
+
     public function index()
     {
         return view('types.transaction');
@@ -15,12 +22,9 @@ class TransactionTypeController extends Controller
 
     public function show()
     {
-        $data = Http::get('http://api.local/api/types/transaction')->json();
+        $transactionTypes = Http::get($this->base_url . 'types/transaction')->json();
 
-        return DataTables::of($data)
-            ->editColumn('id', function ($transactionType) {
-                return $transactionType['id'];
-            })
+        return DataTables::of($transactionTypes)
             ->editColumn('type', function ($transactionType) {
                 return $transactionType['type'];
             })

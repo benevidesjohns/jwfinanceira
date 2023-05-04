@@ -15,8 +15,8 @@ $(function () {
         columns: [
             {
                 "width": "10%",
-                "data": "id",
-                "name": "id"
+                "data": "account_number",
+                "name": "account_number"
             },
             {
                 "width": "63%",

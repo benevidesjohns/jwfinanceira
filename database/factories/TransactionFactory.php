@@ -17,8 +17,8 @@ class TransactionFactory extends Factory
     public function definition()
     {
         return [
-            'date' => now(),
-            'amount' => random_int(-10000, 10000),
+            'date' => fake('pt_BR')->date('Y-m-d H:i:s'),
+            'amount' => random_int(1, 10) * 10,
             'fk_account' => random_int(1, 10),
             'fk_transaction_type' => random_int(1, 8)
         ];

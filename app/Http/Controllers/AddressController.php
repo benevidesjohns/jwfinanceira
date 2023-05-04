@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HttpHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 
 class AddressController extends Controller
 {
+    protected $base_url;
+
+    public function __construct(HttpHandler $httpHandler)
+    {
+        $this->base_url = $httpHandler->apiBaseURL();
+    }
+
     public function index()
     {
         return view('management.addresses');
@@ -15,12 +23,9 @@ class AddressController extends Controller
 
     public function show()
     {
-        $data = Http::get('http://api.local/api/addresses')->json();
+        $addresses = Http::get($this->base_url . 'addresses')->json();
 
-        return DataTables::of($data)
-            ->editColumn('id', function ($address) {
-                return $address['id'];
-            })
+        return DataTables::of($addresses)
             ->editColumn('city', function ($address) {
                 return $address['city'];
             })
@@ -38,12 +43,15 @@ class AddressController extends Controller
                 <div class="btn-group">
                     <a href="" class="btn btn-secondary ml-auto">
                         <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
-                    Editar</a>
+                        Editar
+                    </a>
                 </div>
+
                 <div class="btn-group">
                     <a href="" class="btn btn-secondary ml-auto">
-                    <i class="fas fa-solid fa-trash" style="color:white"></i>
-                    Excluir</a>
+                        <i class="fas fa-solid fa-trash" style="color:white"></i>
+                        Excluir
+                    </a>
                 </div>';
             })
             ->escapeColumns([0])
