@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\HttpHandler;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
-    protected $base_url;
+    protected $userService, $base_url;
 
-    public function __construct(HttpHandler $httpHandler)
-    {
+    public function __construct(
+        UserService $userService,
+        HttpHandler $httpHandler
+    ) {
         $this->base_url = $httpHandler->apiBaseURL();
+        $this->userService = $userService;
     }
 
     public function index()
@@ -40,17 +44,7 @@ class UserController extends Controller
                 return $user['cpf'];
             })
             ->editColumn('acao', function ($user) use ($accounts) {
-
-                $user_id = $user['id'];
-                $is_disabled = '';
-
-                $is_associated_account = array_filter($accounts, function ($account) use ($user_id) {
-                    return $account['fk_user'] == $user_id;
-                });
-
-                if ($is_associated_account) {
-                    $is_disabled = 'btn-secondary disabled';
-                }
+                $is_button_disabled = $this->userService->verifyAssociation($user, $accounts);
 
                 return '
                     <div class="btn-group">
@@ -60,7 +54,7 @@ class UserController extends Controller
                         Editar</a>
                     </div>
                     <div class="btn-group ">
-                        <a href="" class="' . 'btn btn-secondary ml-auto delete-btn' . $is_disabled . '"
+                        <a href="" class="' . 'btn btn-secondary ml-auto delete-btn' . $is_button_disabled . '"
                         data-toggle="modal" data-target="#modalDelete"
                         data-route="' . '../api/users/' . $user['id'] . '"
                         data-message="' . 'Deseja excluir o usuário ' . $user['name'] . '?' . '">

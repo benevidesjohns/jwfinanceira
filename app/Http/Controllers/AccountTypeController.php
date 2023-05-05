@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\HttpHandler;
+use App\Services\AccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 
 class AccountTypeController extends Controller
 {
-    protected $base_url;
+    protected $accountService, $base_url;
 
-    public function __construct(HttpHandler $httpHandler)
-    {
+    public function __construct(
+        AccountService $accountService,
+        HttpHandler $httpHandler
+    ) {
         $this->base_url = $httpHandler->apiBaseURL();
+        $this->accountService = $accountService;
     }
 
     public function index()
@@ -31,16 +35,7 @@ class AccountTypeController extends Controller
                 return $accountType['type'];
             })
             ->editColumn('acao', function ($accountType) use ($accounts) {
-                $accountType_id = $accountType['id'];
-                $is_disabled = '';
-
-                $is_associated_account = array_filter($accounts, function ($account) use ($accountType_id) {
-                    return $account['fk_account_type'] == $accountType_id;
-                });
-
-                if ($is_associated_account) {
-                    $is_disabled = 'btn-secondary disabled';
-                }
+                $is_button_disabled = $this->accountService->verifyAssociation($accountType, $accounts, true);
 
                 return '
                 <div class="btn-group">
@@ -49,7 +44,7 @@ class AccountTypeController extends Controller
                     Editar</a>
                 </div>
                 <div class="btn-group">
-                <a href="" class="' . "btn btn-secondary ml-auto delete-btn" . $is_disabled . '"
+                <a href="" class="' . "btn btn-secondary ml-auto delete-btn" . $is_button_disabled . '"
                     data-toggle="modal" data-target="#modalDelete"
                     data-route="' . '../api/types/account/' . $accountType['id'] . '"
                     data-message="' . 'Deseja excluir o tipo ' . $accountType['type'] . ' para contas?' . '">

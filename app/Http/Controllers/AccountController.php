@@ -12,13 +12,13 @@ use App\Helpers\HttpHandler;
 
 class AccountController extends Controller
 {
-    protected $service, $base_url;
+    protected $accountService, $base_url;
 
     public function __construct(
-        AccountService $service,
+        AccountService $accountService,
         HttpHandler $httpHandler
     ) {
-        $this->service = $service;
+        $this->accountService = $accountService;
         $this->base_url = $httpHandler->apiBaseURL();
     }
 
@@ -53,16 +53,7 @@ class AccountController extends Controller
                 return 'R$ ' . number_format($account['balance'], 2, ',', '.');
             })
             ->editColumn('acao', function ($account) use ($transactions) {
-                $account_id = $account['id'];
-                $is_disabled = '';
-
-                $is_associated_transaction = array_filter($transactions, function ($transaction) use ($account_id) {
-                    return $transaction['fk_account'] == $account_id;
-                });
-
-                if ($is_associated_transaction) {
-                    $is_disabled = 'btn-secondary disabled';
-                }
+                $is_button_disabled = $this->accountService->verifyAssociation($account, $transactions, false);
 
                 return '
                     <div class="btn-group">
@@ -71,7 +62,7 @@ class AccountController extends Controller
                         Editar</a>
                     </div>
                     <div class="btn-group">
-                        <a href="" class="' . "btn btn-secondary ml-auto delete-btn" . $is_disabled . '"
+                        <a href="" class="' . "btn btn-secondary ml-auto delete-btn" . $is_button_disabled . '"
                             data-toggle="modal" data-target="#modalDelete"
                             data-route="' . '../api/accounts/' . $account['id'] . '"
                             data-message="' . 'Deseja excluir a conta ' . $account['account_number'] . '?' . '">
@@ -87,6 +78,17 @@ class AccountController extends Controller
     public function showSelf(Request $request)
     {
         $user = User::find($request->user()->id);
+
+        // TODO: Testar esse formato de requisição de dados pela API
+        // Se funcionar, adaptar para a requisição de transações (showSelf)
+
+        // $accounts = Http::get($this->base_url . 'accounts')->json();
+
+        // $id = $request->user()->id;
+        // $user_accounts = array_filter($accounts, function ($account) use ($id) {
+        //     return $account['fk_user'] == $id;
+        // });
+
         $transactions = Http::get($this->base_url . 'transactions')->json();
 
         return DataTables::of($user->accounts)
@@ -101,16 +103,7 @@ class AccountController extends Controller
                 return 'R$ ' . number_format($account['balance'], 2, ',', '.');
             })
             ->editColumn('acao', function ($account) use ($transactions) {
-                $account_id = $account['id'];
-                $is_disabled = '';
-
-                $is_associated_transaction = array_filter($transactions, function ($transaction) use ($account_id) {
-                    return $transaction['fk_account'] == $account_id;
-                });
-
-                if ($is_associated_transaction) {
-                    $is_disabled = 'btn-secondary disabled';
-                }
+                $is_button_disabled = $this->accountService->verifyAssociation($account, $transactions, false);
 
                 return '
                     <div class="btn-group">
@@ -119,7 +112,7 @@ class AccountController extends Controller
                         Editar</a>
                     </div>
                     <div class="btn-group">
-                        <a href="" class="' . "btn btn-secondary ml-auto delete-btn" . $is_disabled . '"
+                        <a href="" class="' . "btn btn-secondary ml-auto delete-btn" . $is_button_disabled . '"
                             data-toggle="modal" data-target="#modalDelete"
                             data-route="' . '../api/accounts/' . $account['id'] . '"
                             data-message="' . 'Deseja excluir a conta ' . $account['account_number'] . '?' . '">

@@ -158,5 +158,21 @@ class AccountService
         return compact('info', 'status');
     }
 
-    
+    public function verifyAssociation($item, $data, $type)
+    {
+        $is_disabled = '';
+        $item_id = $item['id'];
+
+        $fk = $type ? 'fk_account_type' : 'fk_account';
+
+        $is_associated = array_filter($data, function ($element) use ($item_id, $fk) {
+            return $element[$fk] == $item_id;
+        });
+
+        if ($is_associated) {
+            $is_disabled = 'btn-secondary disabled';
+        }
+
+        return $is_disabled;
+    }
 }

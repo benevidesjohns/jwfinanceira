@@ -155,4 +155,20 @@ class UserService
 
         return compact('info', 'status');
     }
+
+    public function verifyAssociation($user, $accounts)
+    {
+        $user_id = $user['id'];
+        $is_disabled = '';
+
+        $is_associated_account = array_filter($accounts, function ($account) use ($user_id) {
+            return $account['fk_user'] == $user_id;
+        });
+
+        if ($is_associated_account) {
+            $is_disabled = 'btn-secondary disabled';
+        }
+
+        return $is_disabled;
+    }
 }
