@@ -1,6 +1,7 @@
 {
     "private": true,
     "scripts": {
+        "cls": "docker exec -i -w /var/www/html/api-laravel apache php artisan cache:clear",
         "dev": "vite",
         "build": "vite build"
     },

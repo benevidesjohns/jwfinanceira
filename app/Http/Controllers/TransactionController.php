@@ -41,12 +41,14 @@ class TransactionController extends Controller
                 return $account['account_number'];
             })
             ->editColumn('amount', function ($transaction) {
-                return 'R$ '. number_format($transaction['amount'], 2, ',', '.');
+                return 'R$ ' . number_format($transaction['amount'], 2, ',', '.');
             })
             ->editColumn('date', function ($transaction) {
                 return $transaction['date'];
             })
             ->editColumn('acao', function ($transaction) {
+                $account = $transaction['account'];
+
                 return '
                 <div class="btn-group">
                     <a href="" class="btn btn-secondary ml-auto">
@@ -54,15 +56,14 @@ class TransactionController extends Controller
                         Editar
                     </a>
                 </div>
-
                 <div class="btn-group">
-                <form action="' . $this->base_url . 'transactions/' . $transaction['id'] . '" method="POST">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn btn-secondary">
-                            <i class="fas fa-solid fa-trash" style="color:white"></i>
-                            Excluir
-                        </button>
-                    </form>
+                    <a href="" class="btn btn-secondary ml-auto delete-btn"
+                    data-toggle="modal" data-target="#modalDelete"
+                    data-route="' . '../api/transactions/' . $transaction['id'] . '"
+                    data-message="' . 'Deseja excluir a transação da conta ' . $account['account_number'] . '?' . '">
+                        <i class="fas fa-solid fa-trash" style="color:white"></i>
+                        Excluir
+                    </a>
                 </div>';
             })
             ->escapeColumns([0])
@@ -89,12 +90,14 @@ class TransactionController extends Controller
                 return $account->account_number;
             })
             ->editColumn('amount', function ($transaction) {
-                return 'R$ '. number_format($transaction->amount, 2, ',', '.');
+                return 'R$ ' . number_format($transaction->amount, 2, ',', '.');
             })
             ->editColumn('date', function ($transaction) {
                 return $transaction->date;
             })
-            ->editColumn('acao', function () {
+            ->editColumn('acao', function ($transaction) {
+                $account = $transaction['account'];
+
                 return '
                 <div class="btn-group">
                     <a href="" class="btn btn-secondary ml-auto">
@@ -102,9 +105,13 @@ class TransactionController extends Controller
                     Editar</a>
                 </div>
                 <div class="btn-group">
-                    <a href="" class="btn btn-secondary ml-auto">
-                    <i class="fas fa-solid fa-trash" style="color:white"></i>
-                    Excluir</a>
+                    <a href="" class="btn btn-secondary ml-auto delete-btn"
+                    data-toggle="modal" data-target="#modalDelete"
+                    data-route="' . '../api/transactions/' . $transaction['id'] . '"
+                    data-message="' . 'Deseja excluir a transação da sua conta ' . $account['account_number'] . '?' . '">
+                        <i class="fas fa-solid fa-trash" style="color:white"></i>
+                        Excluir
+                    </a>
                 </div>';
             })
             ->escapeColumns([0])

@@ -35,6 +35,7 @@ class AccountController extends Controller
     public function show()
     {
         $accounts = Http::get($this->base_url . 'accounts')->json();
+        $transactions = Http::get($this->base_url . 'transactions')->json();
 
         return DataTables::of($accounts)
             ->editColumn('account_number', function ($account) {
@@ -49,9 +50,20 @@ class AccountController extends Controller
                 return $accountType['type'];
             })
             ->editColumn('balance', function ($account) {
-                return 'R$ '. number_format($account['balance'], 2, ',', '.');
+                return 'R$ ' . number_format($account['balance'], 2, ',', '.');
             })
-            ->editColumn('acao', function ($account) {
+            ->editColumn('acao', function ($account) use ($transactions) {
+                $account_id = $account['id'];
+                $is_disabled = '';
+
+                $is_associated_transaction = array_filter($transactions, function ($transaction) use ($account_id) {
+                    return $transaction['fk_account'] == $account_id;
+                });
+
+                if ($is_associated_transaction) {
+                    $is_disabled = 'btn-secondary disabled';
+                }
+
                 return '
                     <div class="btn-group">
                         <a href="" class="btn btn-secondary ml-auto">
@@ -59,9 +71,13 @@ class AccountController extends Controller
                         Editar</a>
                     </div>
                     <div class="btn-group">
-                        <a href="" class="btn btn-secondary ml-auto">
-                        <i class="fas fa-solid fa-trash" style="color:white"></i>
-                        Excluir</a>
+                        <a href="" class="' . "btn btn-secondary ml-auto delete-btn" . $is_disabled . '"
+                            data-toggle="modal" data-target="#modalDelete"
+                            data-route="' . '../api/accounts/' . $account['id'] . '"
+                            data-message="' . 'Deseja excluir a conta ' . $account['account_number'] . '?' . '">
+                            <i class="fas fa-solid fa-trash" style="color:white"></i>
+                            Excluir
+                        </a>
                     </div>';
             })
             ->escapeColumns([0])
@@ -71,6 +87,7 @@ class AccountController extends Controller
     public function showSelf(Request $request)
     {
         $user = User::find($request->user()->id);
+        $transactions = Http::get($this->base_url . 'transactions')->json();
 
         return DataTables::of($user->accounts)
             ->editColumn('account_number', function ($account) {
@@ -81,20 +98,35 @@ class AccountController extends Controller
                 return $accountType->type;
             })
             ->editColumn('balance', function ($account) {
-                return 'R$ '. number_format($account['balance'], 2, ',', '.');
+                return 'R$ ' . number_format($account['balance'], 2, ',', '.');
             })
-            ->editColumn('acao', function () {
+            ->editColumn('acao', function ($account) use ($transactions) {
+                $account_id = $account['id'];
+                $is_disabled = '';
+
+                $is_associated_transaction = array_filter($transactions, function ($transaction) use ($account_id) {
+                    return $transaction['fk_account'] == $account_id;
+                });
+
+                if ($is_associated_transaction) {
+                    $is_disabled = 'btn-secondary disabled';
+                }
+
                 return '
-                <div class="btn-group">
-                    <a href="" class="btn btn-secondary ml-auto">
-                        <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
-                    Editar</a>
-                </div>
-                <div class="btn-group">
-                    <a href="" class="btn btn-secondary ml-auto">
-                    <i class="fas fa-solid fa-trash" style="color:white"></i>
-                    Excluir</a>
-                </div>';
+                    <div class="btn-group">
+                        <a href="" class="btn btn-secondary ml-auto">
+                            <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
+                        Editar</a>
+                    </div>
+                    <div class="btn-group">
+                        <a href="" class="' . "btn btn-secondary ml-auto delete-btn" . $is_disabled . '"
+                            data-toggle="modal" data-target="#modalDelete"
+                            data-route="' . '../api/accounts/' . $account['id'] . '"
+                            data-message="' . 'Deseja excluir a conta ' . $account['account_number'] . '?' . '">
+                            <i class="fas fa-solid fa-trash" style="color:white"></i>
+                            Excluir
+                        </a>
+                    </div>';
             })
             ->escapeColumns([0])
             ->make(true);

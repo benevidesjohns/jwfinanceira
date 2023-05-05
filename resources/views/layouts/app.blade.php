@@ -16,7 +16,7 @@
             @yield('content')
         </div>
 
-
+        @include('components.modal-delete')
 
         <!-- Main Footer -->
         @include('layouts.footer')

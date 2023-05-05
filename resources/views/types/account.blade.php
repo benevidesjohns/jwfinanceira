@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('navbar', 'Account Types')
+@section('navbar', 'Tipos de conta')
 
 @php
     $title = 'tipo de conta';

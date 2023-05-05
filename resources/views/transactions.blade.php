@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('navbar', 'Transactions')
+@section('navbar', 'Minhas transações')
 
 @php
     $title = 'transação';

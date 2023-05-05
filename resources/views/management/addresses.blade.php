@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('navbar', 'Addresses')
+@section('navbar', 'Endereços')
 
 @php
     $title = 'endereço';

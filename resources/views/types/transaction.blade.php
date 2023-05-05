@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('navbar', 'Transaction Types')
+@section('navbar', 'Tipos de transação')
 
 @php
     $title = 'tipo de transação';
