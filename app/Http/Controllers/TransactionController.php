@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\HttpHandler;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -20,6 +21,11 @@ class TransactionController extends Controller
     public function index()
     {
         return view('management.transactions');
+    }
+
+    public function create()
+    {
+        return view('management.create.transaction');
     }
 
     public function indexSelf()

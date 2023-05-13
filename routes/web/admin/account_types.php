@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('', 'index')
     ->can(Permission::CAN_MANAGE_TYPES)
     ->name('types/account');
+
+Route::get('create', 'create')
+    ->can(Permission::CAN_MANAGE_TYPES)
+    ->name('management/types/account/create');

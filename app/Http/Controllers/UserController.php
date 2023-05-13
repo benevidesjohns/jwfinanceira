@@ -25,6 +25,11 @@ class UserController extends Controller
         return view('management.users');
     }
 
+    public function create()
+    {
+        return view('management.create.user');
+    }
+
     public function show()
     {
         $users = Http::get($this->base_url . 'users')->json();

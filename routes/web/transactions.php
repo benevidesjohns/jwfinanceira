@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('', 'indexSelf')
     ->can(Permission::CAN_READ_SELF_TRANSACTIONS)
     ->name('transactions');
+
+Route::get('create', 'create')
+    ->can(Permission::CAN_READ_SELF_TRANSACTIONS)
+    ->name('management/transactions/create');

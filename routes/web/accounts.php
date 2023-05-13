@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('', 'indexSelf')
     ->can(Permission::CAN_MANAGE_SELF_ACCOUNTS)
     ->name('accounts');
+
+Route::get('create', 'create')
+    ->can(Permission::CAN_MANAGE_SELF_ACCOUNTS)
+    ->name('management/accounts/create');

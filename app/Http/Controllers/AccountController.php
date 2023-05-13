@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 use App\Helpers\HttpHandler;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
-    protected $accountService, $base_url;
+    protected $accountService, $base_url, $accounts, $transactions;
 
     public function __construct(
         AccountService $accountService,
@@ -20,11 +21,22 @@ class AccountController extends Controller
     ) {
         $this->accountService = $accountService;
         $this->base_url = $httpHandler->apiBaseURL();
+
+        $this->accounts = Http::get($this->base_url . 'accounts')->json();
+        $this->transactions = Http::get($this->base_url . 'transactions')->json();
     }
 
     public function index()
     {
         return view('management.accounts');
+    }
+
+    public function create()
+    {
+        $user_id = Auth::user()->id;
+        $account_types = Http::get($this->base_url . 'types/account')->json();
+
+        return view('management.create.account', compact('account_types', 'user_id'));
     }
 
     public function indexSelf()
@@ -34,8 +46,8 @@ class AccountController extends Controller
 
     public function show()
     {
-        $accounts = Http::get($this->base_url . 'accounts')->json();
-        $transactions = Http::get($this->base_url . 'transactions')->json();
+        $accounts = $this->accounts;
+        $transactions = $this->transactions;
 
         return DataTables::of($accounts)
             ->editColumn('account_number', function ($account) {

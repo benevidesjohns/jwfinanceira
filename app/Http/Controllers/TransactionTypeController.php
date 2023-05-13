@@ -21,6 +21,11 @@ class TransactionTypeController extends Controller
         return view('types.transaction');
     }
 
+    public function create()
+    {
+        return view('management.create.transaction_type');
+    }
+
     public function show()
     {
         $transactionTypes = Http::get($this->base_url . 'types/transaction')->json();

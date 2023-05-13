@@ -25,6 +25,11 @@ class AccountTypeController extends Controller
         return view('types.account');
     }
 
+    public function create()
+    {
+        return view('management.create.account_type');
+    }
+
     public function show()
     {
         $accountTypes = Http::get($this->base_url . 'types/account')->json();
