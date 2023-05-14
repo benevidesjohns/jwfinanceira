@@ -17,10 +17,10 @@ return new class extends Migration {
             $table->timestamp('date');
             $table->double('amount');
             $table->string('message')->nullable();
-            // $table->integer('fk_account')->unsigned()->nullable();
+            $table->integer('fk_user')->unsigned();
+            $table->foreign('fk_user')->references('id')->on('users');
             $table->integer('fk_account')->unsigned();
             $table->foreign('fk_account')->references('id')->on('accounts')->cascadeOnDelete();
-            // $table->integer('fk_transaction_type')->unsigned()->nullable();
             $table->integer('fk_transaction_type')->unsigned();
             $table->foreign('fk_transaction_type')->references('id')->on('transaction_types');
             $table->timestamps();

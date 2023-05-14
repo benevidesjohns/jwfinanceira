@@ -4,7 +4,7 @@
 
 @php
     $title = 'transação';
-    $route_create = 'transactions/create';
+    $route_create = 'transactions/create/';
     $columns = ['Nº Conta', 'Tipo', 'Valor', 'Data', 'Ação'];
 @endphp
 

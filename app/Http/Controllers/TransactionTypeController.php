@@ -9,11 +9,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TransactionTypeController extends Controller
 {
-    protected $base_url;
+    protected $base_url, $transactionTypes, $transactions;
 
     public function __construct(HttpHandler $httpHandler)
     {
         $this->base_url = $httpHandler->apiBaseURL();
+
+        $this->transactionTypes = Http::get($this->base_url . 'types/transaction')->json();
+        $this->transactions = Http::get($this->base_url . 'transactions')->json();
     }
 
     public function index()
@@ -28,8 +31,8 @@ class TransactionTypeController extends Controller
 
     public function show()
     {
-        $transactionTypes = Http::get($this->base_url . 'types/transaction')->json();
-        $transactions = Http::get($this->base_url . 'transactions')->json();
+        $transactionTypes = $this->transactionTypes;
+        $transactions = $this->transactions;
 
         return DataTables::of($transactionTypes)
             ->editColumn('type', function ($transactionType) {

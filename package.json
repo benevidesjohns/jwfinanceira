@@ -2,6 +2,7 @@
     "private": true,
     "scripts": {
         "cls": "docker exec -i -w /var/www/html/api-laravel apache php artisan cache:clear",
+        "reset-db":"docker exec -i -w /var/www/html/api-laravel apache php artisan migrate:fresh && docker exec -i -w /var/www/html/api-laravel apache php artisan db:seed",
         "dev": "vite",
         "build": "vite build"
     },

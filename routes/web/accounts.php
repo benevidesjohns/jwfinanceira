@@ -20,4 +20,4 @@ Route::get('', 'indexSelf')
 
 Route::get('create', 'create')
     ->can(Permission::CAN_MANAGE_SELF_ACCOUNTS)
-    ->name('management/accounts/create');
+    ->name('accounts/create');

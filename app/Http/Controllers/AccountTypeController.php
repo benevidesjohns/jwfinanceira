@@ -10,7 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class AccountTypeController extends Controller
 {
-    protected $accountService, $base_url;
+    protected $accountService, $base_url, $accounts, $accountTypes;
 
     public function __construct(
         AccountService $accountService,
@@ -18,6 +18,9 @@ class AccountTypeController extends Controller
     ) {
         $this->base_url = $httpHandler->apiBaseURL();
         $this->accountService = $accountService;
+
+        $this->accountTypes = Http::get($this->base_url . 'types/account')->json();
+        $this->accounts = Http::get($this->base_url . 'accounts')->json();
     }
 
     public function index()
@@ -30,10 +33,15 @@ class AccountTypeController extends Controller
         return view('management.create.account_type');
     }
 
+    public function edit()
+    {
+        return view('management.edit.account_type');
+    }
+
     public function show()
     {
-        $accountTypes = Http::get($this->base_url . 'types/account')->json();
-        $accounts = Http::get($this->base_url . 'accounts')->json();
+        $accountTypes = $this->accountTypes;
+        $accounts = $this->accounts;
 
         return DataTables::of($accountTypes)
             ->editColumn('type', function ($accountType) {

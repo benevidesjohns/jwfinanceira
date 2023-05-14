@@ -16,9 +16,9 @@
                 @csrf
                 <div>
                     <strong>Valor da conta R$</strong>
-                    <input type="text" autocomplete="off" class="mb-5 mr-5" name="balance">
+                    <input type="text" autocomplete="off" class="mb-5 mr-5">
                     <strong>Tipo de conta</strong>
-                    <select class="form-select" name='account_types'>
+                    <select id="account_types" class="form-select" name='account_types'>
                         <option>Selecione</option>
                         @foreach ($account_types as $account_type)
                             <option value='{{ $account_type['id'] }}'>

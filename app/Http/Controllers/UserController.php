@@ -10,14 +10,17 @@ use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
-    protected $userService, $base_url;
+    protected $userService, $base_url, $users, $accounts;
 
     public function __construct(
         UserService $userService,
         HttpHandler $httpHandler
     ) {
-        $this->base_url = $httpHandler->apiBaseURL();
         $this->userService = $userService;
+        $this->base_url = $httpHandler->apiBaseURL();
+
+        $this->users = Http::get($this->base_url . 'users')->json();
+        $this->accounts = Http::get($this->base_url . 'accounts')->json();
     }
 
     public function index()
@@ -32,8 +35,8 @@ class UserController extends Controller
 
     public function show()
     {
-        $users = Http::get($this->base_url . 'users')->json();
-        $accounts = Http::get($this->base_url . 'accounts')->json();
+        $users = $this->users;
+        $accounts = $this->accounts;
 
         return DataTables::of($users)
             ->editColumn('name', function ($user) {

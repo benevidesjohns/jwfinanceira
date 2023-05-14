@@ -10,12 +10,21 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'amount', 'message', 'fk_account', 'fk_transaction_type'
+        'date',
+        'amount',
+        'message',
+        'fk_user',
+        'fk_account',
+        'fk_transaction_type',
     ];
 
     protected $hidden = [
         'created_at', 'updated_at'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'fk_user');
+    }
 
     public function account(){
         return $this->belongsTo(Account::class, 'fk_account');

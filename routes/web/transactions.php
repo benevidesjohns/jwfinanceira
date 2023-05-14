@@ -19,5 +19,8 @@ Route::get('', 'indexSelf')
     ->name('transactions');
 
 Route::get('create', 'create')
-    ->can(Permission::CAN_READ_SELF_TRANSACTIONS)
-    ->name('management/transactions/create');
+    ->can(Permission::CAN_CREATE_SELF_TRANSACTION)
+    ->name('transactions/create');
+
+Route::post('create', 'onCreate')
+    ->can(Permission::CAN_CREATE_SELF_TRANSACTION);

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
-    protected $accountService, $base_url, $accounts, $transactions;
+    protected $accountService, $base_url, $accounts, $transactions, $account_types;
 
     public function __construct(
         AccountService $accountService,
@@ -24,6 +24,7 @@ class AccountController extends Controller
 
         $this->accounts = Http::get($this->base_url . 'accounts')->json();
         $this->transactions = Http::get($this->base_url . 'transactions')->json();
+        $this->account_types = Http::get($this->base_url . 'types/account')->json();
     }
 
     public function index()
@@ -34,7 +35,7 @@ class AccountController extends Controller
     public function create()
     {
         $user_id = Auth::user()->id;
-        $account_types = Http::get($this->base_url . 'types/account')->json();
+        $account_types = $this->account_types;
 
         return view('management.create.account', compact('account_types', 'user_id'));
     }
@@ -101,7 +102,7 @@ class AccountController extends Controller
         //     return $account['fk_user'] == $id;
         // });
 
-        $transactions = Http::get($this->base_url . 'transactions')->json();
+        $transactions = $this->transactions;
 
         return DataTables::of($user->accounts)
             ->editColumn('account_number', function ($account) {

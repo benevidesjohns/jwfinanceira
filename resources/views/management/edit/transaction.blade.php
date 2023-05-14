@@ -12,13 +12,13 @@
             </a>
         </div>
         <div class="card-body d-flex justify-content-between">
-            <form method="POST" action="/transactions/create" id="create-transaction">
+            <form method="POST" action="/api/transactions" id="create-transaction">
                 @csrf
                 <div>
                     <strong>Valor da transação R$</strong>
-                    <input type="text" name="amount" autocomplete="off" class="mb-3 mr-5">
+                    <input type="text" autocomplete="off" class="mb-5 mr-5">
                     <strong>Conta</strong>
-                    <select class="form-select mr-5" name='fk_account'>
+                    <select id="transaction_types" class="form-select mr-5" name='transaction_types'>
                         <option>Selecione</option>
                         @foreach ($accounts as $account)
                             <option value='{{ $account['id'] }}'>
@@ -26,23 +26,13 @@
                         @endforeach
                     </select>
                     <strong>Tipo de transação</strong>
-                    <select class="form-select" name='fk_transaction_type'>
+                    <select id="transaction_types" class="form-select" name='transaction_types'>
                         <option>Selecione</option>
                         @foreach ($transaction_types as $transaction_type)
                             <option value='{{ $transaction_type['id'] }}'>
                                 {{ $transaction_type['type'] }}</option>
                         @endforeach
                     </select>
-                    @error('cidade')
-                        <span class="invalid-feedback" role="alert">
-                            <strong> O campo Cidade é obrigatório. </strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div>
-                    <strong>Mensagem</strong><br>
-                    <input type="text" name="message" autocomplete="off" class="w-50 mb-5 mr-5">
                 </div>
 
                 <button type="submit" form="create-transaction" class="btn btn-secondary ml-auto">

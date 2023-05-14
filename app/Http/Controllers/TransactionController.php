@@ -11,11 +11,15 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TransactionController extends Controller
 {
-    protected $base_url;
+    protected $base_url, $transactions, $transaction_types, $accounts;
 
     public function __construct(HttpHandler $httpHandler)
     {
         $this->base_url = $httpHandler->apiBaseURL();
+
+        $this->transactions = Http::get($this->base_url . 'transactions')->json();
+        $this->transaction_types = Http::get($this->base_url . 'types/transaction')->json();
+        $this->accounts = Http::get($this->base_url . 'accounts')->json();
     }
 
     public function index()
@@ -25,7 +29,29 @@ class TransactionController extends Controller
 
     public function create()
     {
-        return view('management.create.transaction');
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+
+        $accounts = $user->accounts;
+        $transaction_types = $this->transaction_types;
+
+        return view('management.create.transaction', compact('accounts', 'transaction_types'));
+    }
+
+    public function onCreate(Request $req)
+    {
+        $data = [
+            'fk_user' => Auth::user()->id,
+            'fk_account' => $req->fk_account,
+            'fk_transaction_type' => $req->fk_transaction_type,
+            'message' => $req->message,
+            'amount' => $req->amount,
+            'date' => now()->format('Y-m-d H:i:s')
+        ];
+
+        Http::post($this->base_url . 'transactions', $data);
+
+        return redirect()->route('transactions');
     }
 
     public function indexSelf()
@@ -35,7 +61,7 @@ class TransactionController extends Controller
 
     public function show()
     {
-        $transactions = Http::get($this->base_url . 'transactions')->json();
+        $transactions = $this->transactions;
 
         return DataTables::of($transactions)
             ->editColumn('type', function ($transaction) {
@@ -56,21 +82,15 @@ class TransactionController extends Controller
                 $account = $transaction['account'];
 
                 return '
-                <div class="btn-group">
-                    <a href="" class="btn btn-secondary ml-auto">
-                        <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
-                        Editar
-                    </a>
-                </div>
-                <div class="btn-group">
-                    <a href="" class="btn btn-secondary ml-auto delete-btn"
-                    data-toggle="modal" data-target="#modalDelete"
-                    data-route="' . '../api/transactions/' . $transaction['id'] . '"
-                    data-message="' . 'Deseja excluir a transação da conta ' . $account['account_number'] . '?' . '">
-                        <i class="fas fa-solid fa-trash" style="color:white"></i>
-                        Excluir
-                    </a>
-                </div>';
+                    <div class="btn-group">
+                        <a href="" class="btn btn-secondary ml-auto delete-btn"
+                        data-toggle="modal" data-target="#modalDelete"
+                        data-route="' . '../api/transactions/' . $transaction['id'] . '"
+                        data-message="' . 'Deseja excluir a transação da conta ' . $account['account_number'] . '?' . '">
+                            <i class="fas fa-solid fa-trash" style="color:white"></i>
+                            Excluir
+                        </a>
+                    </div>';
             })
             ->escapeColumns([0])
             ->make(true);
@@ -79,12 +99,7 @@ class TransactionController extends Controller
     public function showSelf(Request $request)
     {
         $user = User::find($request->user()->id);
-        $accounts = $user->accounts;
-
-        $transactions = collect();
-        foreach ($accounts as $account) {
-            $transactions = $transactions->merge($account->transactions)->collect();
-        }
+        $transactions = $user->transactions;
 
         return DataTables::of($transactions)
             ->editColumn('type', function ($transaction) {

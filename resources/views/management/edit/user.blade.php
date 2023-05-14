@@ -22,5 +22,3 @@
 
 @section('scripts')
 @endsection
-
-{{-- name, email, phone_numer, cpf, address --}}

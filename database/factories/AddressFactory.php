@@ -17,10 +17,10 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            'city' => fake('pt_BR')->city(),
-            'state' => fake('pt_BR')->stateAbbr(),
-            'cep' => fake('pt_BR')->postcode(),
-            'address' => fake('pt_BR')->streetAddress(),
+            'city' => fake()->city(),
+            'state' => fake()->stateAbbr(),
+            'cep' => fake()->postcode(),
+            'address' => fake()->streetAddress(),
         ];
     }
 }
