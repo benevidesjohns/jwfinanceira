@@ -18,10 +18,6 @@ class TransactionController extends Controller
     public function __construct(HttpHandler $httpHandler)
     {
         $this->base_url = $httpHandler->apiBaseURL();
-
-        $this->transactions = Http::get($this->base_url . 'transactions')->json();
-        $this->transaction_types = Http::get($this->base_url . 'types/transaction')->json();
-        $this->accounts = Http::get($this->base_url . 'accounts')->json();
     }
 
     public function index()
@@ -37,10 +33,11 @@ class TransactionController extends Controller
     public function create()
     {
         $user_id = Auth::user()->id;
-        $user = User::find($user_id);
+        $data = Http::get($this->base_url . 'users/' . $user_id)->json();
 
-        $accounts = $user->accounts;
-        $transaction_types = $this->transaction_types;
+        $user = $data['user'];
+        $accounts = $user['accounts'];
+        $transaction_types = Http::get($this->base_url . 'types/transaction')->json();
 
         return view('create.transaction', compact('accounts', 'transaction_types'));
     }
@@ -48,16 +45,17 @@ class TransactionController extends Controller
     public function onCreate(Request $req)
     {
         $req->validate([
-            'fk_transaction_type' => Rule::notIn(['Selecione']),
-            'amount' => 'required'
+            'conta' => Rule::notIn(['Selecione']),
+            'tipo_de_transacao' => Rule::notIn(['Selecione']),
+            'valor_da_transacao' => 'required'
         ]);
 
         $data = [
             'fk_user' => Auth::user()->id,
-            'fk_account' => $req->fk_account,
-            'fk_transaction_type' => $req->fk_transaction_type,
-            'message' => $req->message,
-            'amount' => $req->amount,
+            'fk_account' => $req->conta,
+            'fk_transaction_type' => $req->tipo_de_transacao,
+            'message' => $req->mensagem,
+            'amount' => $req->valor_da_transacao,
             'date' => now()->format('Y-m-d H:i:s')
         ];
 
@@ -68,7 +66,7 @@ class TransactionController extends Controller
 
     public function show()
     {
-        $transactions = $this->transactions;
+        $transactions = Http::get($this->base_url . 'transactions')->json();
 
         return DataTables::of($transactions)
             ->editColumn('type', function ($transaction) {

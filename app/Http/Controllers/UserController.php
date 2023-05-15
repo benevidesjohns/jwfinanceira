@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\HttpHandler;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -18,9 +22,6 @@ class UserController extends Controller
     ) {
         $this->userService = $userService;
         $this->base_url = $httpHandler->apiBaseURL();
-
-        $this->users = Http::get($this->base_url . 'users')->json();
-        $this->accounts = Http::get($this->base_url . 'accounts')->json();
     }
 
     public function index()
@@ -30,7 +31,9 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('create.user');
+        $roles = Role::all();
+
+        return view('create.user', compact('roles'));
     }
 
     public function edit($id)
@@ -41,10 +44,53 @@ class UserController extends Controller
         return view('edit.user', compact('user'));
     }
 
+    public function onCreate(Request $req)
+    {
+        $req->validate([
+            'tipo_de_usuario' => Rule::notIn(['Selecione']),
+            'nome' => 'required',
+            'cpf' => 'required',
+            'telefone' => 'required',
+            'email' => 'required|email',
+            'senha' => 'required|min:6',
+            'logradouro' => 'required',
+            'cidade' => 'required',
+            'estado' => 'required',
+            'cep' => 'required',
+        ]);
+
+        $address_data = [
+            'city' => $req->cidade,
+            'state' => $req->estado,
+            'cep' => $req->cep,
+            'address' => $req->logradouro,
+        ];
+
+        $address_data = Http::post($this->base_url . 'addresses', $address_data)->json();
+        $address = $address_data['address'];
+
+        $user_data = [
+            'name' => $req->nome,
+            'cpf' => $req->cpf,
+            'phone_number' => $req->telefone,
+            'email' => $req->email,
+            'password' => Hash::make($req->senha),
+            'fk_address' => $address['id'],
+        ];
+
+        $user_data = Http::post($this->base_url . 'users', $user_data)->json();
+        $user = $user_data['user'];
+
+        $user = User::find($user['id']);
+        $user->assignRole($req->tipo_de_usuario);
+
+        return redirect()->route('management/users');
+    }
+
     public function show()
     {
-        $users = $this->users;
-        $accounts = $this->accounts;
+        $users = Http::get($this->base_url . 'users')->json();
+        $accounts = Http::get($this->base_url . 'accounts')->json();
 
         return DataTables::of($users)
             ->editColumn('name', function ($user) {

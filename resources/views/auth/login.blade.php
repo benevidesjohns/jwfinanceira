@@ -44,11 +44,11 @@
                                         name="password" placeholder="Senha" />
                                 </div>
 
-                                <p class="small mb-5 pb-lg-2">
+                                <!-- <p class="small mb-5 pb-lg-2">
                                     <a class="text-white-50" href="{{ route('password.request') }}">
                                         Esqueceu a senha?
                                     </a>
-                                </p>
+                                </p> -->
 
                                 <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
 

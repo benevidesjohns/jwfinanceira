@@ -22,11 +22,18 @@ class AddressController extends Controller
     public function store(Request $req)
     {
         $requestType = $req->getContentTypeFormat();
-        $responseType = $req->query('form');
+        $responseType = $req->query('form') ?? 'json';
 
-        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
-
-        if ($content == null) {
+        if ($responseType == 'xml') {
+            $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+        } else if ($responseType == 'json') {
+            $content = [
+                'city' => $req->city,
+                'state' => $req->state,
+                'cep' => $req->cep,
+                'address' => $req->address,
+            ];
+        } else {
             return $this->httpHandler->sendByResponseType(
                 'address',
                 ['info' => 'This request type format isn\'t available'],

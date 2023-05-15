@@ -14,9 +14,6 @@ class TransactionTypeController extends Controller
     public function __construct(HttpHandler $httpHandler)
     {
         $this->base_url = $httpHandler->apiBaseURL();
-
-        $this->transactionTypes = Http::get($this->base_url . 'types/transaction')->json();
-        $this->transactions = Http::get($this->base_url . 'transactions')->json();
     }
 
     public function index()
@@ -29,6 +26,21 @@ class TransactionTypeController extends Controller
         return view('create.transaction_type');
     }
 
+    public function onCreate(Request $req)
+    {
+        $req->validate([
+            'nome' => 'required|unique:App\Models\TransactionType,type',
+        ]);
+
+        $data = [
+            'type' => $req->nome,
+        ];
+
+        Http::post($this->base_url . 'types/transaction', $data);
+
+        return redirect()->route('types/transaction');
+    }
+
     public function edit($id)
     {
         $data = Http::get($this->base_url . 'types/transaction/' . $id)->json();
@@ -39,8 +51,8 @@ class TransactionTypeController extends Controller
 
     public function show()
     {
-        $transactionTypes = $this->transactionTypes;
-        $transactions = $this->transactions;
+        $transactionTypes = Http::get($this->base_url . 'types/transaction')->json();
+        $transactions = Http::get($this->base_url . 'transactions')->json();
 
         return DataTables::of($transactionTypes)
             ->editColumn('type', function ($transactionType) {

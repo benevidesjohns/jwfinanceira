@@ -22,11 +22,15 @@ class AccountTypeController extends Controller
     public function store(Request $req)
     {
         $requestType = $req->getContentTypeFormat();
-        $responseType = $req->query('form');
+        $responseType = $req->query('form') ?? 'json';
 
-        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
-
-        if ($content == null) {
+        if ($responseType == 'xml') {
+            $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+        } else if ($responseType == 'json') {
+            $content = [
+                'type' => $req->type,
+            ];
+        } else {
             return $this->httpHandler->sendByResponseType('account_type', [
                 'info' => 'This request type format isn\'t available'
             ], 400, $responseType, True);

@@ -23,4 +23,5 @@ Route::get('create', 'create')
     ->name('transactions/create');
 
 Route::post('create', 'onCreate')
-    ->can(Permission::CAN_CREATE_SELF_TRANSACTION);
+    ->can(Permission::CAN_CREATE_SELF_TRANSACTION)
+    ->name('transactions/store');

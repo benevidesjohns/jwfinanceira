@@ -22,6 +22,10 @@ Route::get('create', 'create')
     ->can(Permission::CAN_MANAGE_USERS)
     ->name('management/users/create');
 
+Route::post('create', 'onCreate')
+    ->can(Permission::CAN_MANAGE_USERS)
+    ->name('management/users/store');
+
 Route::get('{id}/edit', 'edit')
     ->can(Permission::CAN_MANAGE_USERS)
     ->name('management/users/edit');

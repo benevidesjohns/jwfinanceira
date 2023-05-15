@@ -22,6 +22,10 @@ Route::get('create', 'create')
     ->can(Permission::CAN_MANAGE_SELF_ACCOUNTS)
     ->name('accounts/create');
 
+Route::post('create', 'onCreate')
+    ->can(Permission::CAN_MANAGE_SELF_ACCOUNTS)
+    ->name('accounts/store');
+
 Route::get('{id}/edit', 'edit')
     ->can(Permission::CAN_MANAGE_SELF_ACCOUNTS)
     ->name('accounts/edit');

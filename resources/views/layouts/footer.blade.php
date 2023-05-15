@@ -1,7 +1,6 @@
 <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-        <b>Version</b> 3.0.5
+        Devs.: William Jefferson e João Benevides
     </div>
-    <strong>Copyright &copy; 2014-2022 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-    reserved.
+    <strong>Trabalho de Integração de Sistemas - Sistemas de Informação (UESB) </strong>
 </footer>

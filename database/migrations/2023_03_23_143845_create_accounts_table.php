@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->default('Minha Conta');
             $table->string('account_number')->unique();
             $table->double('balance')->default(0);
             $table->integer('fk_user')->unsigned();

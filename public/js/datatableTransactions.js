@@ -1,6 +1,6 @@
 $(function () {
     $("#table").DataTable({
-        ajax: 'http://api.local/transactions/show',
+        ajax: 'http://jwfinanceira.local/transactions/show',
         scrollCollapse: true,
         responsive: true,
         paging: true,
@@ -19,7 +19,7 @@ $(function () {
                 "name": "account"
             },
             {
-                "width": "38%",
+                "width": "40%",
                 "data": "type",
                 "name": "type"
             },
@@ -29,12 +29,12 @@ $(function () {
                 "name": "amount"
             },
             {
-                "width": "15%",
+                "width": "20%",
                 "data": "date",
                 "name": "date"
             },
             {
-                "width": "17%",
+                "width": "10%",
                 "data": "acao",
                 "name": "acao"
             },

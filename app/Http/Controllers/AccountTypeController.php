@@ -18,9 +18,6 @@ class AccountTypeController extends Controller
     ) {
         $this->base_url = $httpHandler->apiBaseURL();
         $this->accountService = $accountService;
-
-        $this->accountTypes = Http::get($this->base_url . 'types/account')->json();
-        $this->accounts = Http::get($this->base_url . 'accounts')->json();
     }
 
     public function index()
@@ -33,6 +30,21 @@ class AccountTypeController extends Controller
         return view('create.account_type');
     }
 
+    public function onCreate(Request $req)
+    {
+        $req->validate([
+            'nome' => 'required|unique:App\Models\AccountType,type',
+        ]);
+
+        $data = [
+            'type' => $req->nome,
+        ];
+
+        Http::post($this->base_url . 'types/account', $data);
+
+        return redirect()->route('types/account');
+    }
+
     public function edit($id)
     {
         $data = Http::get($this->base_url . 'types/account/' . $id)->json();
@@ -43,8 +55,8 @@ class AccountTypeController extends Controller
 
     public function show()
     {
-        $accountTypes = $this->accountTypes;
-        $accounts = $this->accounts;
+        $accountTypes = Http::get($this->base_url . 'types/account')->json();
+        $accounts = Http::get($this->base_url . 'accounts')->json();
 
         return DataTables::of($accountTypes)
             ->editColumn('type', function ($accountType) {

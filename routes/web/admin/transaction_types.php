@@ -20,8 +20,12 @@ Route::get('', 'index')
 
 Route::get('create', 'create')
     ->can(Permission::CAN_MANAGE_TYPES)
-    ->name('management/types/transaction/create');
+    ->name('types/transaction/create');
+
+Route::post('create', 'onCreate')
+    ->can(Permission::CAN_MANAGE_TYPES)
+    ->name('types/transaction/store');
 
 Route::get('{id}/edit', 'edit')
     ->can(Permission::CAN_MANAGE_TYPES)
-    ->name('management/types/transaction/edit');
+    ->name('types/transaction/edit');

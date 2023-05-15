@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 use App\Helpers\HttpHandler;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class AccountController extends Controller
 {
-    protected $accountService, $base_url, $accounts, $transactions, $account_types;
+    protected $accountService, $base_url, $accounts, $transactions, $account_types, $users;
 
     public function __construct(
         AccountService $accountService,
@@ -21,10 +22,6 @@ class AccountController extends Controller
     ) {
         $this->accountService = $accountService;
         $this->base_url = $httpHandler->apiBaseURL();
-
-        $this->accounts = Http::get($this->base_url . 'accounts')->json();
-        $this->transactions = Http::get($this->base_url . 'transactions')->json();
-        $this->account_types = Http::get($this->base_url . 'types/account')->json();
     }
 
     public function index()
@@ -40,9 +37,38 @@ class AccountController extends Controller
     public function create()
     {
         $user_id = Auth::user()->id;
-        $account_types = $this->account_types;
+        $users = Http::get($this->base_url . 'users')->json();
+        $account_types = Http::get($this->base_url . 'types/account')->json();
 
-        return view('create.account', compact('account_types', 'user_id'));
+        return view('create.account', compact('account_types', 'user_id', 'users'));
+    }
+
+    public function onCreate(Request $req)
+    {
+        if ($req->url() == route('accounts/create')) {
+            $req->validate([
+                'tipo_de_conta' => Rule::notIn(['Selecione']),
+            ]);
+        } else {
+            $req->validate([
+                'tipo_de_conta' => Rule::notIn(['Selecione']),
+                'usuario' => Rule::notIn(['Selecione']),
+            ]);
+        }
+
+        $data = [
+            'name' => $req->name,
+            'fk_user' => $req->usuario ?? Auth::user()->id,
+            'fk_account_type' => $req->tipo_de_conta
+        ];
+
+        Http::post($this->base_url . 'accounts', $data);
+
+        if ($req->url() == route('accounts/create')) {
+            return redirect()->route('accounts');
+        } else {
+            return redirect()->route('management/accounts');
+        }
     }
 
     public function edit($id)
@@ -51,15 +77,15 @@ class AccountController extends Controller
         $account = $data['account'];
         $account_type = $account['account_type'];
         $type = $account_type['type'];
-        $account_types = $this->account_types;
+        $account_types = Http::get($this->base_url . 'types/account')->json();
 
         return view('edit.account', compact('account', 'account_types', 'type'));
     }
 
     public function show()
     {
-        $accounts = $this->accounts;
-        $transactions = $this->transactions;
+        $accounts = Http::get($this->base_url . 'accounts')->json();
+        $transactions = Http::get($this->base_url . 'transactions')->json();
 
         return DataTables::of($accounts)
             ->editColumn('account_number', function ($account) {
@@ -113,7 +139,7 @@ class AccountController extends Controller
         //     return $account['fk_user'] == $id;
         // });
 
-        $transactions = $this->transactions;
+        $transactions = Http::get($this->base_url . 'transactions')->json();
 
         return DataTables::of($user->accounts)
             ->editColumn('account_number', function ($account) {

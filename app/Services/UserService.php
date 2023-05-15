@@ -79,6 +79,7 @@ class UserService
         try {
             $user = $this->repoUser->get($id);
             $user->address;
+            $user->accounts;
 
             throw_if($user == null);
 
