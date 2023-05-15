@@ -29,3 +29,7 @@ Route::post('create', 'onCreate')
 Route::get('{id}/edit', 'edit')
     ->can(Permission::CAN_MANAGE_USERS)
     ->name('management/users/edit');
+
+Route::get('{id}', 'onEdit')
+    ->can(Permission::CAN_MANAGE_USERS)
+    ->name('management/users/update');

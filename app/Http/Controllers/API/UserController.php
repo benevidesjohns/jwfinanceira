@@ -27,11 +27,20 @@ class UserController extends Controller
     public function store(Request $req)
     {
         $requestType = $req->getContentTypeFormat();
-        $responseType = $req->query('form');
+        $responseType = $req->query('form') ?? 'json';
 
-        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
-
-        if ($content == null) {
+        if ($responseType == 'xml') {
+            $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+        } else if ($responseType == 'json') {
+            $content = [
+                'name' => $req->name,
+                'cpf' => $req->cpf,
+                'phone_number' => $req->phone_number,
+                'email' => $req->email,
+                'password' => $req->password,
+                'fk_address' => $req->fk_address,
+            ];
+        } else {
             return $this->httpHandler->sendByResponseType(
                 'user',
                 ['info' => 'This request type format isn\'t available'],

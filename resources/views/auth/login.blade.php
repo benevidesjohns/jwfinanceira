@@ -26,7 +26,7 @@
 
                         <div class="mb-md-5 mt-md-4 pb-5">
 
-                            <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                            <h2 class="fw-bold mb-2 text-uppercase">JW Financeira</h2>
                             <p class="text-white-50 mb-5">Por favor, digite seu login e senha! </p>
 
                             <form method="post" action="{{ url('/login') }}">
@@ -44,26 +44,9 @@
                                         name="password" placeholder="Senha" />
                                 </div>
 
-                                <!-- <p class="small mb-5 pb-lg-2">
-                                    <a class="text-white-50" href="{{ route('password.request') }}">
-                                        Esqueceu a senha?
-                                    </a>
-                                </p> -->
-
-                                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
-
+                                <button class="btn btn-outline-light btn-lg mt-5 px-5" type="submit">Login</button>
                             </form>
                         </div>
-
-                        <div>
-                            <p class="mb-0">
-                                Não tem uma conta?
-                                <a href="{{ route('register') }}" class="text-white-50 fw-bold">
-                                    Cadastre-se
-                                </a>
-                            </p>
-                        </div>
-
                     </div>
                 </div>
             </div>

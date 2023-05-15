@@ -71,6 +71,5 @@ Route::controller(TransactionController::class)
     ->group(__DIR__ . '/web/transactions.php');
 
 // Profile
-Route::get('/profile', function () {
-    return view('profile');
-})->name('profile');
+Route::get('/profile/{id}/edit', [UserController::class, 'editProfile'])->name('profile/edit');
+Route::put('/profile/{id}', [UserController::class, 'onEditProfile'])->name('profile/onEdit');

@@ -53,6 +53,11 @@ class AccountTypeController extends Controller
         return view('edit.account_type', compact('account_type'));
     }
 
+    public function onEdit($id)
+    {
+
+    }
+
     public function show()
     {
         $accountTypes = Http::get($this->base_url . 'types/account')->json();

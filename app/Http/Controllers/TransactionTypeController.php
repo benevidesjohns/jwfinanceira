@@ -49,6 +49,11 @@ class TransactionTypeController extends Controller
         return view('edit.transaction_type', compact('transaction_type'));
     }
 
+    public function onEdit($id)
+    {
+
+    }
+
     public function show()
     {
         $transactionTypes = Http::get($this->base_url . 'types/transaction')->json();

@@ -82,6 +82,21 @@ class AccountController extends Controller
         return view('edit.account', compact('account', 'account_types', 'type'));
     }
 
+    public function onEdit(Request $req, $id)
+    {
+        $data = [
+            'name' => $req->name,
+        ];
+
+        Http::put($this->base_url . 'accounts/' . $id, $data);
+
+        if ($req->url() == route('accounts/{id}/edit', $id)) {
+            return redirect()->route('accounts');
+        } else {
+            return redirect()->route('management/accounts');
+        }
+    }
+
     public function show()
     {
         $accounts = Http::get($this->base_url . 'accounts')->json();
@@ -144,6 +159,9 @@ class AccountController extends Controller
         return DataTables::of($user->accounts)
             ->editColumn('account_number', function ($account) {
                 return $account['account_number'];
+            })
+            ->editColumn('name', function ($account) {
+                return $account['name'];
             })
             ->editColumn('type', function ($account) {
                 $accountType = AccountType::find($account->fk_account_type);

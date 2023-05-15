@@ -36,14 +36,6 @@ class UserController extends Controller
         return view('create.user', compact('roles'));
     }
 
-    public function edit($id)
-    {
-        $data = Http::get($this->base_url . 'users/' . $id)->json();
-        $user = $data['user'];
-
-        return view('edit.user', compact('user'));
-    }
-
     public function onCreate(Request $req)
     {
         $req->validate([
@@ -85,6 +77,115 @@ class UserController extends Controller
         $user->assignRole($req->tipo_de_usuario);
 
         return redirect()->route('management/users');
+    }
+
+    public function edit($id)
+    {
+        $user = User::find($id);
+        $userRole = $user->getRoleNames()[0];
+
+        $data = Http::get($this->base_url . 'users/' . $id)->json();
+        $user = $data['user'];
+        $address = $user['address'];
+
+        $roles = Role::all();
+
+        return view('edit.user', compact('user', 'address', 'roles', 'userRole'));
+    }
+
+    public function onEdit(Request $req, $id)
+    {
+        $req->validate([
+            'tipo_de_usuario' => Rule::notIn(['Selecione']),
+            'nome' => 'required',
+            'cpf' => 'required',
+            'telefone' => 'required',
+            'email' => 'required|email',
+            'senha' => 'required|min:6',
+            'logradouro' => 'required',
+            'cidade' => 'required',
+            'estado' => 'required',
+            'cep' => 'required',
+        ]);
+
+        $address_data = [
+            'city' => $req->cidade,
+            'state' => $req->estado,
+            'cep' => $req->cep,
+            'address' => $req->logradouro,
+        ];
+
+        $user = User::find($id);
+
+        $address_data = Http::put($this->base_url . 'addresses/' . $user->address->id, $address_data)->json();
+        $address = $address_data['address'];
+
+        $user_data = [
+            'name' => $req->nome,
+            'cpf' => $req->cpf,
+            'phone_number' => $req->telefone,
+            'email' => $req->email,
+            'password' => Hash::make($req->senha) ?? $user->password,
+        ];
+
+        $user_data = Http::post($this->base_url . 'users/' . $user->id, $user_data)->json();
+        $user = $user_data['user'];
+
+        $user->assignRole($req->tipo_de_usuario);
+
+        return redirect()->route('management/users');
+    }
+
+    public function editProfile($id)
+    {
+        $data = Http::get($this->base_url . 'users/' . $id)->json();
+        $user = $data['user'];
+        $address = $user['address'];
+
+        return view('profile', compact('user', 'address'));
+    }
+
+    public function onEditProfile(Request $req, $id)
+    {
+        $req->validate([
+            // 'tipo_de_usuario' => Rule::notIn(['Selecione']),
+            'nome' => 'required',
+            'cpf' => 'required',
+            'telefone' => 'required',
+            'email' => 'required|email',
+            'senha' => 'required|min:6',
+            'logradouro' => 'required',
+            'cidade' => 'required',
+            'estado' => 'required',
+            'cep' => 'required',
+        ]);
+
+        $address_data = [
+            'city' => $req->cidade,
+            'state' => $req->estado,
+            'cep' => $req->cep,
+            'address' => $req->logradouro,
+        ];
+
+        $user = User::find($id);
+
+        $address_data = Http::put($this->base_url . 'addresses/' . $user->address->id, $address_data)->json();
+        $address = $address_data['address'];
+
+        $user_data = [
+            'name' => $req->nome,
+            'cpf' => $req->cpf,
+            'phone_number' => $req->telefone,
+            'email' => $req->email,
+            'password' => Hash::make($req->senha) ?? $user->password,
+        ];
+
+        $user_data = Http::post($this->base_url . 'users/' . $user->id, $user_data)->json();
+        $user = $user_data['user'];
+
+        // $user->assignRole($req->tipo_de_usuario);
+
+        return redirect()->route('profile/edit');
     }
 
     public function show()

@@ -29,3 +29,7 @@ Route::post('create', 'onCreate')
 Route::get('{id}/edit', 'edit')
     ->can(Permission::CAN_MANAGE_TYPES)
     ->name('types/transaction/edit');
+
+Route::get('{id}', 'onEdit')
+    ->can(Permission::CAN_MANAGE_TYPES)
+    ->name('types/transaction/update');

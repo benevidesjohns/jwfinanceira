@@ -36,7 +36,8 @@
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
-                        <a href="{{ route('profile') }}" class="btn btn-default btn-flat bg-secondary">Perfil</a>
+                        <a href="../profile/{{ Auth::user()->id }}/edit"
+                            class="btn btn-default btn-flat bg-secondary">Perfil</a>
                         <a href="#" class="btn btn-default btn-flat float-right bg-secondary"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Sair

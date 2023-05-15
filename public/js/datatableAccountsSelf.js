@@ -19,7 +19,12 @@ $(function () {
                 "name": "account_number"
             },
             {
-                "width": "63%",
+                "width": "20%",
+                "data": "name",
+                "name": "name"
+            },
+            {
+                "width": "43%",
                 "data": "type",
                 "name": "type"
             },

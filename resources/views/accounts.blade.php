@@ -6,7 +6,7 @@
     $title = 'conta';
     $association = 'transações';
     $route_create = 'accounts/create';
-    $columns = ['Nº Conta', 'Tipo', 'Saldo', 'Ação'];
+    $columns = ['Nº Conta', 'Nome', 'Tipo', 'Saldo', 'Ação'];
 @endphp
 
 @section('content')

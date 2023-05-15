@@ -28,6 +28,7 @@ class AccountController extends Controller
             $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
         } else if ($responseType == 'json') {
             $content = [
+                'name' => $req->name,
                 'account_number' => fake()->unique()->numerify('######'),
                 'fk_user' => $req->fk_user,
                 'balance' => 0,
@@ -98,11 +99,15 @@ class AccountController extends Controller
     public function update(Request $req, $id)
     {
         $requestType = $req->getContentTypeFormat();
-        $responseType = $req->query('form');
+        $responseType = $req->query('form') ?? 'json';
 
-        $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
-
-        if ($content == null) {
+        if ($responseType == 'xml') {
+            $content = $this->httpHandler->getContentByRequestType($requestType, $req->getContent());
+        } else if ($responseType == 'json') {
+            $content = [
+                'name' => $req->name,
+            ];
+        } else {
             return $this->httpHandler->sendByResponseType(
                 'account',
                 ['info' => 'This request type format isn\'t available'],
