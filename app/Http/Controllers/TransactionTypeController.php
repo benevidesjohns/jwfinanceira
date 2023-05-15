@@ -26,7 +26,15 @@ class TransactionTypeController extends Controller
 
     public function create()
     {
-        return view('management.create.transaction_type');
+        return view('create.transaction_type');
+    }
+
+    public function edit($id)
+    {
+        $data = Http::get($this->base_url . 'types/transaction/' . $id)->json();
+        $transaction_type = $data['transactionType'];
+
+        return view('edit.transaction_type', compact('transaction_type'));
     }
 
     public function show()
@@ -52,7 +60,7 @@ class TransactionTypeController extends Controller
 
                 return '
                     <div class="btn-group">
-                        <a href="" class="btn btn-secondary ml-auto">
+                        <a href="' . 'transaction/' . $transactionType['id'] . '/edit' . '" class="' . 'btn btn-secondary ml-auto' . $is_disabled . '">
                             <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
                         Editar</a>
                     </div>

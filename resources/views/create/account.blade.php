@@ -12,13 +12,13 @@
             </a>
         </div>
         <div class="card-body d-flex justify-content-between">
-            <form method="POST" action="/api/accounts" id="create-account">
+            <form method="POST" action="accounts/store" id="create-account">
                 @csrf
                 <div>
                     <strong>Valor da conta R$</strong>
-                    <input type="text" autocomplete="off" class="mb-5 mr-5">
+                    <input type="text" autocomplete="off" class="mb-5 mr-5" name="balance">
                     <strong>Tipo de conta</strong>
-                    <select id="account_types" class="form-select" name='account_types'>
+                    <select class="form-select" name='account_types'>
                         <option>Selecione</option>
                         @foreach ($account_types as $account_type)
                             <option value='{{ $account_type['id'] }}'>

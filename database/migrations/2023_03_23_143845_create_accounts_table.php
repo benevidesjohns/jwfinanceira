@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('account_number')->unique();
-            $table->double('balance');
+            $table->double('balance')->default(0);
             $table->integer('fk_user')->unsigned();
-            $table->foreign('fk_user')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('fk_user')->references('id')->on('users');
             $table->integer('fk_account_type')->unsigned();
-            $table->foreign('fk_account_type')->references('id')->on('account_types')->cascadeOnDelete();
+            $table->foreign('fk_account_type')->references('id')->on('account_types');
             $table->timestamps();
         });
     }

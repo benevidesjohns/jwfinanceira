@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountTypeController;
-use App\Http\Controllers\AddressController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
@@ -33,7 +32,6 @@ Auth::routes();
 Route::get('/accounts/show', [AccountController::class, 'show']);
 Route::get('/accounts/show-self', [AccountController::class, 'showSelf']);
 Route::get('/types/accounts/show', [AccountTypeController::class, 'show']);
-Route::get('/addresses/show', [AddressController::class, 'show']);
 Route::get('/transactions/show', [TransactionController::class, 'show']);
 Route::get('/transactions/show-self', [TransactionController::class, 'showSelf']);
 Route::get('/types/transactions/show', [TransactionTypeController::class, 'show']);
@@ -43,10 +41,6 @@ Route::get('/users/show', [UserController::class, 'show']);
 Route::controller(AccountController::class)
     ->prefix('management/accounts')
     ->group(__DIR__ . '/web/admin/accounts.php');
-
-Route::controller(AddressController::class)
-    ->prefix('management/addresses')
-    ->group(__DIR__ . '/web/admin/addresses.php');
 
 Route::controller(UserController::class)
     ->prefix('management/users')

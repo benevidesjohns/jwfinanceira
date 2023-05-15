@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Helpers\HttpHandler;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class TransactionController extends Controller
@@ -27,6 +29,11 @@ class TransactionController extends Controller
         return view('management.transactions');
     }
 
+    public function indexSelf()
+    {
+        return view('transactions');
+    }
+
     public function create()
     {
         $user_id = Auth::user()->id;
@@ -35,11 +42,16 @@ class TransactionController extends Controller
         $accounts = $user->accounts;
         $transaction_types = $this->transaction_types;
 
-        return view('management.create.transaction', compact('accounts', 'transaction_types'));
+        return view('create.transaction', compact('accounts', 'transaction_types'));
     }
 
     public function onCreate(Request $req)
     {
+        $req->validate([
+            'fk_transaction_type' => Rule::notIn(['Selecione']),
+            'amount' => 'required'
+        ]);
+
         $data = [
             'fk_user' => Auth::user()->id,
             'fk_account' => $req->fk_account,
@@ -52,11 +64,6 @@ class TransactionController extends Controller
         Http::post($this->base_url . 'transactions', $data);
 
         return redirect()->route('transactions');
-    }
-
-    public function indexSelf()
-    {
-        return view('transactions');
     }
 
     public function show()
@@ -120,20 +127,17 @@ class TransactionController extends Controller
                 $account = $transaction['account'];
 
                 return '
-                <div class="btn-group">
-                    <a href="" class="btn btn-secondary ml-auto">
-                        <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
-                    Editar</a>
-                </div>
-                <div class="btn-group">
-                    <a href="" class="btn btn-secondary ml-auto delete-btn"
-                    data-toggle="modal" data-target="#modalDelete"
-                    data-route="' . '../api/transactions/' . $transaction['id'] . '"
-                    data-message="' . 'Deseja excluir a transação da sua conta ' . $account['account_number'] . '?' . '">
-                        <i class="fas fa-solid fa-trash" style="color:white"></i>
-                        Excluir
-                    </a>
-                </div>';
+                    <div class="btn-group">
+                        <a href="" class="btn btn-secondary ml-auto delete-btn"
+                        data-toggle="modal" data-target="#modalDelete"
+                        data-route="' . '../api/transactions/' . $transaction['id'] . '"
+                        data-message="' . 'Deseja excluir a transação da sua conta '
+                    . $account['account_number'] . ' com R$'
+                    . number_format($transaction->amount, 2, ',', '.') . '?' . '">
+                            <i class="fas fa-solid fa-trash" style="color:white"></i>
+                            Excluir
+                        </a>
+                    </div>';
             })
             ->escapeColumns([0])
             ->make(true);

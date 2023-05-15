@@ -3,13 +3,14 @@
 @section('navbar', 'Usuários')
 
 @php
-    $title = 'conta';
+    $title = 'usuário';
+    $association = 'contas';
     $route_create = 'users/create';
     $columns = ['CPF', 'Nome', 'Email', 'Telefone', 'Ação'];
 @endphp
 
 @section('content')
-    @include('components.card', compact('title', 'columns', 'route_create'))
+    @include('components.card', compact('title', 'columns', 'route_create', 'association'))
 @endsection
 
 @section('scripts')

@@ -30,12 +30,15 @@ class AccountTypeController extends Controller
 
     public function create()
     {
-        return view('management.create.account_type');
+        return view('create.account_type');
     }
 
-    public function edit()
+    public function edit($id)
     {
-        return view('management.edit.account_type');
+        $data = Http::get($this->base_url . 'types/account/' . $id)->json();
+        $account_type = $data['accountType'];
+
+        return view('edit.account_type', compact('account_type'));
     }
 
     public function show()
@@ -52,7 +55,7 @@ class AccountTypeController extends Controller
 
                 return '
                 <div class="btn-group">
-                    <a href="" class="btn btn-secondary ml-auto">
+                    <a href="' . 'account/' . $accountType['id'] . '/edit' . '" class="' . 'btn btn-secondary ml-auto' . $is_button_disabled . '">
                         <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
                     Editar</a>
                 </div>

@@ -21,3 +21,7 @@ Route::get('', 'index')
 Route::get('create', 'create')
     ->can(Permission::CAN_MANAGE_TYPES)
     ->name('management/types/account/create');
+
+Route::get('{id}/edit', 'edit')
+    ->can(Permission::CAN_MANAGE_TYPES)
+    ->name('management/types/account/edit');

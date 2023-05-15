@@ -21,3 +21,7 @@ Route::get('', 'indexSelf')
 Route::get('create', 'create')
     ->can(Permission::CAN_MANAGE_SELF_ACCOUNTS)
     ->name('accounts/create');
+
+Route::get('{id}/edit', 'edit')
+    ->can(Permission::CAN_MANAGE_SELF_ACCOUNTS)
+    ->name('accounts/edit');

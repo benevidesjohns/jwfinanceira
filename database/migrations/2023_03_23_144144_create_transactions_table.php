@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->integer('fk_user')->unsigned();
             $table->foreign('fk_user')->references('id')->on('users');
             $table->integer('fk_account')->unsigned();
-            $table->foreign('fk_account')->references('id')->on('accounts')->cascadeOnDelete();
+            $table->foreign('fk_account')->references('id')->on('accounts');
             $table->integer('fk_transaction_type')->unsigned();
             $table->foreign('fk_transaction_type')->references('id')->on('transaction_types');
             $table->timestamps();

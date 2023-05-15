@@ -32,17 +32,28 @@ class AccountController extends Controller
         return view('management.accounts');
     }
 
+    public function indexSelf()
+    {
+        return view('accounts');
+    }
+
     public function create()
     {
         $user_id = Auth::user()->id;
         $account_types = $this->account_types;
 
-        return view('management.create.account', compact('account_types', 'user_id'));
+        return view('create.account', compact('account_types', 'user_id'));
     }
 
-    public function indexSelf()
+    public function edit($id)
     {
-        return view('accounts');
+        $data = Http::get($this->base_url . 'accounts/' . $id)->json();
+        $account = $data['account'];
+        $account_type = $account['account_type'];
+        $type = $account_type['type'];
+        $account_types = $this->account_types;
+
+        return view('edit.account', compact('account', 'account_types', 'type'));
     }
 
     public function show()
@@ -70,7 +81,7 @@ class AccountController extends Controller
 
                 return '
                     <div class="btn-group">
-                        <a href="" class="btn btn-secondary ml-auto">
+                        <a href="' . 'accounts/' . $account['id'] . '/edit' . '" class="btn btn-secondary ml-auto">
                             <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
                         Editar</a>
                     </div>
@@ -120,7 +131,7 @@ class AccountController extends Controller
 
                 return '
                     <div class="btn-group">
-                        <a href="" class="btn btn-secondary ml-auto">
+                        <a href="' . 'accounts/' . $account['id'] . '/edit' . '" class="btn btn-secondary ml-auto">
                             <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
                         Editar</a>
                     </div>

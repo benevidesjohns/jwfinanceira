@@ -30,7 +30,15 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('management.create.user');
+        return view('create.user');
+    }
+
+    public function edit($id)
+    {
+        $data = Http::get($this->base_url . 'users/' . $id)->json();
+        $user = $data['user'];
+
+        return view('edit.user', compact('user'));
     }
 
     public function show()
@@ -56,8 +64,7 @@ class UserController extends Controller
 
                 return '
                     <div class="btn-group">
-                        <a href="" class="btn btn-secondary ml-auto"
-                        data-toggle="modal" data-target="#modalEdit">
+                        <a href="' . 'users/' . $user['id'] . '/edit' . '" class="btn btn-secondary ml-auto">
                             <i class="fas fa-solid fa-pen fa-lg" style="color:white"></i>
                         Editar</a>
                     </div>

@@ -8,6 +8,12 @@
             </a>
         @endif
     </div>
+    @if ($association)
+        <span class="card-header"><strong>*</strong> Botão desabilitado para <strong>{{ $title }}</strong>
+            com
+            <strong>{{ $association }}</strong>
+            associadas </span>
+    @endif
     <div class="card-body">
         @include('components.datatable')
     </div>

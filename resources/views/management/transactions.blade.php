@@ -4,12 +4,13 @@
 
 @php
     $title = 'transação';
+    $association = '';
     $route_create = 'transactions/create/';
     $columns = ['Nº Conta', 'Tipo', 'Valor', 'Data', 'Ação'];
 @endphp
 
 @section('content')
-    @include('components.card', compact('title', 'columns', 'route_create'))
+    @include('components.card', compact('title', 'columns', 'route_create', 'association'))
 @endsection
 
 @section('scripts')

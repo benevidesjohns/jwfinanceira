@@ -31,8 +31,7 @@
 @endcan
 
 <!-- Gerenciamento -->
-@can([Permission::CAN_MANAGE_ACCOUNTS, Permission::CAN_MANAGE_ADDRESSES, Permission::CAN_MANAGE_USERS,
-    Permission::CAN_MANAGE_TRANSACTIONS])
+@can([Permission::CAN_MANAGE_ACCOUNTS, Permission::CAN_MANAGE_USERS, Permission::CAN_MANAGE_TRANSACTIONS])
     <li
         class="nav-item {{ Request::is('management/users', 'management/accounts', 'management/addresses', 'management/transactions') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link">
@@ -49,14 +48,6 @@
                     class="nav-link {{ Request::is('management/accounts') ? 'active bg-white' : '' }}">
                     &nbsp;&nbsp;&nbsp;<i class="nav-icon fas fa-solid fa-landmark"></i>
                     <p>Contas</p>
-                </a>
-            </li>
-            <!-- Addresses -->
-            <li class="nav-item">
-                <a href="{{ route('management/addresses') }}"
-                    class="nav-link {{ Request::is('management/addresses') ? 'active bg-white' : '' }}">
-                    &nbsp;&nbsp;&nbsp;<i class="nav-icon fas fa-home"></i>
-                    <p>Endereços</p>
                 </a>
             </li>
             <!-- Users -->
