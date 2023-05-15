@@ -2,7 +2,7 @@
     <a href="{{ route('home') }}" class="brand-link">
         {{-- <img src="https://assets.infyom.com/logo/blue_logo_150x150.png" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3"> --}}
-        <span class="brand-text font-weight-light">{{ config('app.name') }}</span>
+        <span class="ml-5 brand-text font-weight-light">{{ config('app.name') }}</span>
     </a>
 
     <div class="sidebar">

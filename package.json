@@ -2,10 +2,10 @@
     "private": true,
     "scripts": {
         "activate": "docker exec -i -w /etc/apache2/sites-available apache a2ensite jwfinanceira.conf && docker exec -i apache service apache2 reload",
-        "cls": "docker exec -i -w /var/www/html/api-laravel apache php artisan cache:clear && docker exec -i -w /var/www/html/api-laravel apache php artisan config:clear",
-        "create-db": "echo 'CREATE DATABASE api_laravel;' | docker exec -i postgres psql -U postgres",
-        "reset-db": "docker exec -i -w /var/www/html/api-laravel apache php artisan migrate:fresh && docker exec -i -w /var/www/html/api-laravel apache php artisan db:seed",
-        "update": "npm update && docker exec -i -w /var/www/html/api-laravel apache composer update",
+        "cls": "docker exec -i -w /var/www/html/jwfinanceira apache php artisan cache:clear && docker exec -i -w /var/www/html/jwfinanceira apache php artisan config:clear",
+        "create-db": "echo 'CREATE DATABASE jwfinanceira;' | docker exec -i postgres psql -U postgres",
+        "reset-db": "docker exec -i -w /var/www/html/jwfinanceira apache php artisan migrate:fresh && docker exec -i -w /var/www/html/jwfinanceira apache php artisan db:seed",
+        "update": "npm update && docker exec -i -w /var/www/html/jwfinanceira apache composer update",
         "dev": "vite",
         "build": "vite build"
     },
