@@ -4,8 +4,9 @@ namespace App\Helpers;
 
 class HttpHandler
 {
-    public function apiBaseURL(){
-        return 'http://jwfinanceira.local/api/';
+    public function apiBaseURL()
+    {
+        return 'http://localhost/api/';
     }
 
     public function sendByResponseType($viewName, $data, $status, $responseType, $isMessage)

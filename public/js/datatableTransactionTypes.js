@@ -1,6 +1,6 @@
 $(function () {
     $("#table").DataTable({
-        ajax: 'http://jwfinanceira.local/types/transactions/show',
+        ajax: 'http://localhost/types/transactions/show',
         scrollCollapse: true,
         responsive: true,
         paging: true,

@@ -9,27 +9,29 @@ interface AddressRepositoryInterface
     public function __construct(Address $address);
 
     /**
-     * Armazena uma nova instância de Address no banco de dados
+     * Stores a new instance of Address in the database
      * @param \Illuminate\Support\Collection|array|int|string $data
      * @return Address
      */
     public function store($data);
 
     /**
-     * Retorna todas as instâncias de Address do banco de dados
+     * Returns all instances of Address from the database
+     * @param array|string $columns
+     * @param array<array> $filters
      * @return \Illuminate\Database\Eloquent\Collection<int, static>
      */
-    public function getList();
+    public function getList($columns=['*'], $filters=null);
 
     /**
-     * Retorna uma instância de Address a partir do id informado
+     * Returns an instance of Address from the given id
      * @param int|string $id
      * @return Address
      */
     public function get($id);
 
     /**
-     * Atualiza os dados de uma instância de Address
+     * Updates the data of an instance of Address
      * @param \Illuminate\Support\Collection|array|int|string $data
      * @param int|string $id
      * @return Address
@@ -37,7 +39,7 @@ interface AddressRepositoryInterface
     public function update($data, $id);
 
     /**
-     * Remove uma instância de Address do banco de dados
+     * Removes an instance of Address from the database
      * @param int|string $id
      * @return int
      */
